@@ -1,0 +1,482 @@
+/*
+	css（cascadding style sheet）：层叠样式表
+		分类：
+			内嵌式：在HTML标签中添加style属性
+			内联式：在“head”标签内添加“style”标签，样式写在“style”标签内
+			外联式：建立独立的“.css”文件，然后链接如HTML文件中。链接方式如下
+					<head> 
+						<link href="" rel="stylesheet" type="text/css" /> 
+					</head>			  rel：指明链接文件样式表
+		
+	css优先级：
+		内嵌 > id > class > 标签选择器
+					
+	css书写规范：
+		选择器名{
+			格式说明
+				属性名:属性值;
+				
+				如果属性值为“空格”或“中文”要加引号
+				如果属性值表示尺寸，要加单位“px”（0除外）
+		}
+		
+	基本的选择器：
+		1、标签选择器
+			用HTML标签作为选择器名
+				eg：a{font-size:12px;}
+				
+		2、类名选择器
+			以 “.name” 的样式命名选择器；以 “class="name"” 的形式调用
+				eg：.name{font-size:12px;}
+				
+		3、id选择器
+			以 “#name” 的样式命名选择器；以 “id="name"” 的形式调用
+				eg：#name{font-size:12px;}
+				
+		4、多元素选择器（以逗号分隔）：
+			以 “A,B,C{}” 的样式命名。A、B、C分别代表 “1、2、3” 三种选择器
+				eg：a, .name, #name{font-size:12px;}
+				
+	层次选择器：
+		1、后代选择器（选择器之间用 “空格” 来分隔）：
+			公式：A B{}	设置的是 “B” 的格式说明
+			条件：B为A的后代（p标签包含在div标签内部）
+			eg：<style>
+					.div{}
+					.div .ss{}
+				</style>
+				<body>
+					<div class="div">
+						<p class="ss"></p>
+					</div>
+				</body>
+			
+		2、父子选择器（选择器之间用 “>” 来分隔）：
+			公式：A>B{}	设置的是 “B” 的格式说明
+			条件：必须是父子关系
+			eg：table>tbody>tr>td{}
+			
+		3、相邻选择器（选择器之间用 “+” 来分隔）：
+			公式：A+B{}	设置的是 “B” 的格式说明
+			条件：后者是前者的紧挨着的兄弟（两者相邻，中间无其他标签）
+			eg：<style>
+					.div{}
+					.div+.ss{}
+				</style>
+				<body>
+					<div class="div"></div>
+					<div class="ss"></div>
+				</body>
+			
+		4、后续选择器（选择器之间用 “~” 来分隔）：
+			公式：A~B{}	设置的是 “B” 的格式说明
+			条件：B在A的后面（中间有其他标签隔开）
+			eg：<style>
+					.div{}
+					.div+.ss{}
+				</style>
+				<body>
+					<div class="div"></div>
+					<span></span>
+					<div class="ss"></div>
+				</body>
+				
+	属性选择器：
+		A[attr]{}
+		A[attr=value]{}
+			表示标签A，其attr属性的属性值是 “value” 的样式
+			eg：<style>
+					p[align]{color:red;}
+					p[align=center]{color:green;}
+				</style>
+				<body>
+					<p align="left"></p>
+					<p align="center"></p>
+				</body>
+				
+		A[attr^=value]{}
+			表示标签A，其attr属性的属性是以 “value” 开头的样式
+		A[attr$=value]{}
+			表示标签A，其attr属性的属性是以 “value” 结尾的样式
+		A[attr*=value]{}
+			表示标签A，其attr属性的属性含有 “value” 的样式
+		A:not([attr*=value])
+			表示标签A，其attr属性的属性不包含 “value” 的样式
+			eg：<style>
+					a[href^="www"]{color:red}
+					a[href$="http://"]{color:black}
+					a[href*="uc123"]{font-size:8px}
+				</style>
+				<body>
+					<a href="www.baidu.com">百度</a>
+					<a href="http:www.google.com//">谷歌</a>
+					<a href="http:www.uc123.com">UC</a>
+				</body>
+				
+	伪类选择器（单冒号）：在选择器的基础上添加了事件
+		事件：就是一个动作，产生了一个结果，这个过程为事件
+			div{}				初始状态
+			div:hover{}			鼠标悬浮
+			a{}					初始状态
+			a:link{}			初始状态
+			a:hover{}			鼠标悬浮的状态
+			a:active{}			鼠标点击的状态
+			a:visited{}			超文本访问后的状态
+				
+	伪元素选择器（双冒号）：
+		A::firdt-line{}				首行样式
+		A::first-letter{}			首字符样式
+		A::before{content:"字符串"}	内容前段添加字符串
+		A::after{content:"字符串"}	内容尾部添加字符串
+		
+	结构性的伪类元素：
+		:first-child{}				顺数第一个
+		:last-child{}				倒数第一个
+		:only-child{}				唯一的一个
+		:only-of-type{}				指定的某一个
+		:nth-child(n){}				顺数第N个
+		:nth-last-child(n){}		倒数第N个
+				
+	状态的伪类选择器：
+		input:enabled{}				可用的
+		input:disabled{}			不可用的
+		input:checked{}				被选中的
+		input:default{}				默认的
+		其他：
+		  A:not(){}					非***的
+		  A:empty{}					空的
+		  A::selection{}			被选中的
+			eg：<style>
+					input:enabled{
+						background-color:blue;
+					}
+					input:disabled{
+						background-color:red;
+					}
+					input:checked{}
+					input:default{}	
+				</style>
+				<body>
+					<input type="text" />
+					<input type="text" disabled="disabled" />
+					<input type="checkedbox" />
+				</body>
+				
+	文本的样式说明（可以继承）：
+		color					文本颜色
+		
+		font-size				字号大小
+		
+		font-style:
+			normal;				恢复到正常状态
+			italic;				指定文本字体样式为斜体。对于没有设计斜体的特殊字体，如果要使用斜体外观将应用oblique 
+			oblique;			指定文本字体样式为倾斜的字体。人为的使文字倾斜，而不是去选取字体中的斜体字
+			
+		font-weight:
+			bold;				加粗
+			normal;				恢复到正常状态
+			
+		font-family				字体
+		
+		font-variant:small-caps;缩小的大写字母
+		
+		text-indent				首行缩进
+		
+		text-decoration:
+			none;				不加任何修饰线
+			overline;			加上划线
+			line-through;		加删除线
+			underline;			加下划线
+			
+		text-transform:			
+			uppercase;			将小写变为大写
+			lowercase;			将大写字母变成小写
+			capitalize;			单词首字母大写
+			
+		text-align:				文本水平对齐。
+			left; center; right;
+			
+		vertical-align			文本垂直对齐方式。	
+			top;  middle; bottom;
+			
+		line-height				行高；一般用来设置文本的垂直对齐
+		
+		letter-spacing			字符之间的距离
+		
+		word-spacing			单词之间的距离
+		
+	盒子模型：针对HTML中成对的块元素（div hn p）
+		最简易的盒子模型三要素：width height background-color
+		如果不是块标签的要转化为块标签
+		盒子模型的六要素：
+			宽度：
+				width			单位：px | %
+			高度：	
+				height			单位：px
+			边框：
+				border			设置对象边框的特性。值：线宽 线型 线色
+				border-width	线宽。值会占空间（会撑大盒子）
+				border-style	线型。值：solid | dashed | datted | double
+				border-color	线色
+				
+				border-top		设置对象顶部边框的特性
+				border-bottom	设置对象底部边框的特性
+				border-left		设置对象左边边框的特性
+				border-right	设置对象右边边框的特性
+				border-radius	圆角。值单位：px | %
+			外边距：
+				margin			值单位：px
+								 如果仅一个值，表示四个方向的值相同
+								 如果有两个值，分别表示上下、左右
+								 如果有三个值，分别表示上、左右、下
+								 如果有四个值，分别表示上、右、下、左
+								 margin:auto;  自适应，一般用于居中
+								四个方向分别设置：
+									margin-top 		上
+									margin-right 	右
+									margin-bottom 	下
+									margin-left		左
+			内边距：值会占空间（撑大盒子）
+				padding			值单位：px
+								 如果仅一个值，表示四个方向的值相同
+								 如果有两个值，分别表示上下、左右
+								 如果有三个值，分别表示上、左右、下
+								 如果有四个值，分别表示上、右、下、左
+								 padding:auto;  自适应，一般用于居中
+								四个方向分别设置：
+									padding-top 	上
+									padding-right 	右
+									padding-bottom 	下
+									padding-left	左
+			背景
+				background			 
+				background-color		背景色
+				background-image		背景图
+				background-repeat:		是否平铺
+					no-repeat;			不平铺
+					repeat-x;			水平平铺
+					repeat-y;			纵向平铺
+					
+				background-position
+					值为：px	表示图片距左上角的距离
+					值为：left|center|right  top|center|bottom
+								表示图片的对齐方式
+								
+				background-attachment:	图片是否固定
+					fixed;		背景图像相对于窗体固定
+					scroll;		背景图像相对于元素固定，也就是说当元素内容滚动时背
+								景图像不会跟着滚动，因为背景图像总是要跟着元素本身
+					
+				background-size			检索或设置对象的背景图像的尺寸大小
+					auto		背景图像的真实大小
+					cover		将背景图像等比缩放到完全覆盖容器，背景图像有可能超出容器
+					contain		将背景图像等比缩放到宽度或高度与容器的宽度或高度相等，
+								背景图像始终被包含在容器内
+			背景色渐变：
+				background:linear-gradient(方位,rega(),rega()), url(图片链接);
+				
+			条纹背景：
+				background:repeating-linear-gradient(130deg,#fafafa 0,#fafafa 8px,#f5f5f5 0,#f5f5f5 16px)
+								
+			布局
+				横向布局：一行一行的
+				纵向布局：一列一列的
+			
+			浮动
+				float:none（不浮动）| left | right
+			
+			清除浮动
+				clear:	none	允许两边可以有浮动对象
+						both	不允许有浮动对象
+						left	不允许左边有浮动对象
+						right	不允许右边有浮动对象
+					eg：<style>
+							.flo{
+								width:98px;
+								height:98px;
+								border:1px solid black;
+								float:left
+							}
+							.cle{
+								clear:both;
+							}
+						</style>
+						<body>
+							<div>
+								<div class="flo">flo</div>
+								<div class="flo">box2</div>
+								<div class="cle"></div>			作用为换行
+								<div class="flo">box3</div>
+								<div class="flo">box4</div>
+								<div class="cle"></div>			作用为换行
+								<div class="flo">box5</div>
+								<div class="flo">box6</div>
+							</div>
+						</body>
+			
+			行块元素的转化：
+				display:
+						none;			把对象隐藏；隐藏元素和元素位置
+						block;			1、把隐藏元素显示出来
+										2、把行内元素转化成块元素
+						inline;			把块元素转化成行内元素
+						table-cell;		将元素转化长表格的单元格。配合vertical-align
+					eg：<style>
+							ul{
+								list-style:none;
+								width:100px;
+								height:90px
+							}
+							ul li{
+								border:1px solid black;
+								line-height:29px;
+								text-align:center;
+								background-color:purple;
+							}
+							#flo{
+								display:none;
+							}
+							ul:hover #flo{
+								display:block;
+							}
+						</style>
+						<body>
+							<ul>
+								<li>操作</li>
+								<li id="flo">增</li>
+								<li id="flo">改</li>
+							</ul>
+						</body>
+						
+			元素的隐藏和显示：
+				visibility:	
+						hidden;			只隐藏元素，不隐藏位置。区别于“display:none;”
+						visible;		将隐藏的元素显示
+						   
+			溢出：
+				overflow:
+						hidden;			将多出的部分隐藏起来
+						scroll;			将多出的部分以滚动条的方式阅读
+						
+			文本溢出：
+				text-overflow:
+						clip;			修剪文本
+						ellipsis;		显示省略符号来代表被修剪的文本
+						string;			使用给定的字符串来代表被修剪的文本
+						
+			文本换行：
+				white-space:
+						normal;			默认。空白会被浏览器忽略。
+						pre;			空白会被浏览器保留。其行为方式类似 HTML 中的 <pre> 标签。
+						nowrap;			文本不会换行，文本会在在同一行上继续，直到遇到 <br> 标签为止
+						pre-wrap;		保留空白符序列，但是正常地进行换行。
+						pre-line;		合并空白符序列，但是保留换行符。
+						inherit;		规定应该从父元素继承 white-space 属性的值。
+						 
+			list-style:					设置数据项前面的符号
+						none;			去掉符号
+			list-style-type:
+						disc|circle|square|decimal|upper-alpha|lower-alpha|upper-roman|lower-roman
+						 
+			表格：
+				td,th{
+					border:1px solid black;
+				}
+				table{
+					border-collapse:collapse;	合并单元格，即单元格间无间距
+				}
+						 
+			区域定位：
+				标准流：区块中没有定位设置
+				非标准流：区块中有设置区域定位
+				分类：绝对定位 相对定位 固定定位
+				
+				1、绝对定位：position:absolute;
+					位置相对于已定位的祖先元素；脱离普通流，不占据页面空间
+					区块浮于正常区块的上面，原先占据的空间将会被关闭
+					结合下列属性使用：
+						left right top bottom
+						z-index:5;		区块重叠，欲显示，设置最大值
+										默认为0，值越大权限越高，浮于顶层
+							eg：<style>
+									.div1{
+										width:100px;
+										height:100px;
+										background-color:purple;
+										position:absolute;
+										top:10px;
+										left:20px
+										z-index:;
+									}
+									.div2{
+										width:100px;
+										height:100px;
+										background-color:purple;
+										position:absolute;
+										top:10px;
+										left:20px
+										z-index:2;
+									}
+								</style>
+							
+				2、相对定位：position:relative;
+					位置相对于本身位置，不脱离文档流，占据页面空间
+					设置为相对定位的元素框会偏移某个距离，元素仍然保持未定位前的形状，它原本占据的空间会被保留
+					结合下列属性使用：
+						left right top bottom
+						z-index:1;		区块重叠，欲显示，设置最大值
+										默认为0，值越大权限越高，浮于顶层
+										
+				3、固定定位：position:fixed;
+					相对于可视区域的定位
+					结合下列属性使用：
+						left right top bottom
+						z-index:1;		区块重叠，欲显示，设置最大值
+										默认为0，值越大权限越高，浮于顶层
+							eg：<style>
+									.d1{
+										width:200px;
+										height:80%;
+										background-color:gray;
+										position:fixed;
+										left:10px;
+										top:20px;
+									}
+									.d2{
+										width:200px;
+										height:80%;
+										background-color:gray;
+										position:fixed;
+										right:10px;
+										top:20px;
+									}
+								</style>
+								<body>
+									<div class="d1">div1</div>
+									<div class="d2">div2</div>
+								</body>
+			
+			旋转：
+				transform:rotate(45deg);	旋转45度
+				
+			光标
+				cursor:pointer;	
+
+	scrollWidth = width + overflow-hide-width
+	clientWidth = width + padding-left + padding-right
+	offsetWidth = width + padding-left + padding-right + border-left + border-right
+	
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
