@@ -1,9 +1,0 @@
-alter view student_view
-as
-select TOP (100) PERCENT st.student_id 学号,st.student_name 姓名,co.course_name 课程,sc.score 成绩
-from Student_tab as st
-inner join Score_tab as sc on st.student_id=sc.student_id
-inner join Course_tab as co on co.course_id=sc.course_id
-order by 学号 desc,成绩 asc
-
---order by 与 top 同存忘

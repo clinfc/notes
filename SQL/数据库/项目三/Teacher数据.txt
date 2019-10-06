@@ -1,8 +1,0 @@
-use stud_info_database
-GO
-insert Teacher_tab values ('301','王梅','1','01','01','10')
-insert Teacher_tab values ('302','王海','0','01','05','01')
-insert Teacher_tab values ('303','张东','0','02','04','02')
-insert Teacher_tab values ('304','刘军','0','03','03','02')
-insert Teacher_tab values ('305','罗晓','1','04','06','03')
-go
