@@ -1,0 +1,14 @@
+use stud_info_database
+go 
+insert Score_tab values('101','100101','68')
+insert Score_tab values('101','100102','72')
+insert Score_tab values('101','100103','55')
+insert Score_tab values('102','100101','88')
+insert Score_tab values('102','100102','92')
+insert Score_tab values('102','100103','76')
+insert Score_tab values('103','100105','85')
+insert Score_tab values('103','100106','69')
+insert Score_tab values('104','100105','75')
+insert Score_tab values('104','100106','85')
+insert Score_tab values('105','100110','52')
+go

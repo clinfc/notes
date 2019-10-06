@@ -1,0 +1,37 @@
+--创建数据库
+create database stud_info_database
+on primary
+(
+name='stud_info_database',
+filename='D:\student system\stud_info_database.mdf',
+size=5MB,
+maxsize=unlimited,
+filegrowth=2MB
+)
+log on
+(
+name='stud_info_database_log',
+filename='D:\student system\stud_info_database_log.ldf',
+size=2MB,
+maxsize= unlimited,
+filegrowth=10%
+)
+
+--系部表
+use stud_info_database
+go
+create table depart_tab
+(  
+  id int not null identity(1,1),
+  depart_id varchar(2) constraint pk_depart_id primary key,
+  depart_name varchar(20) not null
+)
+--民族表
+use stud_info_database
+go
+create table nation_tab
+(  
+  id int not null identity(1,1),
+  nation_id varchar(2) constraint pk_nation_id primary key,
+  nation_name varchar(12) not null
+)  

@@ -1,0 +1,57 @@
+use stud_info_database
+go
+
+insert Depart_tab values ('01','信息系')
+insert Depart_tab values ('02','工商系')
+insert Depart_tab values ('03','建筑系')
+insert Depart_tab values ('04','数学系')
+
+insert Nation_tab values ('01','汉族')
+insert Nation_tab values ('02','阿昌族')
+insert Nation_tab values ('03','白族')
+insert Nation_tab values ('04','保安族')
+insert Nation_tab values ('05','布朗族')
+insert Nation_tab values ('06','布依族')
+insert Nation_tab values ('07','大喊二组')
+insert Nation_tab values ('08','朝鲜族')
+insert Nation_tab values ('09','傣族')
+insert Nation_tab values ('10','德昂族')
+
+insert Specialty_tab values('01','计算机应用技术')
+insert Specialty_tab values('02','网络管理')
+insert Specialty_tab values('03','报关与国际货运')
+insert Specialty_tab values('04','电子商务')
+insert Specialty_tab values('05','市场营销')
+insert Specialty_tab values('06','建筑工程管理')
+insert Specialty_tab values('07','基础数学')
+
+insert gender_tab values('0','男')
+insert gender_tab values('1','女')
+
+insert title_tab values ('01','无')
+insert title_tab values ('02','助教')
+insert title_tab values ('03','讲师')
+insert title_tab values ('04','双师')
+insert title_tab values ('05','副教授')
+insert title_tab values ('06','教授')
+insert title_tab values ('07','研究员')
+
+insert Teacher_tab values ('301','王梅','1','01','01','10')
+insert Teacher_tab values ('302','王海','0','01','05','01')
+insert Teacher_tab values ('303','张东','0','02','04','02')
+insert Teacher_tab values ('304','刘军','0','03','03','02')
+insert Teacher_tab values ('305','罗晓','1','04','06','03')
+
+insert Student_tab(student_id,Student_name,gender_id,nation_id,specialty_id,depart_id,tel,qq,stud_sfz,age) 
+values('101','张海','0','01','01','01','13547856792','298451124','500236199701037035','20')
+insert Student_tab (student_id,Student_name,gender_id,nation_id,specialty_id,depart_id,tel,qq,stud_sfz,age) 
+values('102','王艳','1','01','01','01','13102567756','156384759','510503199505061243','22')
+insert Student_tab (student_id,Student_name,gender_id,nation_id,specialty_id,depart_id,tel,qq,stud_sfz,age) 
+values('103','叶强','0','02','03','02','18588485612','5684235792','500230199606144990','21')
+insert Student_tab (student_id,Student_name,gender_id,nation_id,specialty_id,depart_id,tel,qq,stud_sfz,age) 
+values('104','刘兰','1','04','04','02','15025146983','12574684','340823199808051966','19')
+insert Student_tab (student_id,Student_name,gender_id,nation_id,specialty_id,depart_id,tel,qq,stud_sfz,age) 
+values('105','罗小红','1','01','06','04','15388456631','65214521','412723199611126424','21')
+insert Student_tab (student_id,STudent_name,gender_id,nation_id,specialty_id,depart_id,tel,qq,stud_sfz,age) 
+values('106','林小华','0','03','06','04','17788456631','568749562','500383199512127017','22')
+go

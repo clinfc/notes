@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="./nav.css">
+</head>
+<body>
+
+<div class="body">
+	<div class="left-nav">
+		<div class="side-nav">
+			<ul class="nav">
+				<li>
+					<a href="javascript:;" class="">
+						<i class="iconfont left-nav-li" lay-tips="会员管理"></i>
+						<cite>会员管理</cite>
+						<i class="nav-more nav-more-right"></i>
+					</a>
+					<ul class="sub-menu" style="display: ;">
+						<li>
+							<a href="#">
+								<i class="iconfont"></i>
+								<cite>统计页面</cite>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="iconfont"></i><cite>会员列表(静态表格)</cite>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="iconfont"></i>
+								<cite>会员列表(动态表格)</cite>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="iconfont"></i>
+								<cite>会员删除</cite>
+							</a>
+						</li>
+						<li class="">
+							<a href="javascript:;" class="">
+								<i class="iconfont"></i>
+								<cite>会员管理</cite>
+								<i class="nav-more nav-more-right"></i>
+							</a>
+							<ul class="sub-menu" style="display: ;">
+								<li>
+									<a href="#">
+										<i class="iconfont"></i>
+										<cite>会员删除</cite>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="iconfont"></i>
+										<cite>等级管理</cite>
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:;" class="">
+						<i class="iconfont left-nav-li" lay-tips="会员管理"></i>
+						<cite>会员管理</cite>
+						<i class="nav-more nav-more-right"></i>
+					</a>
+					<ul class="sub-menu" style="display: ;">
+						<li>
+							<a href="#">
+								<i class="iconfont"></i>
+								<cite>统计页面</cite>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="iconfont"></i><cite>会员列表(静态表格)</cite>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="iconfont"></i>
+								<cite>会员列表(动态表格)</cite>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="iconfont"></i>
+								<cite>会员删除</cite>
+							</a>
+						</li>
+						<li class="">
+							<a href="javascript:;" class="">
+								<i class="iconfont"></i>
+								<cite>会员管理</cite>
+								<i class="nav-more nav-more-right"></i>
+							</a>
+							<ul class="sub-menu" style="display: ;">
+								<li>
+									<a href="#">
+										<i class="iconfont"></i>
+										<cite>会员删除</cite>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="iconfont"></i>
+										<cite>等级管理</cite>
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+<!-- <script src="./nav.js"></script> -->
+<script>
+	$('.nav').on('click', 'a', function() {
+			let o = $('.nav a.active');
+			let e = $(this);
+			// 打开目录操作
+			if (e.attr('href') == 'javascript:;') {
+				// 一级菜单栏
+				if (e.parents('.sub-menu').length == 0) {
+					// 点击的是当前已选择的
+					if (e.hasClass('active')) {
+						e.find('.nav-more').toggleClass('nav-more-right');
+						e.siblings('.sub-menu').slideToggle();
+					} 
+					// 点击的不是当前已选择的
+					else {
+						$('.nav>li>a>.nav-more').addClass('nav-more-right');
+						$('.nav>li>.sub-menu').slideUp();
+						e.find('.nav-more').removeClass('nav-more-right');
+						e.siblings('.sub-menu').slideDown();
+					}
+				}
+				// 非一级菜单栏
+				if (e.parents('.sub-menu').length > 0) {
+					e.find('.nav-more').toggleClass('nav-more-right');
+					e.siblings('.sub-menu').slideToggle();
+				}
+			}
+			o.removeClass('active');
+			e.addClass('active');
+		})
+</script>
+</body>
+</html>

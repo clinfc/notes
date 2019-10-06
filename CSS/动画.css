@@ -1,0 +1,60 @@
+
+
+/* 变换 */
+.trasform {
+	transform-origin: 0 0;					/* 设置中心点 */
+	transform: translate(10px, 10px);		/* 平移，距离：x轴，y轴 */
+	transform: rotate(90deg);				/* 旋转：角度 */
+	transform: scale(0.5, 0.5);				/* 缩放，比例：x轴 y轴 */
+	transform: skew(45deg, 30deg);			/* 斜切，角度：x轴 y轴 */
+}
+ 
+
+/* 过渡动画：IE10+ */
+.transition {
+	/* 检索或设置对象中参与过度的属性 */
+	transition-property: none|all|transform...;
+
+	/* 过渡动画持续的时间 */
+	transition-duration: .5s,1s;
+
+	/* 检索或设置对象中过渡的动画类型 */
+	transition-timing-function: linear;
+	transition-timing-function: ease;
+	transition-timing-function: ease-in;
+	transition-timing-function: ease-out;
+	transition-timing-function: ease-in-out;
+	transition-timing-function: step-start;	
+	transition-timing-function: step-end;
+
+	/* 检索或设置对象延迟过渡的时间：延迟时长 */
+	transition-delay: 0.05s;
+}
+
+
+/* 媒体查询 */
+@media screen and (width: 100px) {}
+@import url(xxx.css) screen and (width: 100px);
+<link media="screen and (width: 100px)" rel="stylesheet" href="xxx.css" />
+
+
+/* 响应式布局 */
+
+/* 0px < 屏幕宽度 <= 600px */
+@media screen and (max-width: 600px) {
+	.css {
+		width: 100%;
+	}
+}
+/* 601px <= 屏幕宽度 <= 1000px */
+@media screen and (min-width: 601px) and (max-width: 1000px) {
+	.css {
+		width: 25%;
+	}
+}
+/* 1001px <= 屏幕宽度 */
+@media screen and (min-width: 1001px) {
+	.css {
+		width: 25%;
+	}
+}

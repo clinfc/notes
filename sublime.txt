@@ -1,0 +1,27 @@
+
+A File Icon: 文件图标
+
+Emmet: 快速书写HTML和css
+
+Side​Bar​Tools: 右击菜单操作（功能简单）
+
+Side​Bar​Enhancements: 右击菜单操作（功能强大）
+
+Advanced​New​File: 文件创建插件
+
+Doc​Blockr: 简化（Javascript、PHP、CoffeeScript、Actionscript、C & c++）编写Doc注释
+
+Local History: 本地文件版本记录
+
+Laravel 5 Artisan: 运行Laravel 5 Artisan命令
+
+Laravel 5 Snippets: Laravel 5 代码片段，代码提示功能
+
+LESS: LESS语法高亮显示
+
+Less​2​Css: LESS编译
+
+代码格式化
+1、Preferences -> Key Bindings
+2、添加：{"keys": ["ctrl+alt+l"], "command": "reindent", "args": {"single_line": false}}
+  备注：single_line = false => 作用于全部；single_line = true => 作用于当前行或选中区域

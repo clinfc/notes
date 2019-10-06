@@ -1,0 +1,52 @@
+use fzc
+go
+alter database fzc add filegroup fzc2 --添加次文件组
+alter database fzc add file --添加数据文件
+(
+name='fzc2_data',
+filename='E:\数据库\练习\fzc2_data.ndf',
+size=5MB,
+maxsize=20MB,
+filegrowth=15%
+)to filegroup fzc2 --将数据库添加到次文件组fzc2中
+alter database fzc add log file --添加日志文件
+(
+name='fzc_tab',
+filename='E:\数据库\练习\fzc_tab.ldf',
+size=5MB,
+maxsize=100MB,
+filegrowth=0
+)
+alter database fzc modify filegroup fzc2 default --将次文件组fzc2设置为默认文件组
+go
+
+
+use 
+go
+alter database  add filegroup
+alter database  add file
+(
+name='',
+filename='.ndf',
+size=MB,
+maxsize=MB,
+filegrowth=
+)to filegroup 
+alter database  add log file 
+(
+name='',
+filename='',
+size=MB,
+maxsize=MB,
+filegrowth=
+)
+go
+
+
+
+
+
+
+
+
+

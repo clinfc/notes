@@ -1,0 +1,10 @@
+
+/* sass环境安装 */
+
+/* ruby配置 */
+gem sources									/* 查看当前库 */
+gem sources -r								/* 移除当前库 */
+gem sources -a http://ruby.taobao.org		/* 添加新库 */
+
+
+

@@ -1,0 +1,10 @@
+use stud_info_database
+go 
+insert Specialty_tab values('01','计算机应用技术')
+insert Specialty_tab values('02','网络管理')
+insert Specialty_tab values('03','报关与国际货运')
+insert Specialty_tab values('04','电子商务')
+insert Specialty_tab values('05','市场营销')
+insert Specialty_tab values('06','建筑工程管理')
+insert Specialty_tab values('07','基础数学')
+go

@@ -1,0 +1,13 @@
+use stud_info_database
+go
+insert Nation_tab values ('01','汉族')
+insert Nation_tab values ('02','阿昌族')
+insert Nation_tab values ('03','白族')
+insert Nation_tab values ('04','保安族')
+insert Nation_tab values ('05','布朗族')
+insert Nation_tab values ('06','布依族')
+insert Nation_tab values ('07','大喊二组')
+insert Nation_tab values ('08','朝鲜族')
+insert Nation_tab values ('09','傣族')
+insert Nation_tab values ('10','德昂族')
+go

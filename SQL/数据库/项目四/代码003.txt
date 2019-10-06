@@ -1,0 +1,51 @@
+--使用内连接查询学生的学号，姓名，选修课程及成绩 
+select student_tab.student_id as 学号,student_tab.student_name as 姓名,course_tab.course_name as 课程名称,score_tab.score as 成绩
+from student_tab,course_tab,score_tab
+where student_tab.student_id=score_tab.student_id and score_tab.course_id=course_tab.course_id
+order by score desc
+
+--使用左外连接查询学生的学号，姓名，选修课程及成绩
+select student_tab.student_id as 学号,student_tab.student_name as 姓名,course_tab.course_name as 课程名称,score_tab.score as 成绩
+from student_tab left join score_tab on student_tab.student_id=score_tab.student_id
+left join course_tab on score_tab.course_id=course_tab.course_id
+order by score desc
+
+--使用右外连接查询学生的学号，姓名，选修课程及成绩 
+select student_tab.student_id as 学号,student_tab.student_name as 姓名,course_tab.course_name as 课程名,score_tab.score as 成绩
+from student_tab right outer join score_tab on student_tab.student_id=score_tab.student_id
+right outer join course_tab
+on score_tab.course_id=course_tab.course_id
+
+--使用全外连接查询学生的学号，姓名，选修课程及成绩 
+select student_tab.student_id as 学号,student_tab.student_name as 姓名,course_tab.course_name as 课程名称,score_tab.score as 成绩
+from student_tab full outer join score_tab on student_tab.student_id=score_tab.student_id
+full outer join course_tab on score_tab.course_id=course_tab.course_id
+order by score desc
+
+--查询成绩大于 80 分的学生学号，姓名，课程名及该课程的成绩， 查询结果先按学号由低到高排序，同一学生的成绩按由高到低排序 
+select student_tab.student_id as 学号,student_tab.student_name as 姓名,course_tab.course_name as 课程名称,score_tab.score as 成绩
+from student_tab inner join score_tab on student_tab.student_id=score_tab.student_id
+inner join course_tab on score_tab.course_id=course_tab.course_id
+where score_tab.score>80
+order by student_tab.student_id,course_tab.course_id desc
+
+select student_tab.student_id as 学号,student_tab.student_name as 姓名,course_tab.course_name as 课程名,score_tab.score as 成绩
+from student_tab,score_tab,course_tab
+where student_tab.student_id=score_tab.student_id and
+score_tab.course_id=course_tab.course_id and score_tab.score>80
+order by student_tab.student_id,course_tab.course_id desc
+
+--统计各门课程的选课情况（课程名，选课人数，该门课程的平均分），查询结果按成绩的由高到低排序 
+select course_tab.course_name as 课程名称,count(score_tab.student_id) as 选课人数,avg(score_tab.score) as 平均分
+from course_tab inner join score_tab on course_tab.course_id=score_tab.course_id
+group by course_tab.course_name
+order by avg(score_tab.score) desc
+
+select course_tab.course_name as 课程名,COUNT(score_tab.student_id) as 选课人数,AVG(score_tab.score) as 平均分
+from score_tab,course_tab
+where score_tab.course_id=course_tab.course_id
+group by course_tab.course_name
+order by 3 desc
+
+
+ 

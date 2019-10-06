@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+	<input type="button" class="btn btn-default btn-xl" name="" id="btn" value="按钮">
+	<input type="text" class="form-control" value="咋咋呼呼" id="txt">
+
+	<div id="box"></div>
+
+</body>
+<script src="event.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	var btn = document.getElementById('btn');
+	var txt = document.getElementById('txt');
+	var box = document.getElementById('box');
+	var c = classList(btn);
+	var m = DOMNodeMonitor({
+		attributes: function(mutation) {
+			console.log(mutation);
+		},
+		childList: function (mutation) {
+			console.log(mutation);
+		}
+	});
+	m.observe(box);
+</script>
+</html>

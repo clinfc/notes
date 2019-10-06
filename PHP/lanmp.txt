@@ -1,0 +1,46 @@
+
+下载：
+
+	wget https://www.php.net/distributions/php-7.3.8.tar.bz2
+
+	tar -xjvf php-7.3.8.tar.bz2
+
+	cd php-7.3.8
+
+编译、安装
+
+	./configure --prefix=/usr/local/lamp/php --enable-fpm
+
+	make
+
+	make install
+
+配置文件：
+
+	php -i | grep php.ini
+
+	cp php.ini-development /usr/local/lamp/php/lib/php.ini
+
+配置全局命令：
+
+	vi ~/.bash_profile
+
+		export PATH
+		alias php=/usr/local/lamp/php/bin/php
+		alias phpize=/usr/local/lamp/php/bin/phpize
+
+	source ~/.bash_profile
+
+安装Swoole：
+
+	git clone https://gitee.com/swoole/swoole.git
+
+	cd swoole
+
+	phpize
+
+	./configure --with-php-config=/usr/local/lamp/php/bin/php-config
+
+	make
+
+	make install

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+<style type="text/css">
+* {
+	margin: 0;
+	padding: 0;
+}
+.form {
+	width: 100%;
+	max-width: 600px;
+	margin: 20px auto;
+}
+.line {
+	width: 100%;
+	line-height: 36px;
+	float: left;
+}
+.line h3 {
+	display: block;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    color: rebeccapurple;
+}
+
+.custom-select {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 36px;
+	position: relative;
+	font-size: 14px;
+}
+.custom-select * {
+	padding: 0;
+	margin: 0;
+}
+.custom-select .custom-select-box {
+	width: 100%;
+	height: 36px;
+}
+.custom-select .custom-select-box .custom-select-box-text {
+	width: calc(100% - 20px);
+	height: 34px;
+	line-height: 34px;
+	border: 1px solid #e6e6e6;
+	border-radius: 5px;
+    padding: 0 10px;
+    color: #a2a2a2;
+    cursor: pointer;
+}
+.custom-select .custom-select-box .custom-select-box-text:hover,
+.custom-select .custom-select-box .custom-select-box-text.active {
+	border-color: #D2D2D2!important;
+}
+.custom-select .custom-select-box .custom-more-icon {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-style: dashed;
+    border-color: transparent;
+    position: absolute;
+    top: 18px;
+    right: 10px;
+    cursor: pointer;
+    border-width: 6px;
+    border-top-color: #c2c2c2;
+    border-top-style: solid;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+.custom-select .custom-select-box .custom-more-icon.on {
+	-webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+    top: 9px;
+}
+.custom-select .options {
+	list-style: none;
+	width: 100%;
+	line-height: 36px;
+	border: 1px solid #d2d2d2;
+	position: absolute;
+	top: 100%;
+	margin-top: 5px;
+	color: #565656;
+	display: none;
+	z-index: 1314;
+}
+.custom-select .options .option {
+	padding: 0 10px;
+	cursor: pointer;
+}
+.custom-select .options .option.selected,
+.custom-select .options .option:hover {
+    color: #fff;
+	background-color: #5FB878;
+}
+.custom-select .options .option.th {
+	height: 40px;
+	line-height: 40px;
+	font-weight: bold;
+	background-color: #d2d2d2;
+}
+.custom-select .options .option.th:hover {
+	color: #565656;
+	cursor: default;
+}
+.custom-select .options .option.disabled,
+.custom-select .options .option.disabled:hover {
+	color: #c3c3c3;
+    cursor: not-allowed;
+    background-color: #e2e2e2!important;
+}
+
+</style>
+</head>
+<body>
+
+<form action="" class="form">
+	<div class="line">
+		<select name="name" data-custom="selection">
+			<option value="1" th>文字1</option>
+			<option value="2">文字2</option>
+			<option value="3">文字3</option>
+			<option value="4">文字4</option>
+			<option value="5" th selected>文字5</option>
+			<option value="6">文字6</option>
+			<option value="7">文字7</option>
+			<option value="8" disabled>文字8</option>
+		</select>
+	</div>
+</form>
+
+<script src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript">
+
+(function($) {
+
+    "use strict";
+
+    var selection = (function() {
+        function selection (element, options) {
+            this.element = element;
+            this.init();
+        }
+        selection.prototype = {
+        	// 用于绑定原 select 和生成的 select
+        	id: 'selection.' + new Date().getTime() + Math.random(),
+            // 用于存储下拉列表中的 icon 对象
+            icon: null,
+            // 用于判断下拉列表是否打开
+            shade: false,
+            // 在页面生成后，用于存储获取的 select 对象
+            options: null,
+            // 用于存储生成的option元素
+            option: null,
+            // 当前选中元素的索引
+            selected: 0,
+            // 当前选中项的文本
+            selectedText: null,
+            init: function() {
+            	this.element.attr('custom-id', this.id).hide();
+            	this._initSelect();
+            	this._createNewSelect();
+            	this._initBoxClick();
+            	this._initOptionClick();
+            	this._shadeClick();
+            },
+            // 获取下拉列表数据
+            _initSelect: function() {
+            	var $this = this;
+                this.option = '';
+                $.each(this.element.find('option'), function(index, option) {
+                	if (index == 0) {
+                		$this.selectedText = option.text;
+                	}
+                	let css = ['option'];
+                	if (option.getAttribute('th') != null) {
+                		css.push('th');
+                	}
+                	if (option.disabled) {
+                		css.push('disabled');
+                	}
+                	// 设置默认选择项
+                	if (index != 0 && option.selected && option.getAttribute('th') == null) {
+                		css.push('selected');
+                		$this.selected = index;
+                		$this.selectedText = option.text
+                	}
+                	$this.option += '<li class="' + css.join(' ') + '" custom-i="' + index + '">' + option.text + '</li>';
+                });
+            },
+            // 生成新的下拉列表
+            _createNewSelect: function() {
+            	let temp = '<div class="custom-select" custom-id="' + this.id + '">' + 
+            		'<div class="custom-select-box"><input type="text" class="custom-select-box-text" value="' + this.selectedText + 
+            		'" readonly><i class="custom-more-icon"></i></div>' + 
+            		'<ul class="options">' + this.option + '</ul></div>';
+            	this.element.after(temp);
+            },
+            // 监控显示框点击事件
+            _initBoxClick: function() {
+                let $this = this;
+                let box = 'div[custom-id=' + this.id + '] div.custom-select-box';
+                let sel = 'div[custom-id=' + this.id + '] ul.options';
+                this.icon = $(box).find('i.custom-more-icon');
+                this.input = $(box).find('input');
+                this.options = $(sel).find('li.option');
+                $(document).on('click', box, function(){
+                	$(sel).toggle();
+                	$this._initShade();
+                	$this.input.addClass('active');
+                });
+            },
+            _initOptionClick: function() {
+                var $this = this;
+                this.options.on('click', function(){
+                	let option = $(this);
+                    if (option.hasClass('disabled') || option.hasClass('th')) {
+                        return ;
+                    }
+                    option.addClass('selected').siblings().removeClass('selected');
+                    $this.selected = option.attr('custom-i');
+                    $this.input.removeClass('active').val(option.text()).css({'color': '#555'});
+                    $('[data-custom=selection][custom-id=' + $this.id + ']').find('option').prop('selected', false).eq($this.selected).prop('selected', true);
+                    $this.options.parent().toggle();
+                    $this._initShade();
+                });
+            },
+            // 监控遮罩
+            _initShade: function() {
+                if (this.shade) {
+                    this.shade = false;
+                    this.icon.removeClass('on');
+                    $('[data-custom=select-shade]').remove();
+                } else {
+                    this.shade = true;
+                    this.icon.addClass('on');
+                    $('body').append('<div data-custom="select-shade" style="position:fixed;width: 100%;height: 100%;top: 0;left: 0;z-index: 1313;"></div>');
+
+                }
+            },
+            // 遮罩点击事件
+            _shadeClick: function() {
+                var $this = this;
+                $(document).on('click', '[data-custom=select-shade]', function(){
+                    $this.options.parent().toggle();
+                    $(this).remove();
+                    $this.icon.removeClass('on');
+                    $this.input.removeClass('active');
+                    $this.shade = false;
+                })
+            }
+        };
+        return selection;
+    })();
+
+    $.fn.selection = function(options) {
+        this.each(function(){
+            var $this = $(this);
+            var temp = $this.data('selection');
+            if (!temp) {
+                $this.data('selection', (temp = new selection($this, options)));
+            }
+        });
+    };
+
+    $('[data-custom=selection]').selection();
+})(jQuery);
+
+</script>
+
+</body>
+</html>

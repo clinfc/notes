@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css" media="screen">
+		body {
+			overflow: auto;
+		}
+		.alert {
+			display: none;height: 800px;width: 100px;background-color: red;
+		}
+		.alert>div{
+			width: 50px;height: 50px;float: left;
+		}
+	</style>
+</head>
+<body>
+
+<div class="alert">
+	<div shade-filter="remove">关闭</div>
+	<div>
+		sdk
+	</div>
+</div>
+
+<script  src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+<script src="../Tdrag.js" type="text/javascript" charset="utf-8" async defer></script>
+<script>
+	;(function($, window, document) {
+
+		"use strict";
+
+		var fixed = (function() {
+			function fixed(element, options) {
+				this.element = element;
+				this.set = $.extend(true, $.fn.fixed.defaults, options || {});
+				this.init();
+			}
+			fixed.prototype = {
+				window: $(window),
+				document: $(document),
+				top: 0,
+				left: 0,
+				elementCss: {
+					'position': 'fixed',
+					'top': 0,
+					'left': 0,
+					'margin-top': 0,
+					'margin-left': 0,
+					'right': 0,
+					'margin': 'auto'
+				},
+				// 遮罩样式
+				shadeCss: {
+					'width': '100%',
+					'height': '100%',
+					'position': 'fixed'
+				},
+				init: function() {
+					this.shadeCss['opacity'] = this.set.opacity;
+					this.shadeCss['z-index'] = this.set.tier - 1;
+					this.shadeCss['background-color'] = this.set.bg;
+					this.elementCss['z-index'] = this.set.tier;
+					this.element.css(this.elementCss);
+					this.monitor();
+				},
+				// 计算宽高
+				compute: function() {
+					let wh = this.window.height();
+					let eh = this.element.height();
+					wh > eh 
+						? this.top = (wh - eh) / 2 
+						: this.top = eh*0.1;
+
+					let ww = this.window.width();
+					let ew = this.element.width();
+					ww > ew 
+						? this.left = (ww - ew) / 2
+						: this.left = ew*0.1;
+				},
+				// 建立遮罩
+				shade: function() {
+					$('body').append('<div shade-filter="remove" data-custom="shade"></div>');
+					$('[data-custom=shade]').css(this.shadeCss);
+				},
+				// 初始化样式
+				initCss: function() {
+					this.element.css({'margin-top': this.top, 'margin-left': this.left});
+				},
+				// 事件监控
+				monitor: function() {
+					var $this = this;
+					// 监控（遮罩、取消、关闭）点击事件
+					this.document.on('click', '[shade-filter=remove]', function() {
+						$this.hide();
+					});
+					this.mousedrag();
+				},
+				// 监控鼠标拖动
+				mousedrag: function() {
+					var $this = this;
+					this.set.drag && 
+					this.element
+					.on('mousedown', function(e) {
+						let eleOffset = $this.element.offset();
+						let ww = $this.window.width();
+						let wh = $this.window.height();
+						// 定义一个开关，默认鼠标点击之后开启
+						let isdown = true;
+						// 绑定鼠标移动事件，要在全屏移动，所以用绑定document
+						$this.document.on('mousemove', function(ee) {
+							if (isdown) {
+								if (ee.clientX > 0 && ee.clientX < ww) {
+									$this.left = ee.clientX - e.clientX + eleOffset.left;
+								}
+								if (ee.clientY < wh && ee.clientY > 0) {
+									$this.top = ee.clientY - e.clientY + eleOffset.top;
+								}
+								$this.initCss();
+							}
+						}).on('mouseup', function() {
+							isdown = false;
+						})
+					})
+				},
+				// 显示浮动
+				show: function() {
+					this.compute();
+					this.shade();
+					this.initCss();
+					this.element.show();
+				},
+				// 隐藏浮动
+				hide: function() {
+					this.element.hide();
+					$('[data-custom=shade]').remove();
+				}
+			};
+			return fixed;
+		})();
+
+		$.fn.fixed = function(options) {
+			return this.each(function() {
+				var $this = $(this);
+				var instance = $this.data('fixed');
+				if (!instance) {
+					$this.data('fixed', (instance = new fixed($this, options)));
+					$this.data('fixed-init', true);
+				}
+				if (typeof options === 'string' && options === 'hide') {
+					return instance[options]();
+				}
+				if (typeof options === 'object' || options === 'show' || options == undefined) {
+					return instance['show']();
+				}
+			});
+		}
+
+		$.fn.fixed.defaults = {
+			'tier': 1314,		// 被选元素的 z-index
+			'bg': '#000',		// 遮罩背景色
+			'opacity': '.3',	// 遮罩透明度
+			'drag': true		// 支持拖动效果
+		}
+	})(jQuery, window, document);
+
+	$('.alert').fixed();
+</script>
+</body>
+</html>

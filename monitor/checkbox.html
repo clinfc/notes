@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		.form {
+			width: 100%;
+			max-width: 600px;
+			margin: 20px auto;
+		}
+		.line {
+			width: 100%;
+			line-height: 36px;
+			float: left;
+		}
+		.line h3 {
+			display: block;
+		    width: 100%;
+		    height: 50px;
+		    line-height: 50px;
+		    text-align: center;
+		    color: rebeccapurple;
+		}
+		.line .check-box {
+			width: 18px;
+			height: 18px;
+			border: 1px solid #dcdcdc;
+		}
+		.line .check-box:before {
+			content: "\e605";
+		}
+	</style>
+</head>
+<body>
+
+
+<form class="form">
+	<div class="line">
+		<h3>checkbox</h3>
+	</div>
+	<div class="line">
+		<input type="checkbox" name="" data-custom="checkbox" custom-filter="check-all">
+	</div>
+	<div class="line">
+		<input type="checkbox" name="" data-custom="checkbox">
+	</div>
+</form>
+
+
+<script  src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript">
+	(function($){
+
+		use 'strict';
+
+		// 单例模式
+		$.fn.checkbox = function(option) {
+			return this.each(function() {
+				var $this = $(this);
+				var instance = $this.data('checkbox');
+				if (!instance) {
+					$this.data('checkbox', (instance = new checkbox($this, option)));
+				} 
+				if ($.type(option) === 'string') {
+					return instance[option]();
+				}
+			});
+		};
+
+		$(function() {
+			$('[data-custom=checkbox]').checkbox();
+		})
+
+	})(jQuery);
+</script>
+</body>
+</html>
+
+
+
+<div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
+	<input type="checkbox" name="layTableCheckbox" lay-skin="primary" lay-filter="layTableAllChoose">
+	<div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+		<i class="layui-icon layui-icon-ok"></i>
+	</div>
+</div>
+<div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
+	<input type="checkbox" name="layTableCheckbox" lay-skin="primary">
+	<div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+		<i class="layui-icon layui-icon-ok"></i>
+	</div>
+</div>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<title></title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		.form {
+			width: 100%;
+			max-width: 600px;
+			margin: 20px auto;
+		}
+		.line {
+			width: 100%;
+			line-height: 36px;
+			float: left;
+		}
+		.line h3 {
+			display: block;
+		    width: 100%;
+		    height: 50px;
+		    line-height: 50px;
+		    text-align: center;
+		    color: rebeccapurple;
+		}
+		.line textarea {
+		    padding: 10px;
+		    color: #ababab;
+		    font-size: 16px;
+		    line-height: 24px;
+		    border-radius: 5px;
+		}
+		.line input {
+		    padding: 5px 10px;
+		    color: #ababab;
+		    font-size: 16px;
+		    line-height: 24px;
+		    border-radius: 5px;
+		    border: 1px solid;
+		}
+		.help {
+			margin-bottom: 15%;
+			font-weight: bold;
+			color: red;
+		}
+	</style>
+</head>
+<body>
+
+	<form class="form">
+		<div class="line">
+			<h3>多元素监控（元素绑定：custom-filter）</h3>
+		</div>
+		<div class="line">
+			<textarea rows="5" cols="70" data-custom="maxlength" custom-filter="one" custom-sep="\" placeholder="使用 custom-filter='*' 分别绑定监控元素和显示元素，这里的 * 是一个自定义值，当监控元素和显示元素的 custom-filter 相等时，将被绑定"></textarea>
+		</div>
+		<div class="line">
+			<input type="text" data-custom="maxlength-show" custom-filter="one">
+		</div>
+		<div class="line">
+			<span data-custom="maxlength-show" custom-filter="one"></span>
+		</div>
+	</form>
+
+	<form class="form">
+		<div class="line">
+			<h3>多元素监控（元素绑定：custom-filter）</h3>
+		</div>
+		<div class="line">
+			<textarea rows="5" cols="70" data-custom="maxlength" custom-filter="two" maxlength="200" placeholder="使用 custom-filter='*' 分别绑定监控元素和显示元素，这里的 * 是一个自定义值，当监控元素和显示元素的 custom-filter 相等时，将被绑定"></textarea>
+		</div>
+		<div class="line">
+			<input type="text" data-custom="maxlength-show" custom-filter="two">
+		</div>
+		<div class="line">
+			<span data-custom="maxlength-show" custom-filter="two"></span>
+		</div>
+	</form>
+
+	<form class="form">
+		<div class="line">
+			<h3>多元素监控（元素绑定：custom-filter）</h3>
+		</div>
+		<div class="line">
+			<textarea rows="5" cols="70" data-custom="maxlength" custom-filter="three" maxlength="300" placeholder="使用 custom-filter='*' 分别绑定监控元素和显示元素，这里的 * 是一个自定义值，当监控元素和显示元素的 custom-filter 相等时，将被绑定"></textarea>
+		</div>
+		<div class="line">
+			<input type="text" data-custom="maxlength-show" custom-filter="three">
+		</div>
+		<div class="line">
+			<span data-custom="maxlength-show" custom-filter="three"></span>
+		</div>
+	</form>
+
+	<form action="" class="form">
+		<div class="line help">注：当 custom-filter 的值定义为 * 时，将绑定所有的 data-custom="maxlength-show" 元素</div>
+	</form>
+
+
+	<script src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+	<script src="./maxLength.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+use stud_info_database
+go
+insert Depart_tab values ('01','信息系')
+insert Depart_tab values ('02','工商系')
+insert Depart_tab values ('03','建筑系')
+insert Depart_tab values ('04','数学系')
+go

@@ -1,0 +1,541 @@
+<!doctype html>
+<html>
+ <head>
+	
+	<!-- 字符集 -->
+	<!-- 
+		常见字符集：
+			gb2312		6700个简体字
+			big5		13000繁体字
+			gbk=gb2312+big5
+			utf8		万能字符集
+			
+		乱码问题：
+			解决办法：三码合一
+				文件本身的编码方式
+				文件内容的编码方式
+				浏览器的编码方式
+	-->
+	<!-- 
+		H5中新增：语意词
+			header		页面头部
+			footer		页面尾部
+			hgroup		打包多个“h1~h6”标签
+			nav			导航栏;包含“h1~h6”标签
+			section		表示一个章节；包含“h1~h6” “p”标签
+			aside		侧栏
+			article		局部的body标签，包含有header footer nav section hgroup
+	-->
+	<style>
+		body{
+			margin-top:100px;
+			margin-bottom:200px;
+		}
+	</style>
+	<meta charset="UTF-8" name="" content="">
+		<!--
+			mate：告诉浏览器的搜索引擎相关的某些信息
+				与搜索引擎相关
+					<meta name="" content="">
+						name：		keywords	author	discription
+						content：	关键字		作者	对站点的描述
+				跟浏览器相关：告诉浏览器文档的格式为text/html；字符集为utf8。
+					<meta http-equiv="content-type" content="text/html;charset=utf8" />
+					<meta charset="UTF-8" />
+				
+				<meta http-equiv="content-language" content="zh-cn" />
+					zh		中文
+					cn		china
+					com		commercial
+					gov		government
+					edu		education
+					
+				<meta http-equiv="refresh" content="5;url=http://www.baidu.com" />
+					5秒后跳转到百度首页
+		-->
+  <title>HTML</title>
+ </head>
+ <body bgcolor="#d3d3d3">
+ 	<!--
+		text		文本颜色
+ 		bgcolor		设置背景色
+ 		background	设置背景图片
+ 			background属性值：	1.本地图片：静态图，gif动态图		2.网络图片：静态图，gif动态图
+ 				如果图片不够大，那么将会进行x、y的复制，直到将窗口铺满
+ 	-->
+		
+	<!-- 实体字符 -->
+	&nbsp;		制表符	<br>
+	&emsp;		全角	<br>
+	&ensp;		半角	<br>
+	&lt;		小于	<br>
+	&gt;		大于	<br>
+	&amp;		与	 	<br>
+	&yen;		人民币	<br>
+	&copy;		版权	<br>
+	&reg;		注册	<br>
+	&trade;		商标	<br>
+	&times;		乘号	<br>
+	&divide;	除号	<br>
+		
+	<!-- 文本标签 -->
+ 	<i>斜体字</i>	
+	<em>斜体字</em>
+ 	<b>粗体字</b>	
+	<strong>粗体字</strong>
+ 	<ins>插入字，下划线</ins>	
+	<u>下划线</u>
+ 	<del>删除字</del>	
+	<s>删除字</s>
+ 	10<sup>2</sup><!--sup：上标。表示10的2次方-->
+ 	H<sub>2</sub>O<!--sub：下标。表示水的化学式-->
+	<small>原字体基础上缩小的字体</small>
+	<big>原字体基础上放大的字体</big>
+	<center>居中</center>
+	<font size="1-7" color="" face="宋体">设置字体</font>
+		<!-- size="1-7"表示设置字体大小只能为1到7 -->
+	<abbr title="word trade organization">wto</abbr><!-- 缩写 -->
+	<ruby>源<rp>(</rp><rt>yuan</rt><rp>)</rp></ruby>  <!-- 语言元素 注释拼音 -->
+	<bdo dir="ltr/rtl">源码时代</bdo> 
+		<!--  ltr(left to right)：从左到右；rtl(right to left)：从右到左 -->
+	<q>加双引号</q>
+	<time>2018-1-15</time> <!-- 时间 -->
+
+	<br>
+
+	
+	
+	
+	<!-- 排版标签 -->
+	<br>
+		<!-- br：强制换行 -->
+	<wbr>安全换行</wbr>
+		<!-- wbr：安全换行 -->
+		
+ 	<h1>标题</h1>
+		<!--
+			h1-h6：标题
+			将文本设置为标题样式
+		-->
+	
+	<hr color="red" size="" width="" align="" noshade="">
+		<!--
+			hr：直线
+			size				线条殂谢
+			width				线条宽度
+			align				对齐方式
+			noshade="noshade"	去掉阴影
+			color				颜色
+				属性值的三种写法；1.颜色的英文名称 2.十六进制 3.RGB(255，255，255)
+		-->
+		
+	<p align="">段落</p>
+	<!-- 
+		将文本设置为一个段落，段前后有空白地方，叫段间距
+		align属性值：left center right
+	-->
+
+	<pre>
+		for(int i=0;i<10;i++){
+			System.outprintln(i);
+		}
+	</pre>
+		<!--
+			pre：预排版标签。内容将原样输出。
+				 定义预排班格式文本，如果文本中含有空格，换行符保留
+		-->
+	
+	
+	<!-- 图片 -->
+		<img src="http://imgs.technews.cn/wp-content/uploads/2014/10/Baidu.jpg" width="300" 
+			height="100" title="渣渣" alt="渣渣" align="" border=""/>
+			<!--
+				src属性值：	1.本地图片：静态图，gif动态图		2.网络图片：静态图，gif动态图
+				tiltle		当鼠标放在图片上时显示的提示
+				alt			当图片加载失败是，该图片位置显示的提示
+				align		对齐方式
+				border		图片边框
+			注：width和height只设置一个，图片会自动适应
+			-->
+	<!-- 图片的超级链接 -->
+		<a href="a.jpg"><img src="b.jpg" /></a>
+	<!-- 创建分区响应图 -->
+		<img src="" usemap="a" />
+		<map name="a">
+			<area shape="rect" coords="左上角坐标 右下角坐标" href="">
+			<area shape="circle" coords="圆心坐标 半径" href="">
+			<area shape="poly" coords="多个坐标点" href="">
+				<!-- 
+					eg：<area shape="rect" coords="0 0 5 11" href="">			矩形
+						<area shape="circle" coords="23 10 20" href="">			圆
+						<area shape="poly" coords="0 20 10 15 28 42" href="">	多边形
+				-->
+		</map>	
+			
+	<!-- 图文并茂 -->
+	<figure>
+		<img src="" />
+		<figcaption>图片说明文字</figcaption>
+	</figure>
+
+	<!-- 列表标签 -->
+ 		<!--
+ 			ul：无序列表
+ 			ol：有序列表
+			dl：自定义列表（可用于图文并茂）
+ 		-->
+	<ul type="">
+		<!-- type属性值：disc：实心圆（默认）；circle：空心圆；square：方块 -->
+		<li>北京</li>
+		<li>上海</li>
+		<li>重庆
+			<ul>
+				<li>渝北区</li>
+				<li>永川区</li>
+				<li>渝中区</li>
+				<li>万州区
+					<ul>
+						<li>五桥</li>
+						<li>高申堂</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</ul>
+	<ol type="" start="2">
+		<!--
+			type属性值：
+					1；数字
+					a：小写英文字母 
+					A：大写英文字母
+					i：小写罗马字母
+					I：大写罗马字母
+			 start：起始值
+		-->
+		<li>北京</li>
+		<li>上海</li>
+		<li>重庆
+			<ol>
+				<li>渝北区</li>
+				<li>永川区</li>
+				<li>渝中区</li>
+				<li>万州区
+					<ol>
+						<li>五桥</li>
+						<li>高申堂</li>
+					</ol>
+				</li>
+			</ol>
+		</li>
+	</ol>
+	<dl>
+		<dt>术语</dt><dd>术语解释</dd>
+		<dt>html</dt><dd>超文本标记语言</dd>
+	</dl>
+
+	<br>
+	
+	<!-- 行块标签：在HTML中没有真正的意义，在css中才会发挥作用 -->
+	<span></span>
+		<!-- 行内标签：多个标签显示在一行上
+			 功能：将多个行内标签内容组织在一起 
+		-->
+	<div></div>
+		<!-- 
+			 功能：将文档划分成不同的部分
+		-->
+	
+	<br>
+	
+	<!-- 走马灯 -->
+	<marquee bgcolor="" width="" height="" direction="" behavior="" 
+		scrollamount="15"><font size="5">走马灯</font></marquee>
+		<!--
+			direction		方向；值：left、right、up、down。
+			behavior		循环方式；值：alternate、slide、dcroll。
+			scrollamount	控制速度
+		-->
+	
+	<!-- 
+		超级链接
+			概念：一个页面向另一个目标的链接关系，目标为页面、图片、压缩文件、邮件、视频等
+			分类：
+				锚点链接：
+					<a href="#m1"></a>		定义锚点链接
+					<a name="m1"></a>		定义锚点，放在目标地方
+				内部链接：
+					概念：站点内部之间的文件的链接关系（站点就是一个文件夹）
+					<a href="目标文件的路径" target="目标文件打开方式" title=""></a>
+						target属性值：
+							_self		在本窗口中打开（默认值）
+							_blank		在新窗口中打开
+							_top		在父窗口打开
+							_parent		在顶级窗口打开
+						title：鼠标指针指向超文本的提示文本
+				外部链接：
+					概念：站点之间的链接关系
+					<a href="" target="" title=""></a>
+						href属性值：
+							http://
+							https://
+							file:///
+				相对路径：
+					以当前文件的自身位置为参考的路径。
+						1、与当前（./）文件是同一路径关系，在同一文件夹下
+						2、是当前（./）文件的同一路径的上一级路径（../）
+						3、是当前（./）文件同一路径的下一级路径（文件夹名/）
+				空链接：
+					<a href="#"></a>	不刷新，不跳转
+					<a href=""></a>		会刷新，跳转到自身
+				地址参数：
+					跟在地址后面的内容。
+					地址与地址参数间用“?”分隔；地址参数之间用“&”分隔。
+					eg：<a href="http://www.51jews.com?name=libai&age=10"></a>
+	-->
+ 	<a href="http://www.baidu.com" target="_parent" title="前往百度首页">百度</a>
+ 		<!--
+			target属性值：
+				_self		在本窗口中打开（默认值）
+				_blank		在新窗口中打开
+				_top		在父窗口打开
+				_parent		在顶级窗口打开
+			title：鼠标指针指向超文本的提示文本
+ 		-->
+		
+	
+	
+	<!-- 表格 -->
+		<!--
+			caption		表格标题
+			colgroup	列组合
+			thead		包括表格表头
+			tbody		表体
+			tfoot		表脚
+			th			表头
+			tr			table row	行
+			td			table data	列
+		-->
+	<table border="1px" border-color="" width="30%" align="center" 
+		background="" bgcolor="" cellspacing="" cellpadding="">
+		<!--
+			border			表格边框宽度
+			border-color	边框线颜色
+			align			对齐方式
+			background		设置背景图片
+			bgcolor			设置背景色
+			cellspacing		单元格之间的距离
+			cellpadding		单元格中内容与边框之间的距离
+		-->
+		<!--
+			与行（tr）相关
+				height		行 高度
+				align		行 水平对齐方式。值：left center right
+				valign		行 垂直对齐方式。值：top   		顶部
+												 middle		中间
+												 bottom		底部	
+												 baseline	基线、底线
+			与列（td）相关
+				width		单元格 宽度
+				height		单元格 高度
+				align		单元格 水平对齐方式
+				valign		单元格 垂直对齐方式
+		-->
+		<caption>课表</caption>
+		<thead>
+			<tr height="" align="" valign=""><!-- 第一行 -->
+				<th>星期一</th>	<!-- 第一列 -->
+				<th>星期二</th>	<!-- 第二列 -->
+				<th>星期三</th>	<!-- 第三列 -->
+			</tr>
+		</thead>
+		<tbody align="center">
+			<tr>	<!-- 第二行 -->
+				<td>物理</td>
+				<td>化学</td>
+				<td rowspan="2">英语</td>
+					<!--
+						rowspan="2"	：列（纵向）合并，两个单元格
+					-->
+			</tr>
+			<tr>	<!-- 第三行 -->
+				<td>物理</td>
+				<td>化学</td>
+			</tr>
+		</tbody>
+		<!-- 批量设置 -->
+			<colgroup span="1" style="background-color:red"></colgroup>
+		<!-- 单独设置 -->
+			<colgroup>
+				<col>									<!--第一列-->
+				<col style="background-color:green">	<!--第二列-->
+				<col style="background-color:red">		<!--第三列-->
+			</colgroup>
+		<tfoot align="center">
+			<tr>
+				<td colspan="2">表脚一</td>
+					<!--
+						colspan="2"	：行（水平）合并，两个单元格
+					-->
+				<td>表脚三</td>
+			</tr>
+		</tfoot>
+	</table>
+	
+	<!-- 多媒体：视频 -->
+	<video src="" width="" height="" loop="" autoplay="" controls=""></video>
+	<!-- 多媒体：音频 -->
+	<audio src="" loop="" autoplay="" controls=""></audio>
+		<!--
+			loop="loop"				循环播放
+			autoplay="autoplay" 	自动播放
+			controls="controls"		演示控件
+		-->
+		
+ 	<!-- 活动框架 -->
+ 	<iframe src="" width="" height="" name="iframe" scrolling="auto|yes|no"></iframe>
+	<a href="document1.html" target="iframe">文档1</a>
+	<a href="document2.html" target="iframe">文档2</a>
+ 		<!--
+ 			iframe		活动框架。开辟窗口，显示其他网页。
+			src			在活动框架中默认显示的文档
+			name		框架名称
+			scrolling	滚动条是否显示。值：auto yes no
+ 		-->
+	
+	<!-- 框架集 -->
+	<frameset rows="20%,80%"|cols="120px,320px" frameborder="1|0" bordercolor="">
+		<!--frame：
+			rows			横向分割。rows和cols只能二选一
+			cols			纵向分割。rows和cols只能二选一
+			frameborder		是否显示边框。值：0 1
+			bordercolor		边框颜色
+		-->
+		<!-- 框架 -->	
+		<frame src="" scrolling="auto|yes|no" name="" noresize="" marginwidth="" marginheight="" />
+			<!--frame：
+				src						框架的默认文档
+				name					框架名称
+				scrolling				是否显示滚动条。值：auto yes no
+				noresize="noresize"		框架是否固定
+				marginwidth				框架中内容与边框的水平距离
+				marginheight			框架中内容与边框的垂直距离
+			-->
+	</frameset>
+	
+	<!-- 
+		表单：用于网页中采集数据的空间
+	-->
+	<form name="userForm" action="first%20one.html" method="post" >
+			<!--
+				name：表单名字
+				action：表单提交路径
+				method：提交方式
+					属性值：get 	默认值；用地址传值。		
+							post	文件之间隐式传值；
+									相对于fet更安全，因为提交的参数在地址栏中不可见。
+			-->
+		用户名：
+			<input type="text" size="" name="userName"/>
+		<br>
+		密&nbsp;&nbsp;码：
+			<input type="password" name="pwd"/>
+		<br>
+		性&nbsp;&nbsp;别：
+			<input type="radio" name="gender" value="1" checked="checked"/>男
+				<!-- checked	默认选择该选项 -->
+			<input type="radio" name="gender" value="0"/>女
+		<br>
+		兴&nbsp;&nbsp;趣：
+			<input type="checkbox" name="interest" value="music" checked="checked"/>音乐
+				<!-- checked	默认选择该选项 -->
+			<input type="checkbox" name="interest" value="food" />食物
+			<input type="checkbox" name="interest" value="sport" />运动
+			<input type="file" name="file"/>
+			<input type="hidden" name="id" value="101010"/>
+				<!--
+					input
+						size	标签长度。
+								注：为文本和密码框时单位为字符个数；其他控件单位为像素
+						value				控件的值
+						maxlength			控件中字多可以输入多少个字符个数
+						readonly="readonly"	表示只读
+						disabled="disabled"	表示控件失效，显示但无作用
+						placeholder			默认文本提示
+						type属性值：
+							text		文本输入框
+							password	密码输入框
+							radio		单选按钮，name属性值必须一致
+							checkbox	多选按钮，name属性值必须一致
+							file		上传文件
+							hidden		隐藏表单
+							submit		提交按钮，该提交按钮默认提交当前所在的表单
+							image		图片提交按钮
+							reset		重置按钮
+							button		普通按钮
+				-->
+		<br>
+		
+		学&nbsp;&nbsp;历：
+		<!-- 下拉菜单 -->
+			<select size="" name="" multiple="multiple">
+				<!--
+					size		数据项显示的个数
+					name		命名
+					multiple	表示下拉菜单可以多选
+				-->
+				<option value="gz">高中</option>
+				<option value="bk" selected>本科</option>
+					<!-- selected	默认选择项 -->
+				<option value="ss">硕士</option>
+				<option value="bs">博士</option>
+			</select>
+		<br>
+		
+		兴趣：
+		<!-- 文本域 -->
+			<textarea name="garde" cols="20" rows="5"></textarea>
+				<!--
+					rows		占的行数
+					cols		占的列数
+					注：文本域没有value属性
+				-->
+				
+		<input type="submit" value="注册"/>
+		<input type="reset" value="重置"/>
+		
+		<!-- H5中新增 -->
+			<!-- 分组 -->
+				<fieldset>
+					<legend>基本信息</legend>
+						<input type="" name=""/>
+						<input type="" name=""/>
+				</fieldset>
+				<fieldset>
+					<legend>其他信息</legend>
+						<input type="" name=""/>
+						<input type="" name=""/>
+				</fieldset>
+			<!-- 分组 -->
+				<select> 
+					<optgroup label="基本信息">
+						<option value=""></option>
+						<option value=""></option>
+					<optgroup label="其他信息">
+						<option value=""></option>
+						<option value=""></option>
+				</select>
+			<!-- 建议值：可以写在表单外，id值为表单内某些控件的list属性值 -->
+				<input type="text" name="fruit" list="user" />
+				<datalist id="user">
+					<option value="apple">苹果</option>
+					<option value="banana" >香蕉</option>
+					<option value="orange">沙糖桔</option>
+				</datalist>
+			<button type="submit|reset|button"></button>
+			<input type="number" name="" min="" max="" required />
+			<input type="date|time|week|month" />
+			<input type="email|tel|url" />
+	</form>
+
+ </body>
+</html>

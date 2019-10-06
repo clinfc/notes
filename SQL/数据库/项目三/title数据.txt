@@ -1,0 +1,10 @@
+use stud_info_database
+GO
+insert title_tab values ('01','无')
+insert title_tab values ('02','助教')
+insert title_tab values ('03','讲师')
+insert title_tab values ('04','双师')
+insert title_tab values ('05','副教授')
+insert title_tab values ('06','教授')
+insert title_tab values ('07','研究员')
+go

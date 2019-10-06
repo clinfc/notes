@@ -1,0 +1,59 @@
+use stud_info_database
+go
+
+
+
+--创建路径1
+create procedure Pro_stu
+as
+select * from student_tab
+go
+--调用路径1
+
+execute Pro_stu
+
+
+
+--创建存储路径2
+create procedure Pro_stu1
+@studid varchar(15)
+as
+select * from student_tab
+where student_id=@studid
+
+--调用存储过程2
+execute Pro_stu1
+@studid='102'
+
+
+
+--创建存储路径3
+create procedure Pro_score2
+@low int,
+@top int
+as
+SELECT S.student_name AS 姓名, co.course_name AS 所选课程, sc.score AS 成绩
+FROM Course_tab as co
+INNER JOIN Score_tab as sc ON co.course_id=sc.course_id 
+INNER JOIN Student_tab as S ON sc.student_id=S.student_id
+where sc.score between @low and @top
+
+--调用存储过程3
+execute Pro_score2
+@low=70,
+@top=80
+
+
+
+--创建存储路径4
+create procedure pro_teacher
+@studid varchar(15),
+@name varchar(20) output,
+@course varchar(20) output,
+@grade decimal(5, 2) output
+as
+SELECT @name=Student_tab.student_name, @course=Course_tab.course_name , @grade= Score_tab.score
+FROM Course_tab 
+INNER JOIN Score_tab ON Course_tab.course_id = Score_tab.course_id 
+INNER JOIN Student_tab ON Score_tab.student_id =Student_tab.student_id
+where Student_tab.student_id=@studid

@@ -1,0 +1,20 @@
+use master
+go
+create database stud_info_database
+on primary 
+(
+name='stud_info_database',
+filename='F:\数据库\stud_info_database.mdf',
+size=5MB,
+maxsize=150MB,
+filegrowth=15%
+)
+log on
+(
+name='stud_info_database_log',
+filename='F:\数据库\stud_info_database_log.ldf',
+size=3MB,
+maxsize=100MB,
+filegrowth=10%
+)
+go

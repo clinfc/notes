@@ -1,0 +1,27 @@
+--查询所有课程的详细信息
+select * from course_tab
+
+select course_id as 课程号,course_name as 课程名称,course_xizi as 课程性质,teacher_id as 教师工号,term as 学期,first_course,depart_id as 系部编号,class_hour 课时,credits as 信用,note as 备注
+from course_tab
+
+--查询全体学生的姓名，学号，电话及身份证号码
+select student_id,student_name,stud_sfz
+from student_tab
+
+--查询全体学生的姓名、学号、电话及身份证号码
+select distinct teacher_id from course_tab
+
+--查询选修了课程的学生人数
+select count(*) from student_tab
+
+--查询教师总人数
+select count(*) from teacher_tab
+
+--求各个课程及相应的选课人数
+select course_id,count(student_id)
+from score_tab
+group by course_id
+
+--查询全体学生成绩情况，查询
+select * from score_tab
+order by score desc,student_id asc
