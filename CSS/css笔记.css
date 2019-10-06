@@ -1,0 +1,6 @@
+
+/*修改鼠标样式*/
+input[type=file] {
+	font-size: 0;
+	cursor: pointer;
+}
