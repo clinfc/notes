@@ -1,0 +1,119 @@
+doctype html
+// 单行注释
+//- 非缓冲注释
+//-
+	p 
+		块儿注释（注释掉上层）
+		a(href="www.baidu.com", title="百度") 百度
+
+// 兼容IE
+<!-- [if IE 8]><html calss="ie8"><![endif]-->
+<!-- [if IE 8]><html calss="ie8"><![endif]-->
+<!-- [if !IE]><!--><html><!--<![endif]-->
+
+head
+	meta(charset="utf-8")
+	- var char = '变量声明'
+	- var lower = 'avc'
+	title #{char}标题内容
+	style.
+		body {margin: 0; padding: 0}
+	script.
+		var name = '编写JavaScript';
+body
+	div#title.body
+	div(id="title", class="body")
+	a(href="www.baidu.com", title="百度") 百度
+	input(name="name", type="text", value="姓名", checked)
+	p.
+		1.标签以点结尾，再换行写子元素的方式
+		2.<a href="www.baidu.com">百度</a>
+		<samll>3.文本内容</samll>
+	p
+		| 1.竖线加空格的方式
+		a(href="www.baidu.com", title="百度") 直接写标签
+
+	// 变量声明
+	- var href = '<a href="#"></a>'
+	span #{href}转义输出
+	span !{href}非转义输出
+	span= href 转义输出
+	span!= href 非转义输出
+
+	// 流程代码
+	- var obj = {name: '渣渣辉', age: 12}
+
+	// for
+	- for (var k in obj)
+	p= obj[k]
+
+	// each
+	- each v, k in obj
+	p #{k}: #{v}
+
+	// while
+	- var n = 0
+	ul
+		while n < 5
+			li= n++
+	
+	// if.else
+	if n > 0
+		span if
+	else if n = 0
+		span else if
+	else
+		span else
+
+	// unless（if 的反向）
+
+	// case（switch）
+	case n
+		when '0'
+			span 0
+		when '1'
+		when '2'
+			span 1 or 2
+		default
+			span default
+
+	// 代码重用
+	mixin lesson
+		p 代码重用
+	+lesson
+	+lesson
+	mixin mess(name, age)
+		p name: #{name}
+		p age: #{age}
+	+mess('李白', 34)
+	+mess('杜甫', 44)
+	mixin class
+		p 嵌套使用
+		+mess('李白', 34)
+		+mess('杜甫', 44)
+	+class
+	mixin team
+		p 代码块
+		if block
+			block
+		else 
+			p 没有代码块
+	+team
+		p 有代码块
+	mixin args(g1, ...gn)
+		ul= g1
+			each g in gn
+				li= g
+	+args('ul', 'li1', 'li2', 'li3')
+	// 传递属性
+	mixin attr(name)
+		p(class!=attributes.class) #{name}
+		p&attributes(attributes) #{name}
+	+attr('李白')(class='class-name')
+
+	// 模板继承
+	block desc
+		p 模板服用，定义后即调用一次，再次调用为第二次
+	block desc
+	block desc
+</html>
