@@ -1,0 +1,17 @@
+Mac :
+	升级mac系统到最新
+	升级 xcode 及 xcode command line tools 至撮新 
+	安装 homebrew 
+	通过 homebrew 安装 git/node 
+	通过 npm 安装 jade : [sudo] npm install -g jade 
+
+Windows:
+	安装node可执行文件
+	通过 cygwin ,及可能的 openssl g + + -gcc py1:hon git 等 
+	通过 npm 安装 jade : npm install -g jade
+
+编译：
+	jade index.jade -P 
+
+监控并编译：
+	jade index.jade -P -w 
