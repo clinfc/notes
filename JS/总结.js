@@ -13,17 +13,20 @@ JSON.parse('{"age":15, "name":"fzc"}', function(k, v) {
 
 JSON.parse("['age':15,]")	// 不允许用逗号作为结尾，否则报错：SyntaxError
 
-// 创建节点
+// 节点
 document.createElement('div');
-
-// 添加节点
 even.appendChild('<div id="new"></div>')
-
-// 节点删除
-even.removeChild(document.getElementById('new'))
-
-// 获取节点
-var even = document.getElementById('')
+even.removeChild()
+even.hasChildNodes()
+even.replaceChild()
+even.insertBefore()
+even.getRootNode()
+even.lastChild
+even.firstChild
+even.parentNode
+even.childNodes
+even.nextSibling
+even.previousSibling
 
 // 监听节点（节点添加：在一个节点作为子节点被插入到另一个节点中时触发，触发时已添加节点）
 even.addEventListener('DOMNodeInserted', _ => {})
@@ -76,5 +79,7 @@ function prefix() {
     return '';  
 }
 
-// 获取节点属性
+// 节点属性
 even.getAttribute('title')
+even.setAttribute('title', 'title')
+even.hasAttribute('title')

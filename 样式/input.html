@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		input[type=radio] + .input-radio {
+		    margin: 0 6px;
+		}
+		input[type=radio] + .input-radio:before {
+		    content: "\a0";
+		    display: inline-block;
+		    vertical-align: middle;
+		    font-size: 18px;
+		    width: 1em;
+		    height: 1em;
+		    border-radius: 50%;
+		    border: 1px solid #01cd78;
+		    text-indent: .15em;
+		    line-height: 1;
+		}
+		input[type=radio]:checked + .input-radio::before {
+		    background-color: #01cd78;
+		    background-clip: content-box;
+		    padding: .2em;
+		}
+	</style>
+</head>
+<body>
+
+</body>
+</html>
