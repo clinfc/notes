@@ -18,9 +18,12 @@ document.createElement('div');
 even.appendChild('<div id="new"></div>')
 even.removeChild()
 even.hasChildNodes()
-even.replaceChild(newChild, oldChild)
+even.replaceChild()
+even.insertBefore()
+even.getRootNode()
 even.lastChild
 even.firstChild
+even.parentNode
 even.childNodes
 even.nextSibling
 even.previousSibling
