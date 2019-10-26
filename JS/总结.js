@@ -82,4 +82,4 @@ function prefix() {
 // 节点属性
 even.getAttribute('title')
 even.setAttribute('title', 'title')
-even.hasAttribute('title')
+even.hasAttribute('title')})
