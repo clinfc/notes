@@ -148,3 +148,23 @@
 .item-right {
 	flex-grow: 1;
 }
+
+
+/* --------------------------------- 等分布局 --------------------------------- */
+
+/* 方案一 */
+.item {
+	float: left;
+	width: 20%;
+}
+
+/* 方案二 */
+.box {
+	width: 100%;
+	display: table;
+	table-layout: fixed;
+}
+.item {
+	width: 20%;
+	display: table-cell;
+}
