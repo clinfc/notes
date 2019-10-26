@@ -82,6 +82,7 @@ function prefix() {
 // 节点属性
 even.getAttribute('title')
 even.setAttribute('title', 'title')
+even.hasAttribute('title')
 
 // 元素可编辑
 even.contentEditable = true;	// 设置（还可通过元素属性值的方式设置）
