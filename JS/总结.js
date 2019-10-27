@@ -84,6 +84,10 @@ even.getAttribute('title')
 even.setAttribute('title', 'title')
 even.hasAttribute('title')
 
+// 节点属性 data-*
+even.dataset.id                 // 获取 data-id 属性的值
+even.dataset.id = 1             // 设置 data-id 属性的值
+
 // 元素可编辑
 even.contentEditable = true;	// 设置（还可通过元素属性值的方式设置）
 even.isContentEditable			// 获取
@@ -97,3 +101,65 @@ even.addEventListener("input", function() {
 		this.rows++;
 	}
 })
+
+// 单继承
+function FaFun() {}
+function MyFun() {
+    FaFun.call(this);
+}
+MyFun.prototype = Object.create(FaFun.prototype);
+MyFun.prototype.constructor = MyFun;
+
+
+// 多继承
+function MyFun() {
+    FaFun1.call(this);
+    FaFun2.clll(this);
+}
+MyFun.prototype = Object.create(FaFun1.prototype);
+Object.assign(MyFun.prototype, FaFun2.prototype);
+MyFun.prototype.constructor = MyFun;
+
+// 
+Object.create(Object.prototype, {
+    sex: {
+        value: '男',
+        writable: true,     // 可写的，默认false
+        enumerable: true,   // 可被枚举的，默认false
+        configurable: true  // 可配置的，默认false
+    }
+})
+
+// 兼容处理 Object.assign
+if (typeof Object.assign != 'function') {
+  // 配置项： writable: true, enumerable: false, configurable: true
+  Object.defineProperty(Object, "assign", {
+    value: function assign(target, varArgs) {
+      'use strict';
+
+      if (target == null) {
+        // 如果未定义或为空，则为TypeError
+        throw new TypeError('无法将未定义或null转换为对象');
+      }
+
+      var to = Object(target);
+
+      for (var index = 1; index < arguments.length; index++) {
+        var nextSource = arguments[index];
+
+        if (nextSource != null) {
+          // 如果未定义或为空，则跳过
+          for (var nextKey in nextSource) {
+            // 当hasOwnProperty被隐藏时，避免bug
+            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+              to[nextKey] = nextSource[nextKey];
+            }
+          }
+        }
+      }
+      return to;
+    },
+    writable: true,
+    configurable: true
+  });
+}
