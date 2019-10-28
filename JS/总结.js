@@ -120,12 +120,29 @@ MyFun.prototype = Object.create(FaFun1.prototype);
 Object.assign(MyFun.prototype, FaFun2.prototype);
 MyFun.prototype.constructor = MyFun;
 
-// 
+// 重写时调用父类方法
+// 类型一
+FaFun.prototype.init = function() {}
+MyFun.prototype.init = function() {
+    FaFun.prototype.init.apply(this, arguments);
+}
+// 类型二
+function FaFun(name) {
+    this.name = name;
+}
+function MyFun(name) {
+    FaFun.call(this, name);
+}
+MyFun.prototype = Object.create(FaFun.prototype);
+MyFun.prototype.constructor = MyFun;
+
+
+// 继承时定义属性
 Object.create(Object.prototype, {
     sex: {
         value: '男',
         writable: true,     // 可写的，默认false
-        enumerable: true,   // 可被枚举的，默认false
+        enumerable: true,   // 可枚举的，默认false
         configurable: true  // 可配置的，默认false
     }
 })
@@ -163,3 +180,7 @@ if (typeof Object.assign != 'function') {
     configurable: true
   });
 }
+
+// 获取对象原型
+MyObject.__proto__
+Object.getPrototypeOf(MyObject)
