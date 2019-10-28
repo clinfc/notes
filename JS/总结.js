@@ -136,17 +136,6 @@ function MyFun(name) {
 MyFun.prototype = Object.create(FaFun.prototype);
 MyFun.prototype.constructor = MyFun;
 
-
-// 继承时定义属性
-Object.create(Object.prototype, {
-    sex: {
-        value: '男',
-        writable: true,     // 可写的，默认false
-        enumerable: true,   // 可枚举的，默认false
-        configurable: true  // 可配置的，默认false
-    }
-})
-
 // 兼容处理 Object.assign
 if (typeof Object.assign != 'function') {
   // 配置项： writable: true, enumerable: false, configurable: true
@@ -185,8 +174,41 @@ if (typeof Object.assign != 'function') {
 MyObject.__proto__
 Object.getPrototypeOf(MyObject)
 
-// 判断对象属性是否可被枚举
-MyObject.prototypeIsEnumerable('name')
+// 继承时定义属性和属性的标签
+Object.create(Object.prototype, {
+    sex: {
+        value: '男',
+        writable: true,     // 可写的，默认false
+        enumerable: true,   // 可枚举的，默认false
+        configurable: true  // 可配置的，默认false
+    }
+})
+
+// 单独定义属性的标签
+Object.defineProperty(MyObject, 'name', {
+    writable: true,         // 可写的，默认false
+    enumerable: true,       // 可枚举的，默认false
+    configurable: true      // 可配置的，默认false
+})
 
 // 获取属性的标签
 Object.getOwnPropertyDescriptor(MyObject, 'name')
+
+// 判断对象属性是否可被枚举
+MyObject.prototypeIsEnumerable('name')
+
+// 对象属性可扩展性：extensible标签
+Object.isExtensible(MyObject)       // 查看
+Object.preventExtensions(MyObject)  // 设置可扩展为false
+
+// 配置所有属性的configurable标签为false（在Object.preventExtensions基础上实现对象的不可扩展不可配置）
+Object.seal(MyObject)
+
+// 判断对象是否被 Object.seal 过
+Object.isSealed(MyObject)
+
+// 冻结（不可扩展、不可配置、不可写、不可删）
+Object.freeze(MyObject)
+
+// 判断对象是否被冻结
+Object.isFrozen(MyObject)
