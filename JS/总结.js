@@ -184,3 +184,9 @@ if (typeof Object.assign != 'function') {
 // 获取对象原型
 MyObject.__proto__
 Object.getPrototypeOf(MyObject)
+
+// 判断对象属性是否可被枚举
+MyObject.prototypeIsEnumerable('name')
+
+// 获取属性的标签
+Object.getOwnPropertyDescriptor(MyObject, 'name')
