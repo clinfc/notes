@@ -72,6 +72,26 @@
 
 /* 方案二 */
 .box {
+	position: relative;
+}
+.item {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: 0;
+}
+
+/* 方案三 */
+.box {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* 方案四 */
+.box {
 	display: table-cell;
 	vertical-align: middle;
 }
