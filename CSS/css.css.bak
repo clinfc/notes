@@ -224,7 +224,7 @@
 								 如果有三个值，分别表示左上、右上 & 左下、右下
 								 如果有四个值，分别表示左上、右上、右下、左下
 				border-radius定义每个圆角的x&y方向上的半径
-					border-radius: 1em / 5em;
+					border-radius: 1em/5em;
 						border-radius: 1em 5em / 1em 5em;
 							border-top-left-radius:     1em 5em;
 							border-top-right-radius:    1em 5em;
