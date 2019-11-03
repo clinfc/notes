@@ -18,14 +18,14 @@ if(number){
 
 
 
-遍历添加数组值
-//方法一
+// 遍历添加数组值
+// 方法一
 var array = [];
 var i = 0;
 for(var j = 1; j <= 100; j++){
 	array[i++] = j;
 }
-//方法二
+// 方法二
 var array = [];
 for(var i = 0; i <=100; i++){
 	array[array.length] = i;
@@ -33,7 +33,7 @@ for(var i = 0; i <=100; i++){
 
 
 
-求一数组中最大值
+// 求一数组中最大值
 function getMax(array){
 	//判断传入数组是否为空数组
 	array = array || [];	
