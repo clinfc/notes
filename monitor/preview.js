@@ -80,11 +80,24 @@ function prolfill() {
 	        }
 	    });
 	}
-
-	if (!('dataset' in document.documentElement)) {
-		Object.defineProperties(HTMLElement.prototype, 'dataset', {
+	
+	if (!("dataset" in document.documentElement)) {
+		Object.defineProperty(HTMLElement.prototype, 'dataset', {
 			get: function() {
 				var self = this;
+				var attrs = this.attributes;
+				function temp() {}
+				for (var i = 0; i < attrs.length; i++) {
+					var name = attrs[i].name
+					if (/^data\-.+/.test(name)) {
+						var k = name.replace('data-', '');
+						var v = attrs[i].value;
+						Object.defineProperty(temp.prototype, k, {
+							value: v
+						})
+					}
+				}
+				return new temp();
 			}
 		})
 	}
@@ -107,7 +120,20 @@ function append(elem, childElem) {
 	elem.appendChild(childElem);
 }
 
-
-
+function dataset(elem, key, value) {
+	if ('dataset' in elem.prototype) {
+		if (null == value) {
+			return elem.dataset[key]
+		} else {
+			elem.dataset[key] = value
+		}
+	} else {
+		if (null == value) {
+			return elem.getAttribute("data-"+key)
+		} else {
+			elem.setAttribute("data-"+key, value)
+		}
+	}
+}
 
 }))
