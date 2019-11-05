@@ -79,6 +79,13 @@ function prefix() {
     return '';  
 }
 
+// 移除子节点
+function removeChilds(element) {
+	while (element.firstChild) {
+		element.removeChild(element.firstChild);
+	}
+}
+
 // 节点属性
 even.getAttribute('title')
 even.setAttribute('title', 'title')
