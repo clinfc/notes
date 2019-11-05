@@ -7,6 +7,13 @@ function MyFun() {
 MyFun.prototype = Object.create(FaFun.prototype);
 MyFun.prototype.constructor = MyFun;
 
+// 继承，设置原型
+function MyFun() {}
+MyFun.prototype = Object.create(FaFun.prototype, Object.getOwnPropertyDescriptors({
+	get name() {},
+	set name() {}
+}))
+
 
 // 多继承
 function MyFun() {
@@ -81,7 +88,7 @@ Object.create(Object.prototype, {
     }
 })
 
-// 单独定义属性的标签
+// 单独定义自身属性的标签
 Object.defineProperty(MyObject, 'name', {
     writable: true,         // 可写的，默认false
     enumerable: true,       // 可枚举的，默认false

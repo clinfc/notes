@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+		<style>
+			.checkbox {
+				display: inline-block;
+				min-width: 25px;
+				height: 24px;
+				border-radius: 25px;
+				border: 1px solid #ccc;
+				font-size: 12px;
+				vertical-align: middle;
+				color: #ccc;
+				line-height: 24px;
+				padding: 0 6px 0 25px;
+				cursor: pointer;
+				position: relative;
+				text-align: center;
+				font-style: normal;
+			}
+			.checkbox:after {
+				content: ' ';
+				width: 17.5px;
+				height: 17.5px;
+				position: absolute;
+				margin: 3.75px;
+				background-color: #ccc;
+				border-radius: 50%;
+				left: 0;
+			}
+			.checkbox[checked] {
+				color: #fff;
+				border-color: #5FB878;
+				background-color: #5FB878;
+				padding: 0 25px 0 6px;
+			}
+			.checkbox[checked]:after {
+				background-color: #fff;
+				left: auto;
+				right: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<label class="checkbox">OFF</label>
+		<label class="checkbox" checked>ON</label>
+	</body>
+</html>
