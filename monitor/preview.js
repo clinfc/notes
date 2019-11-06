@@ -93,11 +93,14 @@ function prolfill() {
 					}
 					return self.getAttribute('data-'+key) || undefined;
 				},
-				set: function(key, value) {
+				set: function(key, value, call) {
 					if (dataset) {
 						self.dataset[key] = value;
 					} else {
 						self.setAttribute('data-'+key, value);
+					}
+					if (typeof call == 'function') {
+						call(self);
 					}
 					return value;
 				},
@@ -107,8 +110,11 @@ function prolfill() {
 					}
 					return true;
 				},
-				remove: function(key) {
+				remove: function(key, call) {
 					self.removeAttribute('data-'+key);
+					if (typeof call == 'function') {
+						call(self);
+					}
 				}
 			}
 		}
