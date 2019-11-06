@@ -47,60 +47,72 @@ function prolfill() {
 	if (!("classList" in document.documentElement)) {
 	    Object.defineProperty(HTMLElement.prototype, 'classList', {
 	        get: function() {
-	            var self = this;
-	            function update(fn) {
-	                return function(value) {
-	                    var classes = self.className.split(/\s+/g),
-	                        index = classes.indexOf(value);
-	 
-	                    fn(classes, index, value);
-	                    self.className = classes.join(" ");
-	                }
-	            }
-	            return {
-	                add: update(function(classes, index, value) {
-	                    if (!~index) classes.push(value);
-	                }),
-	                remove: update(function(classes, index) {
-	                    if (~index) classes.splice(index, 1);
-	                }),
-	                toggle: update(function(classes, index, value) {
-	                    if (~index)
-	                        classes.splice(index, 1);
-	                    else
-	                        classes.push(value);
-	                }),
-	                contains: function(value) {
-	                    return !!~self.className.split(/\s+/g).indexOf(value);
-	                },
-	                item: function(i) {
-	                    return self.className.split(/\s+/g)[i] || null;
-	                }
-	            };
+						var self = this;
+						function update(fn) {
+								return function(value) {
+										var classes = self.className.split(/\s+/g),
+												index = classes.indexOf(value);
+ 
+										fn(classes, index, value);
+										self.className = classes.join(" ");
+								}
+						}
+						return {
+								add: update(function(classes, index, value) {
+										if (!~index) classes.push(value);
+								}),
+								remove: update(function(classes, index) {
+										if (~index) classes.splice(index, 1);
+								}),
+								toggle: update(function(classes, index, value) {
+										if (~index)
+												classes.splice(index, 1);
+										else
+												classes.push(value);
+								}),
+								contains: function(value) {
+										return !!~self.className.split(/\s+/g).indexOf(value);
+								},
+								item: function(i) {
+										return self.className.split(/\s+/g)[i] || null;
+								}
+						};
 	        }
 	    });
 	}
 	
-	if (!("dataset" in document.documentElement)) {
-		Object.defineProperty(HTMLElement.prototype, 'dataset', {
-			get: function() {
-				var self = this;
-				var attrs = this.attributes;
-				function temp() {}
-				for (var i = 0; i < attrs.length; i++) {
-					var name = attrs[i].name
-					if (/^data\-.+/.test(name)) {
-						var k = name.replace('data-', '');
-						var v = attrs[i].value;
-						Object.defineProperty(temp.prototype, k, {
-							value: v
-						})
+	// 兼容处理 HTMLElement.prototype.dataset
+	Object.defineProperty(HTMLElement.prototype, 'data', {
+		get: function() {
+			var self = this;
+			var dataset = 'dataset' in document.documentElement;
+			return {
+				get: function(key) {
+					if (dataset) {
+						return self.dataset[key];
 					}
+					return self.getAttribute('data-'+key) || undefined;
+				},
+				set: function(key, value) {
+					if (dataset) {
+						self.dataset[key] = value;
+					} else {
+						self.setAttribute('data-'+key, value);
+					}
+					return value;
+				},
+				has: function(key) {
+					if (undefined === this.get(key)) {
+						return false;
+					}
+					return true;
+				},
+				remove: function(key) {
+					self.removeAttribute('data-'+key);
 				}
-				return new temp();
 			}
-		})
-	}
+		}
+	});
 }
 
 // 移除当前元素
@@ -120,20 +132,5 @@ function append(elem, childElem) {
 	elem.appendChild(childElem);
 }
 
-function dataset(elem, key, value) {
-	if ('dataset' in elem.prototype) {
-		if (null == value) {
-			return elem.dataset[key]
-		} else {
-			elem.dataset[key] = value
-		}
-	} else {
-		if (null == value) {
-			return elem.getAttribute("data-"+key)
-		} else {
-			elem.setAttribute("data-"+key, value)
-		}
-	}
-}
 
 }))
