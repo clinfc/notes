@@ -56,6 +56,13 @@
 	transform: translateY(-50%);
 }
 
+/* 方案三 */
+.box {
+	display: -webkit-box;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+}
+
 
 /* --------------------------------- 居中布局 --------------------------------- */
 
@@ -187,4 +194,16 @@
 .item {
 	width: 20%;
 	display: table-cell;
+}
+
+
+/* --------------------------------- 一排显示 --------------------------------- */
+.item {
+	position: absolute;
+}
+.item:nth-child(1) {
+	-webkit-transform: translate3d(0, 0, 0);
+}
+.item:nth-child(2) {
+	-webkit-transform: translate3d(100px, 0, 0);
 }
