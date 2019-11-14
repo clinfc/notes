@@ -113,6 +113,87 @@ function prolfill() {
 			}
 		}
 	});
+
+	// 开启 contentEditable 元素的光标的获取与设置
+	Object.defineProperty(Element.prototype, 'selection', {
+		enumerable: true,
+		get: function() {
+			if (window.getSelection && document.createRange) {
+				var range = window.getSelection().getRangeAt(0);
+				var preSelectionRange = range.cloneRange();
+				preSelectionRange.selectNodeContents(this);
+				preSelectionRange.setEnd(range.startContainer, range.startOffset);
+				var start = preSelectionRange.toString().length;
+				return {
+					start: start,
+					end: start + range.toString().length
+				}
+			} else if (document.selection && document.body.createTextRange) {
+				var selectedTextRange = document.selection.createRange();
+				var preSelectionTextRange = document.body.createTextRange();
+				preSelectionTextRange.moveToElementText(this);
+				preSelectionTextRange.setEndPoint("EndToStart", selectedTextRange);
+				var start = preSelectionTextRange.text.length;
+				return {
+					start: start,
+					end: start + selectedTextRange.text.length
+				}
+			}
+		},
+		set: function(selection) {
+			if (window.getSelection && document.createRange) {
+				var charIndex = 0, range = document.createRange();
+				range.setStart(this, 0);
+				range.collapse(true);
+				var nodeStack = [this], node, foundStart = false, stop = false;
+
+				while (!stop && (node = nodeStack.pop())) {
+					if (node.nodeType == 3) {
+						var nextCharIndex = charIndex + node.length;
+						if (!foundStart && selection.start >= charIndex && selection.start <= nextCharIndex) {
+							range.setStart(node, selection.start - charIndex);
+							foundStart = true;
+						}
+						if (foundStart && selection.end >= charIndex && selection.end <= nextCharIndex) {
+							range.setEnd(node, selection.end - charIndex);
+							stop = true;
+						}
+						charIndex = nextCharIndex;
+					} else {
+						var i = node.childNodes.length;
+						while (i--) {
+							nodeStack.push(node.childNodes[i]);
+						}
+					}
+				}
+
+				var sel = window.getSelection();
+				sel.removeAllRanges();
+				sel.addRange(range);
+			} else if (document.selection && document.body.createTextRange) {
+				var textRange = document.body.createTextRange();
+				textRange.moveToElementText(this);
+				textRange.collapse(true);
+				textRange.moveStart("character", selection.start);
+				textRange.moveEnd("character", selection.end);
+				textRange.select();
+			}
+		}
+	});
+
+	// 兼容事件绑定
+	Object.defineProperty(Element.prototype, 'on', {
+		enumerable: true,
+		value: function (event, call) {
+			if (this.addEventListener) {
+				this.addEventListener(event, call, false)
+			} else if (this.attachEvent) {
+				this.attachEvent('on' + event, call)
+			} else {
+				this['on' + event] = call;
+			}
+		}
+	})
 }
 
 // 移除当前元素
