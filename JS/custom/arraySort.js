@@ -4,6 +4,7 @@
  * 双向冒泡排序
  * @param {Array} array 需要进行排序的数组
  * @return {Array}
+ * 312ms
  */
 function bothWayBubblingSort(array) {
 	let start = 0;
@@ -57,6 +58,7 @@ function binarySearch(array, max, value) {
 /**
  * 使用二分法来优化插入排序
  * @param {Object} array
+ * 86ms
  */
 function insertionSort(array) {
 	for (let i = 1, len = array.length; i < len; i++) {
@@ -73,37 +75,10 @@ function insertionSort(array) {
 }
 
 
-/*-----------------------------------------希尔排序-----------------------------------------*/
-/**
- * 通过动态定义的 gap 来排序，先排序距离较远的元素，再逐渐递进
- * @param {Object} array
- */
-function shellSort(array) {
-	const len = array.length;
-	let gap = Math.floor(len / 2);
-
-	while (gap > 0) {
-		// gap距离
-		for (let i = gap; i < len; i++) {
-			const temp = array[i];
-			let preIndex = i - gap;
-
-			while (array[preIndex] > temp) {
-				array[preIndex + gap] = array[preIndex];
-				preIndex -= gap;
-			}
-			array[preIndex + gap] = temp;
-		}
-		gap = Math.floor(gap / 2);
-	}
-
-	return array;
-}
-
-
 /*-----------------------------------------并归排序-----------------------------------------*/
 /**
  * @param {Object} array
+ * 30ms
  */
 function concatSort(array) {
 	const len = array.length;
@@ -127,4 +102,33 @@ function concat(left, right) {
 	}
 
 	return result.concat(left, right);
+}
+
+
+/*-----------------------------------------希尔排序-----------------------------------------*/
+/**
+ * 通过动态定义的 gap 来排序，先排序距离较远的元素，再逐渐递进
+ * @param {Object} array
+ * 15ms
+ */
+function shellSort(array) {
+	const len = array.length;
+	let gap = Math.floor(len / 2);
+
+	while (gap > 0) {
+		// gap距离
+		for (let i = gap; i < len; i++) {
+			const temp = array[i];
+			let preIndex = i - gap;
+
+			while (array[preIndex] > temp) {
+				array[preIndex + gap] = array[preIndex];
+				preIndex -= gap;
+			}
+			array[preIndex + gap] = temp;
+		}
+		gap = Math.floor(gap / 2);
+	}
+
+	return array;
 }
