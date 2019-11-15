@@ -1,7 +1,7 @@
 
 
 
-拆分用户输入的整数并输出
+// 拆分用户输入的整数并输出
 var number = Number(prompt("请输入一个数字"));	//接收用户输入
 if(number){
 	number = parseInt(number);	//去掉小数部分
@@ -51,6 +51,7 @@ function getMax(array){
 
 
 //翻转数组
+// 方法一
 function reverse(array){
 	array = array || [];
 	if(array.length == 0) return undefined;
@@ -60,6 +61,8 @@ function reverse(array){
 	}
 	return newArray;
 }
+// Array 自带函数
+array.reverse();
 
 
 
