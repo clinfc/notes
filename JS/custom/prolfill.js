@@ -75,6 +75,20 @@ function prolfill() {
 	    });
 	}
 	
+	// 封装css操作
+	Object.defineProperty(HTMLElement.prototype, 'css', {
+		value: function(k, v) {
+			if (undefined == v) {
+				return document.defaultView.getComputedStyle(this, null).getPropertyValue(k);
+				// 等价于
+				// return window.getComputedStyle(this, null).getPropertyValue(k);
+			} else {
+				this.style[k] = v;
+				return v;
+			}
+		}
+	});
+	
 	// 兼容处理 HTMLElement.prototype.dataset
 	Object.defineProperty(HTMLElement.prototype, 'data', {
 		get: function() {
