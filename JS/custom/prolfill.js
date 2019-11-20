@@ -80,7 +80,7 @@ function prolfill() {
 		value: function(k, v) {
 			if (undefined == v) {
 				return document.defaultView.getComputedStyle(this, null).getPropertyValue(k);
-				// 等价于
+				// 等价于(某个浏览器的某个版本只能调用上面这句)
 				// return window.getComputedStyle(this, null).getPropertyValue(k);
 			} else {
 				this.style[k] = v;
@@ -101,27 +101,24 @@ function prolfill() {
 					}
 					return self.getAttribute('data-'+key) || undefined;
 				},
-				set: function(key, value, call) {
+				set: function(key, value, fn) {
 					if (dataset) {
 						self.dataset[key] = value;
 					} else {
 						self.setAttribute('data-'+key, value);
 					}
-					if (typeof call == 'function') {
-						call(self);
+					if (typeof fn == 'function') {
+						fn.call(self, self);
 					}
 					return value;
 				},
 				has: function(key) {
-					if (undefined === this.get(key)) {
-						return false;
-					}
-					return true;
+					return (undefined === this.get(key)) ? false : true;
 				},
-				remove: function(key, call) {
+				remove: function(key, fn) {
 					self.removeAttribute('data-'+key);
-					if (typeof call == 'function') {
-						call(self);
+					if (typeof fn == 'function') {
+						fn.call(self, self);
 					}
 				}
 			}
