@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+		<style type="text/css">
+			.switch {
+				width: 56px;
+				height: 25px;
+				margin: 0;
+				padding: 0;
+				position: relative;
+				cursor: pointer;
+			}
+			.switch:before {
+				content: "OFF";
+				display: inline-block;
+				width: calc(100% - 27px);
+				height: 23px;
+				line-height: 23px;
+				font-weight: bold;
+				text-align: right;
+				color: #ccc;
+				border: 1px solid #ccc;
+				border-radius: 25px;
+				background-color: #fff;
+				padding: 0 25px 0 0;
+			}
+			.switch:after {
+				content: " ";
+				display: inline-block;
+				width: 17px;
+				height: 17px;
+				background-color: #ccc;
+				border-radius: 50%;
+				position: absolute;
+				top: 0;
+				right: 0;
+				margin: 4px 5px;
+			}
+			.switch:checked:before {
+				content: "ON";
+				text-align: left;
+				color: #fff;
+				background-color: #5FB878;
+				border-color: #5FB878;
+				padding: 0 0 0 25px;
+			}
+			.switch:checked:after {
+				left: 0;
+				background-color: #fff;
+			}
+		</style>
+	</head>
+	<body>
+		<input type="checkbox" name="ck" class="switch" value="" />
+		<input type="checkbox" name="ck" class="switch" value="" checked="checked" />
+	</body>
+</html>
