@@ -5,10 +5,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title></title>
 		<style type="text/css">
+			/*单选框*/
 			input[type=radio] {
-				width: 15px;
-				height: 15px;
+				width: 18px;
+				height: 18px;
 				text-align: center;
+				position: relative;
 			}
 			input[type=radio]:after {
 				width: 100%;
@@ -17,45 +19,57 @@
 				border-radius: 50%;
 				background-color: #fff;
 				display: inline-block;
-				border: 1px solid #5FB878;
+				border: 1px solid #ccc;
 			}
-			input[type=radio][checked]:after {
-				
+			input[type=radio]:checked:before {
+				content: " ";
+				width: 60%;
+				height: 60%;
+				border-radius: 50%;
+				background-color: #5FB878;
+				position: absolute;
+				margin: 20%;
 			}
+			input[type=radio]:checked:after {
+				border-color: #5FB878;
+			}
+			/*多选框*/
 			input[type=checkbox] {
-					width:15px;
-					height:15px; 
-					text-align: center;
+				width:18px;
+				height:18px;
+				text-align: center;
+				cursor: pointer;
 			}
 			input[type=checkbox]:after {
-					width: 100%;
-					height: 100%;
-					top: 0px;
-					content: " ";
-					background-color: #fff;
-					color: #000000;
-					display: inline-block;
-					visibility: visible;
-					border:1px solid #ccc;
+				width: 100%;
+				height: 100%;
+				top: 0px;
+				content: " ";
+				background-color: #fff;
+				color: #000000;
+				display: inline-block;
+				visibility: visible;
+				border:1px solid #ccc;
 			}
-			input[type=checkbox][disabled=disabled]:after {
-					width: 100%;
-					height: 100%;
-					top: 0;
-					content: " ";
-					background-color:#DCDCDC;
-					color: #000000;
-					display: inline-block;
-					visibility: visible;
-					border:1px solid #A9A9A9;
-					cursor: not-allowed;
+			input[type=checkbox]:disabled:after {
+				width: 100%;
+				height: 100%;
+				top: 0;
+				content: " ";
+				background-color:#DCDCDC;
+				color: #000000;
+				display: inline-block;
+				visibility: visible;
+				border:1px solid #A9A9A9;
+				cursor: not-allowed;
 			}
 			input[type=checkbox]:checked:after {
-					content: "\2714";
-					font-size: 12px;
-					font-weight: bold;
-					color: #5FB878;
-					border-color: #5FB878;
+				font-family: 'Glyphicons Halflings';
+				content: "\e013";
+				font-size: 12px;
+				font-weight: bold;
+				color: #5FB878;
+				border-color: #5FB878;
 			}
 		</style>
 	</head>
