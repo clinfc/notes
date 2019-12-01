@@ -19,4 +19,10 @@
  *  GII配置：
  *    1、config/web.php => allowedIPs
  *    2、浏览器访问：custom-domain-name/gii
+ * 
+ * 业务代码优化：
+ *  1、统一布局
+ *  2、前端资源（js，css）和 版本号的使用
+ *  3、统一基础控制器
+ *  4、链接管理服务
  */
