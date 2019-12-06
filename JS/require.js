@@ -73,12 +73,16 @@ require.config({
 	// paths：制定各个模块的位置
 	paths: {
 		// 多路径，第一个error，加载第二个【加载模块时不能写 .js 后缀】
-		"jquery": ["http://libs.baidu.com/jquery/2.0.3/jquery", "jquery"]
+		"jquery": ["http://libs.baidu.com/jquery/2.0.3/jquery", "jquery"],
+		"json-viewer": "jquery-json-viewer.js"
 	},
 	// shim：加载非AMD兼容/规范的库
 	shim: {
 		"jquery.from": {
 			deps: ['jquery']		// 依赖关系【jquery.from 依赖于 jquery】【标准写法】
+		},
+		"json-viewer": {
+			deps: ["jquery", "css!jquery-json-viewer.css"]
 		}
 		"jquery.from": ["jquery"]	// 依赖关系【jquery.from 依赖于 jquery】【简化写法】
 		"layui": {
