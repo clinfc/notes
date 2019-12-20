@@ -40,6 +40,8 @@ function MyFun(name) {
 MyFun.prototype = Object.create(FaFun.prototype);
 MyFun.prototype.constructor = MyFun;
 
+// 备注：Object.assign实现的是浅拷贝（可能会造成数据的丢失）
+
 // 兼容处理 Object.assign
 if (typeof Object.assign != 'function') {
   // 配置项： writable: true, enumerable: false, configurable: true
@@ -116,3 +118,15 @@ Object.freeze(MyObject)
 
 // 判断对象是否被冻结
 Object.isFrozen(MyObject)
+
+// 重写原型链上的方法属性
+function FaFun() {}
+FaFun.prototype.log = function() {}
+var fn = new FaFun()
+fn.constructor.prototype.log = function(){}
+
+// 静态方法（备注：静态方法与实例对象绝缘，无法访问实例中的属性）
+FaFun.init = function() {}
+
+// 静态方法的调用（即使在实例化对象上，也不可以通过 this.init() 进行访问）
+FaFun.init()
