@@ -114,3 +114,4 @@ var arr = [['name', '李白'], ['age', '123']]  // 示例数组（转换得到�
 var map = new Map(arr)              // Array 转 Map
 var arr = Array.from(map)           // Map 转 Array
 var arr = Object.entries(MyObject)  // Object 转 Array
+var obj = Object.fromEntries(arr)   // Array 转 Object
