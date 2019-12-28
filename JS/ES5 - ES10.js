@@ -720,4 +720,22 @@
 				e: 5
 			}
 			let {a, b, ...rest} = input
+
+		正则命名分组：
+
+			let mat = '2019-12-28'.match(/(?<year>\d{4})-(?<month>\d{2}(?<day>\d{2}/)
+
+			let year = mat.groups.year
+			let month = mat.groups.month
+			let day = mat.groups.day
+
+		先行断言：（一直支持）（先遇到一个条件，在去判断是否满足后面的条件）
+
+			'hello word'.match(/hello(?=\sword)/)			“hello”的后面为“ word”
+
+		后行断言：
+
+			'hello word'.match(/(?<=hello\s)word/)			“word”前面为“hello ”
+
+			'hello word'.match(/(?<!hello\s)word/)			“word”前面不为“hello ”
  */
