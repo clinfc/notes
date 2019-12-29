@@ -23,7 +23,7 @@
 			attr: undefined,		// attributes 的回调
 			child: undefined,		// childList 的回调
 		},
-		target: [],					// 鉴定的元素
+		target: [],					// 监听的元素集合
 		observe: undefined			// MutationObserver 实例化对象
 	};
 
