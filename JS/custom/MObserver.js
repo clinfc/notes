@@ -228,7 +228,7 @@
 					})
 				})
 			}
-			config[this.id].target.forEach(elem => {
+			this.target.forEach(elem => {
 				config[this.id].observer.observe(elem, config[this.id].options)
 			});
 		}
