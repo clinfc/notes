@@ -490,7 +490,7 @@
 				constructor () {
 					this.proxy = new Proxy({
 						id: Math.random().toString(36).slice(-8)
-					})
+					}, {})
 				}
 				get id() {
 					return this.proxy.id
