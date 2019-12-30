@@ -93,6 +93,9 @@
 		 * @param {String|Element} [#id, .class, attribute, element] value
 		 */
 		set target(tar) {
+			if (!tar) {
+                return this.target;
+            }
 			// tar 为元素节点
 			if (tar.nodeType == 1) {
 				config[this.id].target = [tar];
