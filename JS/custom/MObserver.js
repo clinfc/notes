@@ -144,7 +144,7 @@
 		/**
 		 *
 		 * @param {Boolean} value
-		 * @returns {boolean} 返回当前配置项的 subtree 属性值
+		 * @returns {boolean} 返回当前配置项的 attributes 属性值
 		 */
 		set attributes(value) {
 			config[this.id].options.attributes = value == true;
