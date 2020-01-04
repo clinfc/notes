@@ -19,12 +19,12 @@ function panelGradient(ctx, color) {
 
 function asideGradient(ctx) {
 	let lg = ctx.createLinearGradient(0, 0, 0, 180)
-	lg.addColorStop(1/7, '#FF0000')
-	lg.addColorStop(2/7, '#FF0')
-	lg.addColorStop(3/7, '#0F0')
-	lg.addColorStop(4/7, '#0FF')
-	lg.addColorStop(5/7, '#00F')
-	lg.addColorStop(6/7, '#F0F')
+	lg.addColorStop(0, '#FF0000')
+	lg.addColorStop(1/6, '#FF0')
+	lg.addColorStop(2/6, '#0F0')
+	lg.addColorStop(3/6, '#0FF')
+	lg.addColorStop(4/6, '#00F')
+	lg.addColorStop(5/6, '#F0F')
 	lg.addColorStop(1, '#FF0000')
 	ctx.fillStyle = lg
 	ctx.fillRect(0, 0, 12, 180)
@@ -32,3 +32,27 @@ function asideGradient(ctx) {
 
 asideGradient(aside.getContext('2d'))
 panelGradient(panel.getContext('2d'), '#ff0000')
+
+// 拖拽监控
+function a(even) {
+	even.on('mousedown', function(e) {
+			let down = true;
+			let elem = even.offset();
+			let wh = $this.window.height();
+			let ww = $this.window.width();
+			$this.document.on('mousemove', function(ee) {
+					event.stopPropagation();
+					if (down) {
+							if (ee.clientY > 0 && ee.clientY < wh) {
+									$this.top = ee.clientY - e.clientY + elem.top;
+							}
+							if (ee.clientX > 0 && ee.clientX < ww) {
+									$this.left = ee.clientX - e.clientX + elem.left;
+							}
+							$this.initCss();
+					}
+			}).on('mouseup', function() {
+					down = false;
+			})
+	})
+}
