@@ -18,7 +18,8 @@
 }
 .zc-colorpicker-main input,
 .zc-colorpicker-main button {
-	border: 1px solid #C2C2C2;
+	border-width: 1px;
+	border-style: solid;
 	height: 30px;
 	padding: 0 10px;
 	outline: 0;
@@ -92,6 +93,7 @@
 	position: absolute;
 	top: 0;
 	left: 0;
+	cursor: pointer;
 	transform: translateX(-50%);
 	background-color: #FFFFFF;
 	box-shadow: 0 0 2px #C2C2C2;
@@ -113,7 +115,7 @@
 .zc-colorpicker-colors>span:not(:nth-of-type(11n)) {
 	margin-right: 6px;
 }
-/* 输出框 按钮组 */
+/* 输出框 && 按钮 */
 .zc-colorpicker-input-groups {
 	margin-top: 10px;
 	display: flex;
@@ -124,6 +126,7 @@
 .zc-colorpicker-btn-default {
 	margin-left: 20px;
 	cursor: pointer;
+	border-color: #C2C2C2;
 	background-color: #FFFFFF;
 }
 .zc-colorpicker-btn-success {
