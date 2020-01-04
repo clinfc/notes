@@ -47,7 +47,7 @@
 .zc-colorpicker-panel {
 	width: 260px;
 	height: 180px;
-	background-color: aquamarine;
+	/* background-color: aquamarine; */
 	position: relative;
 	overflow: hidden;
 }
@@ -65,7 +65,7 @@
 }
 /* 色域选择器 */
 .zc-colorpicker-aside {
-	background-color: blueviolet;
+	/* background-color: blueviolet; */
 	width: 12px;
 	height: 180px;
 	position: relative;
@@ -85,7 +85,6 @@
 .zc-colorpicker-alpha {
 	height: 10px;
 	position: relative;
-	background-color: brown;
 }
 .zc-colorpicker-alpha-handle {
 	width: 6px;
