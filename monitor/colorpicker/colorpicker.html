@@ -6,18 +6,38 @@
 		<link rel="stylesheet" type="text/css" href="./colorpicker.css"/>
 	</head>
 	<body>
-		<div class="zc-colorpicker-main">
+		<div class="zc-colorpicker-main zc-inline-block">
 			<!-- 颜色选择面板、颜色范围面板 -->
 			<div class="zc-colorpicker-wrapper">
-				<div class="zc-colorpicker-panel"></div>
-				<div class="zc-colorpicker-aside"></div>
+				<div class="zc-colorpicker-panel zc-inline-block">
+					<canvas id="zc-panel" width="260" height="180"></canvas>
+					<div class="zc-colorpicker-panel-handle zc-inline-block"></div>
+				</div>
+				<div class="zc-colorpicker-aside zc-right">
+					<canvas id="zc-aside" width="12" height="180"></canvas>
+					<div class="zc-colorpicker-aside-handle"></div>
+				</div>
 			</div>
 			<!-- 透明度 -->
-			<div class="zc-colorpicker-transparence"></div>
+			<div class="zc-colorpicker-alpha">
+				<div class="zc-colorpicker-alpha-handle"></div>
+			</div>
 			<!-- 预定义颜色列表 -->
-			<div class="zc-colorpicker-predefine"></div>
+			<div class="zc-colorpicker-colors">
+				<span style="background-color: #5FB878"></span>
+				<span style="background-color: #666666"></span>
+				<span style="background-color: #C2C2C2"></span>
+				<span style="background-color: #8A2BE2"></span>
+				<span style="background-color: #7FFFD4"></span>
+				<span style="background-color: #A52A2A"></span>
+				<span style="background-color: #5FB878"></span>
+			</div>
 			<!-- 输出框、按钮 -->
-			<div class="zc-colorpicker-inputs"></div>
+			<div class="zc-colorpicker-input-groups">
+				<input type="text" id="" class="zc-colorpicker-input" />
+				<button type="button" class="zc-colorpicker-btn-default">取消</button>
+				<button type="button" class="zc-colorpicker-btn-success">确认</button>
+			</div>
 		</div>
 	</body>
 </html>

@@ -1,15 +1,135 @@
-.zc-colorpicker-main {
-	display: inline-block;
-	padding: 7px;
-	border: 1px solid #EEEEEE;
-	box-shadow: 0 2px 15px 1px #C2C2C2;
+.zc-inline-block {
+	display: inline-block; !important;
+}
+.zc-left {
+	float: left;
+}
+.zc-right {
+	float: right;
+}
+.zc-colorpicker-main, .zc-colorpicker-main * {
+	margin: 0;
+	padding: 0;
+	color: #666666;
+	font-size: 12px;
 }
 .zc-colorpicker-main>div {
 	width: 280px;
 }
-.zc-colorpicker-wrapper {}
-.zc-colorpicker-panel {}
-.zc-colorpicker-aside {}
-.zc-colorpicker-transparence {}
-.zc-colorpicker-predefine {}
-.zc-colorpicker-inputs {}
+.zc-colorpicker-main input,
+.zc-colorpicker-main button {
+	border: 1px solid #C2C2C2;
+	height: 30px;
+	padding: 0 10px;
+	outline: 0;
+	-webkit-appearance: none;
+	transition: all .3s;
+	-webkit-transition: all .3s;
+	box-sizing: border-box;
+	border-radius: 2px;
+	font-family: inherit;
+	font-size: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+}
+/* 跟节点 */
+.zc-colorpicker-main {
+	display: inline-block;
+	padding: 8px;
+	border: 1px solid #EEEEEE;
+	box-shadow: 0 2px 15px 1px #C2C2C2;
+}
+.zc-colorpicker-wrapper {
+	height: 188px;
+}
+/* 颜色选择器 */
+.zc-colorpicker-panel {
+	width: 260px;
+	height: 180px;
+	background-color: aquamarine;
+	position: relative;
+	overflow: hidden;
+}
+.zc-colorpicker-panel-handle {
+	width: 10px;
+	height: 10px;
+	border: 1px solid #fff;
+	border-radius: 50%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform: translate(-50%, -50%);
+	cursor: pointer;
+	box-shadow: 0 0 2px #C2C2C2;
+}
+/* 色域选择器 */
+.zc-colorpicker-aside {
+	background-color: blueviolet;
+	width: 12px;
+	height: 180px;
+	position: relative;
+}
+.zc-colorpicker-aside-handle {
+	width: 100%;
+	height: 6px;
+	background-color: #FFFFFF;
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform: translateY(-50%);
+	box-shadow: 0 0 2px #C2C2C2;
+	cursor: pointer;
+}
+/* 透明度选择器 */
+.zc-colorpicker-alpha {
+	height: 10px;
+	position: relative;
+	background-color: brown;
+}
+.zc-colorpicker-alpha-handle {
+	width: 6px;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform: translateX(-50%);
+	background-color: #FFFFFF;
+	box-shadow: 0 0 2px #C2C2C2;
+}
+/* 预定义颜色组 */
+.zc-colorpicker-colors {
+	margin-top: 8px;
+	display: flex;
+	flex-wrap: wrap;
+}
+.zc-colorpicker-colors>span {
+	width: 20px;
+	height: 20px;
+	border-radius: 2px;
+	display: inline-block;
+	cursor: pointer;
+	margin-bottom: 6px;
+}
+.zc-colorpicker-colors>span:not(:nth-of-type(11n)) {
+	margin-right: 6px;
+}
+/* 输出框 按钮组 */
+.zc-colorpicker-input-groups {
+	margin-top: 10px;
+	display: flex;
+}
+.zc-colorpicker-input {
+	width: 160px;
+}
+.zc-colorpicker-btn-default {
+	margin-left: 20px;
+	cursor: pointer;
+	background-color: #FFFFFF;
+}
+.zc-colorpicker-btn-success {
+	margin-left: 8px;
+	cursor: pointer;
+	border-color: #5FB878;
+	background-color: #5FB878;
+	color: #FFFFFF;
+}
