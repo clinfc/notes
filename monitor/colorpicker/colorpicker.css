@@ -1,0 +1,15 @@
+.zc-colorpicker-main {
+	display: inline-block;
+	padding: 7px;
+	border: 1px solid #EEEEEE;
+	box-shadow: 0 2px 15px 1px #C2C2C2;
+}
+.zc-colorpicker-main>div {
+	width: 280px;
+}
+.zc-colorpicker-wrapper {}
+.zc-colorpicker-panel {}
+.zc-colorpicker-aside {}
+.zc-colorpicker-transparence {}
+.zc-colorpicker-predefine {}
+.zc-colorpicker-inputs {}
