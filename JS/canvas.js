@@ -185,7 +185,7 @@ ctx.translate(x, y)												// 移动 canvas 和它的原点到一个不同�
 for (var i = 0; i < 3; i++) {
 	for (var j = 0; j < 3; j++) {
 		ctx.save();
-		ctx.fillStyle = 'rgb(' + (51 * i) + ', ' + (255 - 51 * i) + ', 255)';
+		ctx.fillStyle = `rgb(${51*i}, ${255 - 51*i}, 255)`
 		ctx.translate(10 + j * 50, 10 + i * 50);
 		ctx.fillRect(0, 0, 25, 25);
 		ctx.restore();
@@ -197,6 +197,30 @@ for (var i = 0; i < 3; i++) {
  * 旋转 Rotating
  */
 ctx.rotate(angle)												// 用于以原点为中心旋转 canvas。 angle：旋转的角度，它是顺时针方向的，以弧度为单位的值
+ctx.rotate(2*Math.PI / 4)										// 顺时针旋转 90°
+
+
+/**
+ * 缩放 Scaling
+ */
+ctx.scale(x, y)													// x 为水平缩放因子，y 为垂直缩放因子。默认值为1， 为实际大小。（x < 0：反向缩放。 x = 0：消失。 0 < |x| < 1：缩小。 |x| > 1：放大。 y同理）
+
+
+/**
+ * 变形 Transforms
+ *
+ * 如果任意一个参数是无限大，变形矩阵也必须被标记为无限大，否则会抛出异常
+ * 
+ * sx：水平方向的缩放
+ * tx：水平方向的倾斜偏移
+ * ty：竖直方向的倾斜偏移
+ * sy：竖直方向的缩放
+ *  x：水平方向的移动
+ *  y：竖直方向的移动
+ */
+ ctx.transforms(sx, tx, ty, sy, x, y)							// 将当前的变形矩阵乘上一个基于自身参数的矩阵
+ ctx.setTransforms(sx, tx, ty, sy, x, y)						// 将当前的变形矩阵重置为单位矩阵，然后用相同的参数调用 transform 方法。从根本上来说，该方法是取消了当前变形,然后设置为指定的变形,一步完成
+ ctx.resetTransform()											// 重置当前变形为单位矩阵，它和调用 以下语句 setTransform(1, 0, 0, 1, 0, 0) 是一样的
 
 
 /**
@@ -207,3 +231,6 @@ ctx.rotate(angle)												// 用于以原点为中心旋转 canvas。 angle�
 new Path2D()													// 空的Path对象
 new Path2D(path)												// 克隆Path对象
 new Path2D(d)													// 从SVG建立Path对象
+
+
+// 看到最新一章：https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Compositing
