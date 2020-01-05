@@ -10,35 +10,49 @@
 			<!-- 颜色选择面板、颜色范围面板 -->
 			<div class="zc-colorpicker-wrapper">
 				<div class="zc-colorpicker-panel zc-inline-block">
-					<canvas id="zc-panel" width="260" height="180"></canvas>
-					<div class="zc-colorpicker-panel-handle zc-inline-block"></div>
+					<canvas id="zccp-panel" width="260" height="180"></canvas>
+					<div class="zc-colorpicker-panel-handle zc-inline-block" data-zccp-drag="both"></div>
 				</div>
 				<div class="zc-colorpicker-aside zc-right">
-					<canvas id="zc-aside" width="12" height="180"></canvas>
-					<div class="zc-colorpicker-aside-handle"></div>
+					<canvas id="zccp-aside" width="12" height="180"></canvas>
+					<div class="zc-colorpicker-aside-handle" data-zccp-drag="vertical"></div>
 				</div>
 			</div>
 			<!-- 透明度 -->
 			<div class="zc-colorpicker-alpha" style="background: linear-gradient(to right, transparent, red);">
-				<div class="zc-colorpicker-alpha-handle"></div>
+				<div class="zc-colorpicker-alpha-handle" data-zccp-drag="across"></div>
 			</div>
 			<!-- 预定义颜色列表 -->
 			<div class="zc-colorpicker-colors">
-				<span style="background-color: #5FB878"></span>
-				<span style="background-color: #666666"></span>
-				<span style="background-color: #C2C2C2"></span>
-				<span style="background-color: #8A2BE2"></span>
-				<span style="background-color: #7FFFD4"></span>
-				<span style="background-color: #A52A2A"></span>
-				<span style="background-color: #5FB878"></span>
+				<span style="background-color: #5FB878" data-zccp-color="#5FB878"></span>
+				<span style="background-color: #666666" data-zccp-color="#666666"></span>
+				<span style="background-color: #C2C2C2" data-zccp-color="#C2C2C2"></span>
+				<span style="background-color: #8A2BE2" data-zccp-color="#8A2BE2"></span>
+				<span style="background-color: #7FFFD4" data-zccp-color="#7FFFD4"></span>
+				<span style="background-color: #A52A2A" data-zccp-color="#A52A2A"></span>
 			</div>
 			<!-- 输出框、按钮 -->
 			<div class="zc-colorpicker-input-groups">
-				<input type="text" id="" class="zc-colorpicker-input" />
-				<button type="button" class="zc-colorpicker-btn-default">取消</button>
-				<button type="button" class="zc-colorpicker-btn-success">确认</button>
+				<input type="text" class="zc-colorpicker-input" data-zccp-input />
+				<button type="button" class="zc-colorpicker-btn-default" data-zccp-btn="cancel">取消</button>
+				<button type="button" class="zc-colorpicker-btn-success" data-zccp-btn="affirm">确认</button>
 			</div>
 		</div>
+		<script src="drag.js" type="text/javascript" charset="utf-8"></script>
 		<script src="colorpicker.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			let main = document.querySelector('.zc-colorpicker-main')
+			let both = document.querySelector('[data-zccp-drag="both"]').parentNode
+			let across = document.querySelector('[data-zccp-drag="across"]').parentNode
+			let vertical = document.querySelector('[data-zccp-drag="vertical"]').parentNode
+			
+			let el = $el('[data-zccp-drag]')
+			el.forEach(item => {
+				console.log(new drag({
+					el: item,
+					type: item.dataset.zccpDrag
+				}));
+			})
+		</script>
 	</body>
 </html>

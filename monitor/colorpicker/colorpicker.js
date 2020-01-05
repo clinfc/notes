@@ -1,5 +1,5 @@
-let panel = document.querySelector('#zc-panel')
-let aside = document.querySelector('#zc-aside')
+let panel = document.querySelector('#zccp-panel')
+let aside = document.querySelector('#zccp-aside')
 
 function panelGradient(ctx, color) {
 	// 横向渐变

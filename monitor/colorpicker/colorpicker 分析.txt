@@ -5,7 +5,7 @@
 	
 	滑块：选择颜色范围、选择透明度（阉割版的面板）
 	
-	输入框：显示颜色的值：#、rgb、rgba
+	输入框：显示颜色的值：hex、rgb、rgba
 	
 	按钮：确认、取消
 	
@@ -22,3 +22,8 @@
 ✘ 3、获取当前滑块所处位置的【颜色】或【透明度】
 ✘ 4、单向绑定：只能通过选择颜色获取颜色的值
 ✘ 5、双向绑定：通过颜色值设置当前选中的颜色
+
+拖拽：data-zccp-drag => across、vertical、both
+颜色：data-zccp-color => hex、rgb、rgba
+按钮：data-zccp-btn => cancel、affirm
+显示框：data-zccp-input

@@ -79,7 +79,7 @@
 	height: 6px;
 	background-color: #FFFFFF;
 	position: absolute;
-	top: 0;
+	top: 100px;
 	left: 0;
 	transform: translateY(-50%);
 	box-shadow: 0 0 2px #C2C2C2;
