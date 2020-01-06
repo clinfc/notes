@@ -2,7 +2,7 @@
 function fromHtml(html) {
 	let div = document.createElement('div');
 	div.innerHTML = html;
-	return div.childNodes;
+	return div.childNodes[0];
 }
 
 // 判断是否为 function
@@ -96,64 +96,69 @@ function $el(tar) {
 class drag
 {
 	/**
+	 * @param {Object} el 监控的元素
 	 * @param {String} type 拖拽的类型。水平：accross；垂直：vertical；水平 + 垂直：both。
+	 * @param {Function} callback 回调函数。参数：(offsetX, offsetY, parentWidth, parentHeight)
 	 */
 	constructor(option) {
 		if (!isObject(option) || option.el.nodeType !== 1) {
 			throw new Error('初始化失败')
 		}
+		this.callback = isFunction(option.callback) ? option.callback : function (x, y, w, h) {
+			console.log(x, y, w, h);
+		}
 	  this.type = (['across', 'vertical'].indexOf(option.type) == -1 ) ? 'both' : option.type;
 		this.el = option.el;
 		this.parent = this.el.parentNode;
 		
-		let ecss = document.defaultView.getComputedStyle(this.el, null);
-		// 监控元素的宽高
-		this.w = toFloat(ecss.width, false);
-		this.h = toFloat(ecss.height, false);
-		
 		let pcss = document.defaultView.getComputedStyle(this.parent, null);
-		// 监控元素父元素的宽高
+		// 父容器的宽高
 		this.pw = toFloat(pcss.width, false);
 		this.ph = toFloat(pcss.height, false);
 		
-		this.history = null;
+		// 监控鼠标是否为按下状态
+		this.mousedown = false;
 		
 		let self = this;
 		
-		function computed(event) {
-			if (document.zccpDown) {
-				if (self.history) {
-					let css = document.defaultView.getComputedStyle(self.el, null)
-					let x = toFloat(css.left) + event.clientX - self.history.clientX;
-					let y = toFloat(css.top) + event.clientY - self.history.clientY;
-					self.offset(x, y);
-				}
-				self.history = event;
+		// 计算位移
+		function computedMove(event) {
+			if (self.mousedown) {
+				let x = event.clientX - self.x;
+				let y = event.clientY - self.y;
+				self.offset(x, y);
 			}
+		}
+		
+		// 计算父容器的左上角坐标
+		function computedCoordinates(event) {
+			self.x = event.clientX - event.offsetX;
+			self.y = event.clientY - event.offsetY;
 		}
 		
 		this.el.addEventListener('mousedown', event => {
 			event.stopPropagation();
-			document.zccpDown = true;
+			self.mousedown = true;
 			
 			document.addEventListener('mousemove', event => {
-				computed(event)
+				computedMove(event)
 			}, false);
-		})
+		});
 		
 		// 监听鼠标按下
 		this.parent.addEventListener('mousedown', event => {
-			document.zccpDown = true;
+			self.mousedown = true;
+			computedCoordinates(event);
 			self.offset(event.offsetX, event.offsetY);
 			
 			document.addEventListener('mousemove', event => {
-				computed(event)
+				computedMove(event)
 			}, false);
 		}, false);
 		
 		// 监听鼠标松开
 		document.addEventListener('mouseup', () => {
-			document.zccpDown = false;
+			self.mousedown = false;
 		}, false);
 	}
 	
@@ -162,21 +167,32 @@ class drag
 	 * @param {Object} y	对应top
 	 */
 	offset(x, y) {
-		console.log(x, y);
 		// left
 		x = x < 0 ? 0 : x > this.pw ? this.pw : x;
 		// top
 		y = y < 0 ? 0 : y > this.ph ? this.ph : y;
+		
 		switch (this.type) {
 			case 'across':
-				this.el.setAttribute('style', `left:${x}px`);
+				if (this.left != x) {
+					this.el.setAttribute('style', `left:${x}px`);
+					this.callback(x, 0, this.pw, 0);
+				}
 				break;
 			case 'vertical':
-				this.el.setAttribute('style', `top:${y}px`);
+				if (this.top != y) {
+					this.el.setAttribute('style', `top:${y}px`);
+					this.callback(0, y, 0, this.ph);
+				}
 				break;
 			default:
-				this.el.setAttribute('style', `left:${x}px;top:${y}px`);
+				if (this.top != y || this.left != x) {
+					this.el.setAttribute('style', `left:${x}px;top:${y}px`);
+					this.callback(x, y, this.pw, this.ph);
+				}
 				break;
 		}
+		this.left = x;
+		this.top = y;
 	}
 }

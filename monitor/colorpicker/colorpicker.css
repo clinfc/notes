@@ -54,6 +54,7 @@
 	/* background-color: aquamarine; */
 	position: relative;
 	overflow: hidden;
+	cursor: pointer;
 }
 .zc-colorpicker-panel-handle {
 	width: 10px;
@@ -62,33 +63,33 @@
 	border-radius: 50%;
 	position: absolute;
 	top: 0;
-	left: 0;
+	left: 100%;
 	transform: translate(-50%, -50%);
-	cursor: pointer;
 	box-shadow: 0 0 2px #C2C2C2;
 }
-/* 色域选择器 */
-.zc-colorpicker-aside {
+/* 色域选择器（彩色条） */
+.zc-colorpicker-colorbar {
 	/* background-color: blueviolet; */
 	width: 12px;
 	height: 180px;
 	position: relative;
+	cursor: pointer;
 }
-.zc-colorpicker-aside-handle {
+.zc-colorpicker-colorbar-handle {
 	width: 100%;
 	height: 6px;
 	background-color: #FFFFFF;
 	position: absolute;
-	top: 100px;
+	top: 0;
 	left: 0;
 	transform: translateY(-50%);
 	box-shadow: 0 0 2px #C2C2C2;
-	cursor: pointer;
 }
 /* 透明度选择器 */
 .zc-colorpicker-alpha {
 	height: 10px;
 	position: relative;
+	cursor: pointer;
 }
 .zc-colorpicker-alpha-handle {
 	width: 6px;
@@ -96,7 +97,6 @@
 	position: absolute;
 	top: 0;
 	left: 100%;
-	cursor: pointer;
 	transform: translateX(-50%);
 	background-color: #FFFFFF;
 	box-shadow: 0 0 2px #C2C2C2;
