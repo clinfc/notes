@@ -29,6 +29,9 @@ function toFloat(tar, minus = true) {
 	return tar;
 }
 
+/**
+ * 限定在父元素内的拖拽
+ */
 class drag
 {
 	/**
@@ -41,7 +44,7 @@ class drag
 			throw new Error('初始化失败')
 		}
 		this.callback = isFunction(option.callback) ? option.callback : function (x, y, w, h) {
-			console.log(x, y, w, h);
+			// console.log(x, y, w, h);
 		}
 	  this.type = (['across', 'vertical'].indexOf(option.type) == -1 ) ? 'both' : option.type;
 		this.el = option.el;
@@ -134,13 +137,13 @@ class drag
 }
 
 // 选色主面板
-function panelGradient(ctx, color) {
+function colorGradient(ctx, color) {
 	// 横向渐变
-	let lgc = ctx.createLinearGradient(0, 0, 260, 0)
-	lgc.addColorStop(0, '#ffffff')
-	lgc.addColorStop(1, color)
-	ctx.fillStyle = lgc
-	ctx.fillRect(0, 0, 260, 180)
+	let lgc = ctx.createLinearGradient(0, 0, 260, 0);
+	lgc.addColorStop(0, '#ffffff');
+	lgc.addColorStop(1, color);
+	ctx.fillStyle = lgc;
+	ctx.fillRect(0, 0, 260, 180);
 	
 	// 纵向渐变
 	let lgl = ctx.createLinearGradient(0, 0, 0, 180)
@@ -153,39 +156,82 @@ function panelGradient(ctx, color) {
 // 测边彩条
 function colorbarGradient(ctx) {
 	let lg = ctx.createLinearGradient(0, 0, 0, 180)
-	lg.addColorStop(0, '#FF0000')
-	lg.addColorStop(1/6, '#FF0')
-	lg.addColorStop(2/6, '#0F0')
-	lg.addColorStop(3/6, '#0FF')
-	lg.addColorStop(4/6, '#00F')
-	lg.addColorStop(5/6, '#F0F')
-	lg.addColorStop(1, '#FF0000')
-	ctx.fillStyle = lg
-	ctx.fillRect(0, 0, 12, 180)
+	lg.addColorStop(0, '#FF0000');
+	lg.addColorStop(1/6, '#FF0');
+	lg.addColorStop(2/6, '#0F0');
+	lg.addColorStop(3/6, '#0FF');
+	lg.addColorStop(4/6, '#00F');
+	lg.addColorStop(5/6, '#F0F');
+	lg.addColorStop(1, '#FF0000');
+	ctx.fillStyle = lg;
+	ctx.fillRect(0, 0, 12, 180);
 }
 
-// 
-function AcrossCallback(x, y, w, h) {
+// 透明度拖拽回调
+function alphaCallback(x, y, w, h) {
 	console.log(x,y,w,h);
 }
-// 
-function VerticalCallback(x, y, w, h) {
+// 彩色条拖拽回调
+function cobarCallback(x, y, w, h) {
 	console.log(x,y,w,h);
 }
-// 
-function BothCallback(x, y, w, h) {
+// 颜色面板拖拽回调
+function colorCallback(x, y, w, h) {
 	console.log(x,y,w,h);
 }
 
-// 绑定色块选择器的拖拽
-function BindDrag(main) {
-	let drags = main.querySelectorAll('[data-zccp-drag]');
-	drags.forEach(item => {
-		console.log(new drag({
-			el: item,
-			type: item.dataset.zccpDrag
-		}));
-	});
+// 绑定选框拖拽事件
+function onBindDrag(main) {
+	main.querySelectorAll('[data-zccp-drag]').forEach(el => {
+		let type = el.dataset.zccpDrag;
+		let callback = type == 'across' ? alphaCallback : type == 'vertical' ? cobarCallback : colorCallback;
+		let d = new drag({el,type,callback,});
+	})
+}
+
+// 绑定按钮事件
+function onBindBtns(main) {
+	let self = this;
+	let cancel = main.querySelector('[data-zccp-btn="cancel"]');
+	let affirm = main.querySelector('[data-zccp-btn="affirm"]');
+	let done = this.done;
+	
+	// 取消按钮监听
+	cancel.addEventListener('click', () => {
+		document.body.removeChild(main);
+		// 面板状态：关闭（隐藏）
+		self.status = false;
+	}, false);
+	
+	// 确认按钮监听
+	affirm.addEventListener('click', () => {
+		document.body.removeChild(main);
+		// 面板状态：关闭（隐藏）
+		self.status = false;
+		if (isFunction(done)) {
+			done(self.color);
+		}
+	}, false);
+}
+
+// 给指向容器选择器绑定触发事件
+function onBindEvent() {
+	let self = this;
+	let elem = this.elem;
+	let main = this.cache.main;
+	let name = elem.nodeName == 'INPUT' ? 'focus' : 'click';
+	
+	elem.addEventListener(name, event => {
+		document.body.appendChild(main);
+		// 面板状态：打开（显示）
+		self.status = true;
+		// 初次触发，绑定选框拖拽事件、绑定取消按钮事件、绑定确认按钮事件
+		if (self.active !== true) {
+			onBindDrag.call(self, main);
+			onBindBtns.call(self, main);
+			self.active = true;
+		}
+	}, false);
 }
 
 // 生成配置项代理
@@ -214,10 +260,7 @@ function CreateConfigProxy() {
 	
 	return new Proxy(target, {
 		get (target, key) {
-			if (['done', 'change'].indexOf(key) == -1) {
-				return target[key]
-			}
-			return null;
+			return target[key]
 		},
 		set (target, key, value) {
 			switch (key) {
@@ -271,7 +314,7 @@ function CreateCacheProxy() {
 
 // 生成预定义颜色列表的静态HTML
 function CreateColorsHtml(colors) {
-	if (colors.lenght > 0) {
+	if (colors.length) {
 		let span = '';
 		colors.forEach(color => {
 			span += `<span style="background-color: ${color}" data-zccp-color="${color}"></span>`
@@ -285,7 +328,7 @@ function CreateColorsHtml(colors) {
 function CreateCacheHtml() {
 	let id = this.id;
 	// 预定义颜色集
-	let colorsHtml = this.predine ? CreateColorsHtml(this.colors) : '';
+	let colorsHtml = this.predefine ? CreateColorsHtml(this.colors) : '';
 	// 透明度
 	let alphaHtml = this.alpha ? `<div id="zccp-alpha-${id}" class="zc-colorpicker-alpha" style="background: linear-gradient(to right, transparent, ${this.color});">
 		<div class="zc-colorpicker-alpha-handle" data-zccp-drag="across"></div></div>` : '';
@@ -363,12 +406,26 @@ class colorpicker
 	}
 	
 	/**
+	 * 颜色【选择后】的回调
+	 */
+	get done() {
+		return this.config.done;
+	}
+	
+	/**
 	 * 设置颜色【选择后】的回调
 	 * @param {Function} value
 	 */
 	set done(value) {
 		this.config.done = value;
 		return this;
+	}
+	
+	/**
+	 * 获取颜色【被改变】的回调 
+	 */
+	get change() {
+		return this.config.change;
 	}
 	
 	/**
@@ -472,14 +529,11 @@ class colorpicker
 		cache.ctx = cache.colorbar.getContext('2d');
 		
 		// 渲染canvas
-		panelGradient(cache.ptx, this.color);
+		colorGradient(cache.ptx, this.color);
 		colorbarGradient(cache.ctx);
 		
-		// 绑定颜色选择滑块的拖拽事件
-		BindDrag(cache.main);
-		
-		// 指定原色绑定事件
-		document.body.appendChild(cache.main);
+		// 绑定指向对象
+		onBindEvent.call(this);
 	}
 }
 
