@@ -18,14 +18,14 @@ function isObject(tar) {
 // 转换成 int 类型, munus: 允许为负数
 function toInt(tar, minus = true) {
 	tar = parseInt(tar);
-	tar = isNaN(tar) ? 0 : (minus == false && tar < 0) ? -tar : tar;
+	tar = isNaN(tar) ? 0 : minus == false ? Math.abs(tar) : tar;
 	return tar;
 }
 
 // 转换成 float 类型, munus: 允许为负数
 function toFloat(tar, minus = true) {
 	tar = parseFloat(tar);
-	tar = isNaN(tar) ? 0 : (minus == false && tar < 0) ? -tar : tar;
+	tar = isNaN(tar) ? 0 : minus == false ? Math.abs(tar) : tar;
 	return tar;
 }
 
@@ -37,18 +37,20 @@ class drag
 	/**
 	 * @param {Object} el 监控的元素
 	 * @param {String} type 拖拽的类型。水平：accross；垂直：vertical；水平 + 垂直：both。
-	 * @param {Function} callback 回调函数。参数：(offsetX, offsetY, parentWidth, parentHeight)
+	 * @param {Function} callback 回调函数。参数：(x:offsetX, y:offsetY, w:parentWidth, h:parentHeight)
 	 */
 	constructor(option) {
 		if (!isObject(option) || option.el.nodeType !== 1) {
 			throw new Error('初始化失败')
 		}
-		this.callback = isFunction(option.callback) ? option.callback : function (x, y, w, h) {
-			// console.log(x, y, w, h);
-		}
+		this.callback = isFunction(option.callback) ? option.callback : function (x, y, w, h) {}
 	  this.type = (['across', 'vertical'].indexOf(option.type) == -1 ) ? 'both' : option.type;
 		this.el = option.el;
 		this.parent = this.el.parentNode;
+		
+		// 父容器的宽高
+		this.x = toFloat(this.el.offsetLeft, false);
+		this.y = toFloat(this.el.offsetTop, false);
 		
 		let pcss = document.defaultView.getComputedStyle(this.parent, null);
 		// 父容器的宽高
@@ -63,16 +65,16 @@ class drag
 		// 计算位移
 		function computedMove(event) {
 			if (self.mousedown) {
-				let x = event.clientX - self.x;
-				let y = event.clientY - self.y;
+				let x = event.clientX - self.px;
+				let y = event.clientY - self.py;
 				self.offset(x, y);
 			}
 		}
 		
 		// 计算父容器的左上角坐标
 		function computedCoordinates(event) {
-			self.x = event.clientX - event.offsetX;
-			self.y = event.clientY - event.offsetY;
+			self.px = event.clientX - event.offsetX;
+			self.py = event.clientY - event.offsetY;
 		}
 		
 		this.el.addEventListener('mousedown', event => {
@@ -113,79 +115,137 @@ class drag
 		
 		switch (this.type) {
 			case 'across':
-				if (this.left != x) {
+				if (this.x != x) {
 					this.el.setAttribute('style', `left:${x}px`);
 					this.callback(x, 0, this.pw, 0);
 				}
 				break;
 			case 'vertical':
-				if (this.top != y) {
+				if (this.y != y) {
 					this.el.setAttribute('style', `top:${y}px`);
-					this.callback(0, y, 0, this.ph);
+					this.callback(0, y, this.pw, this.ph);
 				}
 				break;
 			default:
-				if (this.top != y || this.left != x) {
+				if (this.y != y || this.x != x) {
 					this.el.setAttribute('style', `left:${x}px;top:${y}px`);
 					this.callback(x, y, this.pw, this.ph);
 				}
 				break;
 		}
-		this.left = x;
-		this.top = y;
+		this.x = x;
+		this.y = y;
 	}
 }
 
 // 选色主面板
-function colorGradient(ctx, color) {
+function colorGradient(ctx, color, x, y) {
 	// 横向渐变
-	let lgc = ctx.createLinearGradient(0, 0, 260, 0);
-	lgc.addColorStop(0, '#ffffff');
-	lgc.addColorStop(1, color);
+	let lgc = ctx.createLinearGradient(0, 0, x, 0);
+	lgc.addColorStop(1/x, '#ffffff');
+	lgc.addColorStop((x-1)/x, color);
 	ctx.fillStyle = lgc;
-	ctx.fillRect(0, 0, 260, 180);
+	ctx.fillRect(0, 0, x, y);
 	
 	// 纵向渐变
-	let lgl = ctx.createLinearGradient(0, 0, 0, 180)
-	lgl.addColorStop(0, 'rgba(0,0,0,0)')
-	lgl.addColorStop(1, '#000000')
+	let lgl = ctx.createLinearGradient(0, 0, 0, y)
+	lgl.addColorStop(1/y, 'rgba(0,0,0,0)')
+	lgl.addColorStop((y-1)/y, '#000000')
 	ctx.fillStyle = lgl
-	ctx.fillRect(0, 0, 260, 180)
+	ctx.fillRect(0, 0, x, y)
 }
 
 // 测边彩条
-function colorbarGradient(ctx) {
-	let lg = ctx.createLinearGradient(0, 0, 0, 180)
-	lg.addColorStop(0, '#FF0000');
-	lg.addColorStop(1/6, '#FF0');
-	lg.addColorStop(2/6, '#0F0');
-	lg.addColorStop(3/6, '#0FF');
-	lg.addColorStop(4/6, '#00F');
-	lg.addColorStop(5/6, '#F0F');
-	lg.addColorStop(1, '#FF0000');
+function colorbarGradient(ctx, y) {
+	let lg = ctx.createLinearGradient(0, 0, 0, y)
+	let i = (y - 2) / 6;
+	lg.addColorStop(1/y, 'rgb(255, 0, 0)');
+	lg.addColorStop((1*i+1)/y, '#FF0');
+	lg.addColorStop((2*i+1)/y, '#0F0');
+	lg.addColorStop((3*i+1)/y, '#0FF');
+	lg.addColorStop((4*i+1)/y, '#00F');
+	lg.addColorStop((5*i+1)/y, '#F0F');
+	lg.addColorStop((y-1)/y, '#FF0000');
 	ctx.fillStyle = lg;
-	ctx.fillRect(0, 0, 12, 180);
+	ctx.fillRect(0, 0, 12, y);
+}
+
+// 彩色条拖拽回调
+function colorBar() {
+	let color = colorSel.call(this);
+	let ptx = this.cache.ptx;
+	let pw = this.cache.panel.width;
+	let ph = this.cache.panel.height;
+	return (x, y, w, h) => {
+		y = y == h ? --y : y;
+		let data = this.cache.ctx.getImageData(0, y, 1, 1).data;
+		// 刷新颜色选择面板
+		colorGradient(ptx, `rgb(${data[0]}, ${data[1]}, ${data[2]})`, pw, ph);
+		color();
+	}
+}
+
+// 颜色面板拖拽回调
+function colorSel() {
+	let alpha = alphaSel.call(this);
+	return (x, y, w, h) => {
+		x = x == undefined ? this.cache.colorDrag.x : x;
+		y = y == undefined ? this.cache.colorDrag.y : y;
+		w = w == undefined ? this.cache.colorDrag.pw : w;
+		h = h == undefined ? this.cache.colorDrag.ph : h;
+		x = x == w ? --x : x;
+		y = y == h ? --y : y;
+		let data = this.cache.ptx.getImageData(x, y, 1, 1).data;
+		this.rgba.r = data[0];
+		this.rgba.g = data[1];
+		this.rgba.b = data[2];
+		alpha();
+	}
 }
 
 // 透明度拖拽回调
-function alphaCallback(x, y, w, h) {
-	console.log(x,y,w,h);
-}
-// 彩色条拖拽回调
-function cobarCallback(x, y, w, h) {
-	console.log(x,y,w,h);
-}
-// 颜色面板拖拽回调
-function colorCallback(x, y, w, h) {
-	console.log(x,y,w,h);
+function alphaSel() {
+	let change = this.change;
+	let alpha = this.alpha;
+	return (x, y, w, h) => {
+		// 如果开启了透明度选项
+		if (alpha) {
+			x = x == undefined ? this.cache.alphaDrag.x : x;
+			w = w == undefined ? this.cache.alphaDrag.pw : w;
+			this.rgba.a = x / w;
+			
+			let {r, g, b} = this.rgba;
+			this.cache.alpha.style.background = `linear-gradient(to right, transparent, rgb(${r}, ${g}, ${b}))`;
+		}
+		
+		let value = this.value;
+		this.cache.input.value = value;
+		if (isFunction(change)) {
+			change(value);
+		}
+	}
 }
 
 // 绑定选框拖拽事件
 function onBindDrag(main) {
+	let self = this;
 	main.querySelectorAll('[data-zccp-drag]').forEach(el => {
-		let type = el.dataset.zccpDrag;
-		let callback = type == 'across' ? alphaCallback : type == 'vertical' ? cobarCallback : colorCallback;
-		let d = new drag({el,type,callback,});
+		let type = el.dataset.zccpDrag, callback, name;
+		switch (type) {
+			case "across":
+				name = "alphaDrag";
+				callback = alphaSel.call(self);
+				break;
+			case "vertical":
+				name = "colorBarDrag";
+				callback = colorBar.call(self);
+				break;
+			default:
+				name = "colorDrag";
+				callback = colorSel.call(self);
+				break;
+		}
+		self.cache[name] = new drag({el,type,callback});
 	})
 }
 
@@ -214,13 +274,14 @@ function onBindBtns(main) {
 	}, false);
 }
 
-// 给指向容器选择器绑定触发事件
+// 事件绑定
 function onBindEvent() {
 	let self = this;
 	let elem = this.elem;
 	let main = this.cache.main;
 	let name = elem.nodeName == 'INPUT' ? 'focus' : 'click';
 	
+	// 给指向容器选择器绑定触发事件
 	elem.addEventListener(name, event => {
 		document.body.appendChild(main);
 		// 面板状态：打开（显示）
@@ -234,6 +295,47 @@ function onBindEvent() {
 	}, false);
 }
 
+// 生成预定义颜色列表的静态HTML
+function CreateColorsHtml(colors) {
+	if (colors.length) {
+		let span = '';
+		colors.forEach(color => {
+			span += `<span style="background-color: ${color}" data-zccp-color="${color}"></span>`
+		});
+		return `<div class="zc-colorpicker-colors">${span}</div>`
+	}
+	return '';
+}
+
+// 生成整个颜色选择器的静态HTML
+function CreateCacheHtml() {
+	let id = this.id;
+	// 预定义颜色集
+	let colorsHtml = this.predefine ? CreateColorsHtml(this.colors) : '';
+	// 透明度
+	let alphaHtml = this.alpha ? `<div id="zccp-alpha-${id}" class="zc-colorpicker-alpha" style="background: linear-gradient(to right, transparent, ${this.color});">
+		<div class="zc-colorpicker-alpha-handle" data-zccp-drag="across"></div></div>` : '';
+	
+	return `<div class="zc-colorpicker-main zc-inline-block" id="zccp-${id}">
+			<div class="zc-colorpicker-wrapper">
+				<div class="zc-colorpicker-panel zc-inline-block">
+					<canvas id="zccp-panel-${id}" width="257" height="257"></canvas>
+					<div class="zc-colorpicker-panel-handle zc-inline-block" data-zccp-drag="both"></div>
+				</div>
+				<div class="zc-colorpicker-colorbar zc-right">
+					<canvas id="zccp-colorbar-${id}" width="12" height="257"></canvas>
+					<div class="zc-colorpicker-colorbar-handle" data-zccp-drag="vertical"></div>
+				</div>
+			</div>
+			${alphaHtml}${colorsHtml}
+			<div class="zc-colorpicker-input-groups">
+				<input type="text" class="zc-colorpicker-input" data-zccp-input />
+				<button type="button" class="zc-colorpicker-btn-default" data-zccp-btn="cancel">取消</button>
+				<button type="button" class="zc-colorpicker-btn-success" data-zccp-btn="affirm">确认</button>
+			</div>
+		</div>`
+}
+
 // 生成配置项代理
 function CreateConfigProxy() {
 	
@@ -245,7 +347,8 @@ function CreateConfigProxy() {
 	 * @param {Boolean} - alpha - 是否启用透明度  
 	 * @param {Boolean} - predefine - 是否启用预定义颜色列表  
 	 * @param {Function} - done - 颜色选择后的回调  
-	 * @param {Function} - change - 颜色被改变的回调  
+	 * @param {Function} - change - 颜色被改变的回调
+	 * @param {String} - format - 颜色显示/输入格式，可选项：HEX、RGB、RGBA。默认值：RGB，若开启透明度则自动转为RGBA  
 	 */
 	let target = {
 		id: Math.random().toString(36).slice(-8),
@@ -255,7 +358,8 @@ function CreateConfigProxy() {
 		alpha: false,
 		predefine: false,
 		done: undefined,
-		change: undefined
+		change: undefined,
+		format: 'hex'
 	};
 	
 	return new Proxy(target, {
@@ -297,6 +401,13 @@ function CreateConfigProxy() {
 						target[key] = value;
 					}
 					break;
+				case "format":
+					value = value.toLowerCase();
+					if (['hex', 'rgb', 'rgba'].indexOf(value) == -1) {
+						value = 'hex';
+					}
+					target[key] = value;
+					break;
 				default:
 					target[key] = value;
 					break;
@@ -306,79 +417,45 @@ function CreateConfigProxy() {
 	})
 }
 
-// 生成缓存代理
+// 生成颜色缓存代理
+function CreateRGBAProxy() {
+	let target = {r: 0, g: 0, b: 0, a: 1};
+	return new Proxy(target, {
+		get(target, key) {
+			return target[key]
+		},
+		set(target, key, value) {
+			if (key == 'a') {
+				value = (value === 0 || value === 1) ? value : parseFloat(value.toFixed(2));
+			} else {
+				value = toInt(value, false);
+				value = value > 255 ? 255 : value;
+			}
+			target[key] = value;
+			return true;
+		}
+	});
+}
+
+// 生成面板缓存代理
 function CreateCacheProxy() {
 	let target = {};
 	return new Proxy(target, {});
-}
-
-// 生成预定义颜色列表的静态HTML
-function CreateColorsHtml(colors) {
-	if (colors.length) {
-		let span = '';
-		colors.forEach(color => {
-			span += `<span style="background-color: ${color}" data-zccp-color="${color}"></span>`
-		});
-		return `<div class="zc-colorpicker-colors">${span}</div>`
-	}
-	return '';
-}
-
-// 生成整个颜色选择器的静态HTML
-function CreateCacheHtml() {
-	let id = this.id;
-	// 预定义颜色集
-	let colorsHtml = this.predefine ? CreateColorsHtml(this.colors) : '';
-	// 透明度
-	let alphaHtml = this.alpha ? `<div id="zccp-alpha-${id}" class="zc-colorpicker-alpha" style="background: linear-gradient(to right, transparent, ${this.color});">
-		<div class="zc-colorpicker-alpha-handle" data-zccp-drag="across"></div></div>` : '';
-	
-	return `<div class="zc-colorpicker-main zc-inline-block" id="zccp-${id}">
-			<div class="zc-colorpicker-wrapper">
-				<div class="zc-colorpicker-panel zc-inline-block">
-					<canvas id="zccp-panel-${id}" width="260" height="180"></canvas>
-					<div class="zc-colorpicker-panel-handle zc-inline-block" data-zccp-drag="both"></div>
-				</div>
-				<div class="zc-colorpicker-colorbar zc-right">
-					<canvas id="zccp-colorbar-${id}" width="12" height="180"></canvas>
-					<div class="zc-colorpicker-colorbar-handle" data-zccp-drag="vertical"></div>
-				</div>
-			</div>
-			${alphaHtml}${colorsHtml}
-			<div class="zc-colorpicker-input-groups">
-				<input type="text" class="zc-colorpicker-input" data-zccp-input />
-				<button type="button" class="zc-colorpicker-btn-default" data-zccp-btn="cancel">取消</button>
-				<button type="button" class="zc-colorpicker-btn-success" data-zccp-btn="affirm">确认</button>
-			</div>
-		</div>`
 }
 
 class colorpicker
 {
 	constructor(option) {
 		this.config = CreateConfigProxy();
+		this.rgba = CreateRGBAProxy();
 	  if (isObject(option)) {
-	  	if (option.elem) {
-				this.elem = option.elem;
-			}
-	  	if (option.done) {
-				this.done = option.done;
-			}
-	  	if (option.change) {
-				this.change = option.change;
-			}
-	  	if (option.color) {
-				this.color = option.color;
-			}
-	  	if (option.colors) {
-				this.colors = option.colors;
-			}
-	  	if (option.alpha) {
-				this.alpha = option.alpha;
-			}
-			if (option.predefine) {
-				this.predefine = option.predefine;
-			}
+			let keys = Object.keys(option);
+			let valid = ['elem', 'done', 'change', 'color', 'colors', 'predefine', 'alpha', 'format']; 
+			keys.forEach(key => {
+				if (valid.indexOf(key) != -1) {
+					this[key] = option[key];
+				}
+			});
 	  }
 	}
 	
@@ -402,7 +479,6 @@ class colorpicker
 	 */
 	set elem(value) {
 		this.config.elem = value;
-		return this;
 	}
 	
 	/**
@@ -418,7 +494,6 @@ class colorpicker
 	 */
 	set done(value) {
 		this.config.done = value;
-		return this;
 	}
 	
 	/**
@@ -434,7 +509,26 @@ class colorpicker
 	 */
 	set change(value) {
 		this.config.change = value;
-		return this;
+	}
+	
+	/**
+	 * 获取颜色输出值
+	 */
+	get value() {
+		let {r, g, b, a} = this.rgba;
+		if (this.alpha) {
+			return `rgba(${r}, ${g}, ${b}, ${a})`;
+		}
+		switch (this.format) {
+			case 'rgb':
+				return `rgb(${r}, ${g}, ${b})`;
+				break;
+			case 'rgba':
+				return `rgba(${r}, ${g}, ${b}, ${a})`;
+			case 'hex':
+			default:
+				return '#' + ((1 << 24) + r * (1 << 16) + g * (1 << 8) + b).toString(16).slice(1).toUpperCase();
+		}
 	}
 	
 	/**
@@ -450,7 +544,6 @@ class colorpicker
 	 */
 	set color(value) {
 		this.config.color = value;
-		return this;
 	}
 	
 	/**
@@ -466,7 +559,6 @@ class colorpicker
 	 */
 	set colors(value) {
 		this.config.colors = value;
-		return this;
 	}
 	
 	/**
@@ -482,7 +574,6 @@ class colorpicker
 	 */
 	set alpha(value) {
 		this.config.alpha = value;
-		return this;
 	}
 	
 	/**
@@ -498,7 +589,21 @@ class colorpicker
 	 */
 	set predefine(value) {
 		this.config.predefine = value;
-		return this;
+	}
+	
+	/**
+	 * 获取当前的颜色输出格式
+	 */
+	get format() {
+		return this.config.format;
+	}
+	
+	/**
+	 * 设置当前的颜色输出格式
+	 * @param {String} value - 颜色显示/输入格式，可选项：HEX、RGB、RGBA。默认值：RGB，若开启透明度则自动转为RGBA
+	 */
+	set format(value) {
+		this.config.format = value;
 	}
 	
 	render() {
@@ -528,9 +633,12 @@ class colorpicker
 		cache.colorbar = cache.main.querySelector(`#zccp-colorbar-${id}`);
 		cache.ctx = cache.colorbar.getContext('2d');
 		
+		// 颜色值的预览框
+		cache.input = cache.main.querySelector('[data-zccp-input]');
+		
 		// 渲染canvas
-		colorGradient(cache.ptx, this.color);
-		colorbarGradient(cache.ctx);
+		colorGradient(cache.ptx, this.color, cache.panel.width, cache.panel.height);
+		colorbarGradient(cache.ctx, cache.colorbar.height);
 		
 		// 绑定指向对象
 		onBindEvent.call(this);

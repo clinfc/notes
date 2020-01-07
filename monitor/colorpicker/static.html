@@ -3,18 +3,18 @@
 	<head>
 		<meta charset="utf-8">
 		<title></title>
-		<link rel="stylesheet" type="text/css" href="./colorpicker.css"/>
+		<link rel="stylesheet" type="text/css" href="./static.css"/>
 	</head>
 	<body>
 		<div class="zc-colorpicker-main zc-inline-block">
 			<!-- 颜色选择面板、颜色范围面板 -->
 			<div class="zc-colorpicker-wrapper">
 				<div class="zc-colorpicker-panel zc-inline-block">
-					<canvas id="zccp-panel" width="260" height="180"></canvas>
+					<canvas id="zccp-panel" width="255" height="255"></canvas>
 					<div class="zc-colorpicker-panel-handle zc-inline-block" data-zccp-drag="both"></div>
 				</div>
 				<div class="zc-colorpicker-aside zc-right">
-					<canvas id="zccp-aside" width="12" height="180"></canvas>
+					<canvas id="zccp-aside" width="12" height="255"></canvas>
 					<div class="zc-colorpicker-aside-handle" data-zccp-drag="vertical"></div>
 				</div>
 			</div>
@@ -42,23 +42,23 @@
 			// 选色主面板
 			function panelGradient(ctx, color) {
 				// 横向渐变
-				let lgc = ctx.createLinearGradient(0, 0, 260, 0)
+				let lgc = ctx.createLinearGradient(0, 0, 255, 0)
 				lgc.addColorStop(0, '#ffffff')
 				lgc.addColorStop(1, color)
 				ctx.fillStyle = lgc
-				ctx.fillRect(0, 0, 260, 180)
+				ctx.fillRect(0, 0, 255, 255)
 				
 				// 纵向渐变
-				let lgl = ctx.createLinearGradient(0, 0, 0, 180)
+				let lgl = ctx.createLinearGradient(0, 0, 0, 255)
 				lgl.addColorStop(0, 'rgba(0,0,0,0)')
 				lgl.addColorStop(1, '#000000')
 				ctx.fillStyle = lgl
-				ctx.fillRect(0, 0, 260, 180)
+				ctx.fillRect(0, 0, 255, 255)
 			}
 			
 			// 测边彩条
 			function asideGradient(ctx) {
-				let lg = ctx.createLinearGradient(0, 0, 0, 180)
+				let lg = ctx.createLinearGradient(0, 0, 0, 255)
 				lg.addColorStop(0, '#FF0000')
 				lg.addColorStop(1/6, '#FF0')
 				lg.addColorStop(2/6, '#0F0')
@@ -67,7 +67,7 @@
 				lg.addColorStop(5/6, '#F0F')
 				lg.addColorStop(1, '#FF0000')
 				ctx.fillStyle = lg
-				ctx.fillRect(0, 0, 12, 180)
+				ctx.fillRect(0, 0, 12, 255)
 			}
 			
 			let panel = document.querySelector('#zccp-panel');

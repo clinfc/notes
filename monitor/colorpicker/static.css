@@ -45,12 +45,12 @@
 	position: fixed;
 }
 .zc-colorpicker-wrapper {
-	height: 267px;
+	height: 263px;
 }
 /* 颜色选择器 */
 .zc-colorpicker-panel {
-	width: 257px;
-	height: 257px;
+	width: 255px;
+	height: 255px;
 	/* background-color: aquamarine; */
 	position: relative;
 	overflow: hidden;
@@ -71,7 +71,7 @@
 .zc-colorpicker-colorbar {
 	/* background-color: blueviolet; */
 	width: 12px;
-	height: 257px;
+	height: 180px;
 	position: relative;
 	cursor: pointer;
 }
@@ -90,7 +90,6 @@
 	height: 10px;
 	position: relative;
 	cursor: pointer;
-	margin-bottom: 10px;
 }
 .zc-colorpicker-alpha-handle {
 	width: 6px;
@@ -104,9 +103,9 @@
 }
 /* 预定义颜色组 */
 .zc-colorpicker-colors {
+	margin-top: 8px;
 	display: flex;
 	flex-wrap: wrap;
-	margin-bottom: 10px;
 }
 .zc-colorpicker-colors>span {
 	width: 20px;
@@ -121,6 +120,7 @@
 }
 /* 输出框 && 按钮 */
 .zc-colorpicker-input-groups {
+	margin-top: 10px;
 	display: flex;
 }
 .zc-colorpicker-input {
