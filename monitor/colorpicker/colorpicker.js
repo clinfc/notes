@@ -148,9 +148,9 @@ function colorGradient(ctx, color, x, y) {
 	ctx.fillRect(0, 0, x, y);
 	
 	// 纵向渐变
-	let lgl = ctx.createLinearGradient(0, 0, 0, y)
-	lgl.addColorStop(1/y, 'rgba(0,0,0,0)')
-	lgl.addColorStop((y-1)/y, '#000000')
+	let lgl = ctx.createLinearGradient(0, 0, 0, y);
+	lgl.addColorStop(1/y, 'rgba(0,0,0,0)');
+	lgl.addColorStop((y-1)/y, '#000000');
 	ctx.fillStyle = lgl
 	ctx.fillRect(0, 0, x, y)
 }
@@ -159,13 +159,13 @@ function colorGradient(ctx, color, x, y) {
 function colorbarGradient(ctx, y) {
 	let lg = ctx.createLinearGradient(0, 0, 0, y)
 	let i = (y - 2) / 6;
-	lg.addColorStop(1/y, 'rgb(255, 0, 0)');
+	lg.addColorStop(1/y, '#FF0000');
 	lg.addColorStop((1*i+1)/y, '#FF0');
 	lg.addColorStop((2*i+1)/y, '#0F0');
 	lg.addColorStop((3*i+1)/y, '#0FF');
 	lg.addColorStop((4*i+1)/y, '#00F');
 	lg.addColorStop((5*i+1)/y, '#F0F');
-	lg.addColorStop((y-1)/y, '#FF0000');
+	lg.addColorStop((y - 1)/y, '#FF0000');
 	ctx.fillStyle = lg;
 	ctx.fillRect(0, 0, 12, y);
 }
@@ -193,9 +193,10 @@ function colorSel() {
 		y = y == undefined ? this.cache.colorDrag.y : y;
 		w = w == undefined ? this.cache.colorDrag.pw : w;
 		h = h == undefined ? this.cache.colorDrag.ph : h;
-		x = x == w ? --x : x;
-		y = y == h ? --y : y;
+		x = x >= w ? w - 1 : x;
+		y = y >= h ? h - 1 : y;
 		let data = this.cache.ptx.getImageData(x, y, 1, 1).data;
+		console.log(x,y,w,h,data);
 		this.rgba.r = data[0];
 		this.rgba.g = data[1];
 		this.rgba.b = data[2];
