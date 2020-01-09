@@ -6,15 +6,17 @@
 		<link rel="stylesheet" type="text/css" href="./colorpicker.css"/>
 		<style type="text/css">
 			#btn {
-				width: 10px;
-				height: 10px;
+				width: 20px;
+				height: 20px;
 				background-color: #5FB878;
 				border-radius: 2px;
 			}
 		</style>
 	</head>
 	<body>
-		<div id="btn"></div>
+		<div style="width: 120%;height: 30px;border: 1px solid #5FB878;padding: 5px;">
+			<div id="btn"></div>
+		</div>
 		<script src="colorpicker.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			
@@ -26,13 +28,10 @@
 				predefine: true,
 				colors: ['#5FB878', '#666666', '#C2C2C2', '#8A2BE2', '#7FFFD4', '#A52A2A'],
 			});
-			cp.alpha = false;
-			cp.format = 'rgb';
 			cp.done = function(color) {
-				// console.log(color);
+				console.log(color);
 			}
 			cp.change = function(color) {
-				// console.log(color);
 				elem.style.background = color;
 			}
 			cp.render();

@@ -61,13 +61,18 @@ class drag
 		this.mousedown = false;
 		
 		let self = this;
+		let timer = null;
 		
 		// 计算位移
 		function computedMove(event) {
-			if (self.mousedown) {
+			if (self.mousedown && !timer) {
 				let x = event.clientX - self.px;
 				let y = event.clientY - self.py;
 				self.offset(x, y);
+				timer = setTimeout(() => {
+					clearTimeout(timer);
+					timer = null;
+				}, 25);
 			}
 		}
 		
@@ -95,6 +100,7 @@ class drag
 			document.addEventListener('mousemove', event => {
 				computedMove(event)
 			}, false);
+			
 		}, false);
 		
 		// 监听鼠标松开
@@ -114,18 +120,21 @@ class drag
 		y = y < 0 ? 0 : y > this.ph ? this.ph : y;
 		
 		switch (this.type) {
+			// 只支持左右拖拽（透明度选择器）
 			case 'across':
 				if (this.x != x) {
 					this.el.setAttribute('style', `left:${x}px`);
 					this.callback(x, 0, this.pw, 0);
 				}
 				break;
+			// 只支持上下拖拽（色域选择器）
 			case 'vertical':
 				if (this.y != y) {
 					this.el.setAttribute('style', `top:${y}px`);
-					this.callback(0, y, this.pw, this.ph);
+					this.callback(0, y, 0, this.ph);
 				}
 				break;
+			// 支持上下左右拖拽（颜色选择器）
 			default:
 				if (this.y != y || this.x != x) {
 					this.el.setAttribute('style', `left:${x}px;top:${y}px`);
@@ -172,7 +181,7 @@ function colorbarGradient(ctx, y) {
 
 // 彩色条拖拽回调
 function colorBar() {
-	let color = colorSel.call(this);
+	let color = colorSel.call(this);	// this 指向 colorpicker 对象实例
 	let ptx = this.cache.ptx;
 	let pw = this.cache.panel.width;
 	let ph = this.cache.panel.height;
@@ -187,7 +196,7 @@ function colorBar() {
 
 // 颜色面板拖拽回调
 function colorSel() {
-	let alpha = alphaSel.call(this);
+	let alpha = alphaSel.call(this);	// this 指向 colorpicker 对象实例
 	return (x, y, w, h) => {
 		x = x == undefined ? this.cache.colorDrag.x : x;
 		y = y == undefined ? this.cache.colorDrag.y : y;
@@ -196,7 +205,6 @@ function colorSel() {
 		x = x >= w ? w - 1 : x;
 		y = y >= h ? h - 1 : y;
 		let data = this.cache.ptx.getImageData(x, y, 1, 1).data;
-		console.log(x,y,w,h,data);
 		this.rgba.r = data[0];
 		this.rgba.g = data[1];
 		this.rgba.b = data[2];
@@ -206,7 +214,7 @@ function colorSel() {
 
 // 透明度拖拽回调
 function alphaSel() {
-	let change = this.change;
+	let change = this.change;	// this 指向 colorpicker 对象实例
 	let alpha = this.alpha;
 	return (x, y, w, h) => {
 		// 如果开启了透明度选项
@@ -229,7 +237,7 @@ function alphaSel() {
 
 // 绑定选框拖拽事件
 function onBindDrag(main) {
-	let self = this;
+	let self = this;	// this 指向 colorpicker 对象实例
 	main.querySelectorAll('[data-zccp-drag]').forEach(el => {
 		let type = el.dataset.zccpDrag, callback, name;
 		switch (type) {
@@ -252,7 +260,7 @@ function onBindDrag(main) {
 
 // 绑定按钮事件
 function onBindBtns(main) {
-	let self = this;
+	let self = this;	// this 指向 colorpicker 对象实例
 	let cancel = main.querySelector('[data-zccp-btn="cancel"]');
 	let affirm = main.querySelector('[data-zccp-btn="affirm"]');
 	let done = this.done;
@@ -270,28 +278,35 @@ function onBindBtns(main) {
 		// 面板状态：关闭（隐藏）
 		self.status = false;
 		if (isFunction(done)) {
-			done(self.color);
+			done(self.value);
 		}
 	}, false);
 }
 
 // 事件绑定
 function onBindEvent() {
-	let self = this;
+	let self = this;	// this 指向 colorpicker 对象实例
 	let elem = this.elem;
 	let main = this.cache.main;
 	let name = elem.nodeName == 'INPUT' ? 'focus' : 'click';
 	
 	// 给指向容器选择器绑定触发事件
 	elem.addEventListener(name, event => {
-		document.body.appendChild(main);
-		// 面板状态：打开（显示）
-		self.status = true;
-		// 初次触发，绑定选框拖拽事件、绑定取消按钮事件、绑定确认按钮事件
-		if (self.active !== true) {
-			onBindDrag.call(self, main);
-			onBindBtns.call(self, main);
-			self.active = true;
+		// 如果当前的面板状态为：打开（显示）
+		if (self.status) {
+			document.body.removeChild(main);
+			// 更改当前面板状态为：关闭（隐藏）
+			self.status = false;
+		} else {
+			document.body.appendChild(main);
+			// 更改当前面板状态为：打开（显示）
+			self.status = true;
+			// 初次触发，绑定 选框拖拽事件、取消按钮事件、确认按钮事件
+			if (self.active !== true) {
+				onBindDrag.call(self, main);
+				onBindBtns.call(self, main);
+				self.active = true;
+			}
 		}
 	}, false);
 }
@@ -310,7 +325,7 @@ function CreateColorsHtml(colors) {
 
 // 生成整个颜色选择器的静态HTML
 function CreateCacheHtml() {
-	let id = this.id;
+	let id = this.id;	// this 指向 colorpicker 对象实例
 	// 预定义颜色集
 	let colorsHtml = this.predefine ? CreateColorsHtml(this.colors) : '';
 	// 透明度

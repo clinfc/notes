@@ -42,7 +42,7 @@
 	padding: 8px;
 	border: 1px solid #EEEEEE;
 	box-shadow: 0 2px 15px 1px #C2C2C2;
-	position: fixed;
+	position: absolute;
 }
 .zc-colorpicker-wrapper {
 	height: 267px;
