@@ -24,7 +24,7 @@
 			let elem = document.querySelector('#btn');
 			let cp = new colorpicker({
 				elem: '#btn',
-				color: '#0F0',
+				color: 'rgb(0, 255, 125)',
 				alpha: true,
 				predefine: true,
 				colors: ['#5FB878', '#666666', '#C2C2C2', '#8A2BE2', '#7FFFD4', '#A52A2A'],
@@ -34,6 +34,7 @@
 			}
 			cp.change = function(color) {
 				elem.style.background = color;
+        console.log(cp.hsb);
 			}
 			cp.render();
 		</script>

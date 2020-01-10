@@ -130,10 +130,10 @@ function toRGBA(color) {
   // HEX
   if (/^\#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/.test(color)) {
     rgba = HEXToRGB(color);
-    rgb.a = 1;
+    rgba.a = 1;
   }
   // RGB OR RGBA
-  if (/^rgb\(\d{1,3},\s{0,}\d{1,3},\s{0,}\d{1,3}\)|rgba\(\d{1,3},\s{0,}\d{1,3},\s{0,}\d{1,3},\s{0,}([01]|0?\.\d+)\))$/.test(color)) {
+  if (/(rgb\(\d{1,3},\s{0,}\d{1,3},\s{0,}\d{1,3}\)|rgba\(\d{1,3},\s{0,}\d{1,3},\s{0,}\d{1,3},\s{0,}([01]|0?\.\d+)\))/.test(color)) {
     let match = color.match(/\d{1,3}/g);
     rgba = {r: match[0], g: match[1], b: match[2]};
     let a = match[3] || 1;
