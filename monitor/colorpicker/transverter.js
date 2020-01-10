@@ -34,18 +34,27 @@ function RGBToHSB(rgb){
 }
 
 /**
+ * HEX 转 RGB
+ * @param {String} hex - #FF0000
+ * @return {Object} rgb - {r: 0, g: 0, b: 0}
+ */
+function HEXToRGB(hex) {
+  var hex = hex.indexOf('#') > -1 ? hex.substring(1) : hex;
+  if(hex.length == 3){
+  	var num = hex.split("");
+  	hex = num[0]+num[0]+num[1]+num[1]+num[2]+num[2]
+  };
+  hex = parseInt(hex, 16);
+  return {r:hex >> 16, g:(hex & 0x00FF00) >> 8, b:(hex & 0x0000FF)};
+}
+
+/**
  * HEX转HSB
  * @param {String} hex - #FF0000
  * @return {Object} hsb - {h: 0, s: 0, b: 0}
  */
 function HEXToHSB(hex){
-	var hex = hex.indexOf('#') > -1 ? hex.substring(1) : hex;
-	if(hex.length == 3){
-		var num = hex.split("");
-		hex = num[0]+num[0]+num[1]+num[1]+num[2]+num[2]
-	};
-	hex = parseInt(hex, 16);
-	var rgb = {r:hex >> 16, g:(hex & 0x00FF00) >> 8, b:(hex & 0x0000FF)};
+	let rgb = HEXToRGB(hex);
 	return RGBToHSB(rgb);
 }
 
@@ -107,7 +116,28 @@ function RGBSTo(rgbs){
 // RGB转HEX
 function RGBToHEX(rgb) {
 	let {r, g, b} = rgb;
-	let value = (1 << 24) + r * (1 << 16) + g * (1 << 8) + b;
-	value = value.toString(16);
-	return `#${value.slice(1)}`;
+	let hex = ((1 << 24) + r * (1 << 16) + g * (1 << 8) + b).toString(16).slice(1).toUpperCase();
+	return `#${hex}`;
+}
+
+/**
+ * 将颜色值（hex、rgb、rgba）转换成 RGBA 对象
+ * @param {String} color
+ * @return {Object}
+ */
+function toRGBA(color) {
+  var rgba = {r: 255, g: 0, b: 0, a: 1};
+  // HEX
+  if (/^\#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/.test(color)) {
+    rgba = HEXToRGB(color);
+    rgb.a = 1;
+  }
+  // RGB OR RGBA
+  if (/^rgb\(\d{1,3},\s{0,}\d{1,3},\s{0,}\d{1,3}\)|rgba\(\d{1,3},\s{0,}\d{1,3},\s{0,}\d{1,3},\s{0,}([01]|0?\.\d+)\))$/.test(color)) {
+    let match = color.match(/\d{1,3}/g);
+    rgba = {r: match[0], g: match[1], b: match[2]};
+    let a = match[3] || 1;
+    rgba.a = a > 1 ? `0.${a}` : a;
+  }
+  return rgba;
 }
