@@ -11,6 +11,150 @@
       throw new Error('请在浏览器环境下运行');
   }
   
+  /**
+   * RGB转HSB
+   * @param {Object} rgb - {r: 0, g: 0, b: 0}
+   * @return {Object} hsb - {h: 0, s: 0, b: 0}
+   */
+  function RGBToHSB(rgb){
+  	var hsb = {h:0, s:0, b:0};
+  	var min = Math.min(rgb.r, rgb.g, rgb.b);
+  	var max = Math.max(rgb.r, rgb.g, rgb.b);
+  	var delta = max - min;
+  	hsb.b = max;
+  	hsb.s = max != 0 ? 255*delta/max : 0;
+  	if(hsb.s != 0){
+  		if(rgb.r == max){
+  			hsb.h = (rgb.g - rgb.b) / delta;
+  		}else if(rgb.g == max){
+  			hsb.h = 2 + (rgb.b - rgb.r) / delta;
+  		}else{
+  			hsb.h = 4 + (rgb.r - rgb.g) / delta;
+  		}
+  	}else{
+  		hsb.h = -1;
+  	};
+  	if(max == min){ 
+  		hsb.h = 0;
+  	};
+  	hsb.h *= 60;
+  	if(hsb.h < 0) {
+  		hsb.h += 360;
+  	};
+  	hsb.s *= 100/255;
+  	hsb.b *= 100/255;
+  	return hsb;  
+  }
+  
+  /**
+   * HEX 转 RGB
+   * @param {String} hex - #FF0000
+   * @return {Object} rgb - {r: 0, g: 0, b: 0}
+   */
+  function HEXToRGB(hex) {
+    var hex = hex.indexOf('#') > -1 ? hex.substring(1) : hex;
+    if(hex.length == 3){
+    	var num = hex.split("");
+    	hex = num[0]+num[0]+num[1]+num[1]+num[2]+num[2]
+    };
+    hex = parseInt(hex, 16);
+    return {r:hex >> 16, g:(hex & 0x00FF00) >> 8, b:(hex & 0x0000FF)};
+  }
+  
+  /**
+   * HEX转HSB
+   * @param {String} hex - #FF0000
+   * @return {Object} hsb - {h: 0, s: 0, b: 0}
+   */
+  function HEXToHSB(hex){
+  	let rgb = HEXToRGB(hex);
+  	return RGBToHSB(rgb);
+  }
+  
+  /**
+   * HSB转RGB
+   * @param {Object} hsb - {h: 0, s: 0, b: 0}
+   * @return {Object} rgb - {r: 0, g: 0, b: 0}
+   */
+  function HSBToRGB(hsb){
+  	var rgb = {};
+  	var h = hsb.h;
+  	var s = hsb.s*255/100;
+  	var b = hsb.b*255/100;
+  	if(s == 0){
+  		rgb.r = rgb.g = rgb.b = b;
+  	}else{
+  		var t1 = b;
+  		var t2 = (255 - s) * b /255;
+  		var t3 = (t1 - t2) * (h % 60) /60;
+  		if(h == 360) h = 0;
+  		if(h < 60) {rgb.r=t1; rgb.b=t2; rgb.g=t2+t3}
+  		else if(h < 120) {rgb.g=t1; rgb.b=t2; rgb.r=t1-t3}
+  		else if(h < 180) {rgb.g=t1; rgb.r=t2; rgb.b=t2+t3}
+  		else if(h < 240) {rgb.b=t1; rgb.r=t2; rgb.g=t1-t3}
+  		else if(h < 300) {rgb.b=t1; rgb.g=t2; rgb.r=t2+t3}
+  		else if(h < 360) {rgb.r=t1; rgb.g=t2; rgb.b=t1-t3}
+  		else {rgb.r=0; rgb.g=0; rgb.b=0}
+  	}
+  	return {r:Math.round(rgb.r), g:Math.round(rgb.g), b:Math.round(rgb.b)};
+  }
+  
+  /**
+   * HSB转HEX
+   * @param {Object} hsb - 
+   * @return {String} hex - FF0000
+   */
+  function HSBToHEX(hsb){
+  	var rgb = HSBToRGB(hsb);
+  	var hex = [
+  		rgb.r.toString(16)
+  		,rgb.g.toString(16)
+  		,rgb.b.toString(16)
+  	];
+  	hex.forEach((val, nr) => {
+  		if(val.length == 1){
+  			hex[nr] = '0' + val;
+  		}
+  	});
+  	return hex.join('');
+  }
+  
+  //转化成所需rgb格式
+  function RGBSTo(rgbs){
+  	var regexp = /[0-9]{1,3}/g;
+  	var re = rgbs.match(regexp) || [];
+  	return {r:re[0], g:re[1], b:re[2]};
+  }
+  
+  // RGB转HEX
+  function RGBToHEX(rgb) {
+  	let {r, g, b} = rgb;
+  	let hex = ((1 << 24) + r * (1 << 16) + g * (1 << 8) + b).toString(16).slice(1).toUpperCase();
+  	return `#${hex}`;
+  }
+  
+  /**
+   * 将颜色值（hex、rgb、rgba）转换成 RGBA 对象
+   * @param {String} color
+   * @return {Object}
+   */
+  function toRGBA(color) {
+    var rgba = {r: 255, g: 0, b: 0, a: 1};
+    // HEX
+    if (/^\#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/.test(color)) {
+      rgba = HEXToRGB(color);
+      rgba.a = 1;
+    }
+    // RGB OR RGBA
+    if (/(rgb\(\d{1,3},\s{0,}\d{1,3},\s{0,}\d{1,3}\)|rgba\(\d{1,3},\s{0,}\d{1,3},\s{0,}\d{1,3},\s{0,}([01]|0?\.\d+)\))/.test(color)) {
+      let match = color.match(/\d{1,3}/g);
+      rgba = {r: match[0], g: match[1], b: match[2]};
+      let a = match[3] || 1;
+      rgba.a = a > 1 ? `0.${a}` : a;
+    }
+    return rgba;
+  }
+  
   // 从一段 HTML 代码创建 DOM
   function fromHtml(html) {
   	let div = document.createElement('div');
@@ -88,12 +232,6 @@
   		this.x = toFloat(this.el.offsetLeft, false);
   		this.y = toFloat(this.el.offsetTop, false);
   		
-  		let pcss = this.parent.getBoundingClientRect();
-      // 父容器的宽度
-      this.width = pcss.width;
-      // 父容器的高度
-      this.height = pcss.height;
-  		
   		// 监控鼠标是否为按下状态
   		this.mousedown = false;
   		
@@ -150,6 +288,38 @@
   			self.mousedown = false;
   		}, false);
   	}
+    
+    /**
+     * 获取父元素的宽度
+     */
+    get width() {
+      return this.parent.offsetWidth
+    }
+    
+    /**
+     * 获取父元素的高度
+     */
+    get height() {
+      return this.parent.offsetHeight
+    }
+    
+    get x() {
+      return this.el.offsetLeft
+    }
+    
+    set x(x) {
+      x = toFloat(x, false);
+      this.el.style.left = `${x}px`;
+    }
+    
+    get y() {
+      return this.el.offsetTop
+    }
+    
+    set y(y) {
+      y = toFloat(y, false);
+      this.el.style.top = `${y}px`;
+    }
   	
   	/**
   	 * @param {Object} x 	对应left
@@ -184,8 +354,6 @@
   				}
   				break;
   		}
-  		this.x = x;
-  		this.y = y;
   	}
   }
   
@@ -219,6 +387,19 @@
   	lg.addColorStop((y - 1)/y, '#FF0000');
   	ctx.fillStyle = lg;
   	ctx.fillRect(0, 0, 12, y);
+  }
+  
+  // 使用指定颜色刷新 colorpicker 对象的 rgba 和 hsb 属性值
+  function RefreshRgbaAndHsb(color) {
+    // 将默认颜色值转换为 RGBA 并缓存
+    let {r, g, b, a} = toRGBA(color);
+    this.rgba.r = r;  // this 指向 colorpicker 对象实例
+    this.rgba.g = g;
+    this.rgba.b = b;
+    this.rgba.a = a;
+    
+    // 将 RGBA 转换成 HSB 并缓存
+    this.hsb = RGBToHSB({r, g, b});
   }
   
   // 彩色条拖拽回调
@@ -292,9 +473,25 @@
   // 绑定按钮事件
   function onBindBtns(main) {
   	let self = this;	// this 指向 colorpicker 对象实例
+    let colors = main.querySelector('.zc-colorpicker-colors');
   	let cancel = main.querySelector('[data-zccp-btn="cancel"]');
   	let affirm = main.querySelector('[data-zccp-btn="affirm"]');
   	let done = this.done;
+    let ptx = this.cache.ptx;
+    let input = this.cache.input;
+    
+    
+    // 预定义颜色集合
+    colors.addEventListener('click', event => {
+      if (event.target.nodeName == 'SPAN') {
+        let color = event.target.dataset.zccpColor;
+        RefreshRgbaAndHsb.call(self, color);
+        self.orientation();
+        let huecolor = self.huecolor;
+        colorGradient(ptx, huecolor, self.cache.color.width, self.cache.color.height);
+        input.value = self.value;
+      }
+    }, false);
   	
   	// 取消按钮监听
   	cancel.addEventListener('click', () => {
@@ -330,6 +527,12 @@
   			self.status = false;
   		} else {
   			document.body.appendChild(main);
+        // 设置 main 的定位
+        let x = event.clientX,
+          y = event.clientY,
+          w = main.offsetWidth,
+          h = main.offsetHeight, top, left;
+        
   			// 更改当前面板状态为：打开（显示）
   			self.status = true;
   			// 初次触发，绑定 选框拖拽事件、取消按钮事件、确认按钮事件
@@ -337,26 +540,10 @@
   				onBindDrag.call(self);
   				onBindBtns.call(self, main);
   				self.active = true;
+          self.orientation();
   			}
   		}
   	}, false);
-  }
-  
-  // 将颜色转为 RGBA 并进行缓存
-  function SetRGBA(color) {
-    let {r, g, b, a} = toRGBA(color);
-    this.rgba.r = r;  // this 指向 colorpicker 对象实例
-    this.rgba.g = g;
-    this.rgba.b = b;
-    this.rgba.a = a;
-    this.hsb = RGBToHSB({r, g, b});
-  }
-  
-  // 通过色相范围获取颜色值
-  function GetColorByHue(ctx, hue, height) {
-    let y = (hue / 360 * (height - 2)) + 1;
-    let [r, g, b] = ctx.getImageData(0, y, 1, 1).data;
-    return `rgb(${r}, ${g}, ${b})`;
   }
   
   // 生成预定义颜色列表的静态HTML
@@ -377,8 +564,8 @@
   	// 预定义颜色集
   	let colorsHtml = this.predefine ? CreateColorsHtml(this.colors) : '';
   	// 透明度
-  	let alphaHtml = this.alpha ? `<div id="zccp-alpha-${id}" class="zc-colorpicker-alpha" style="background: linear-gradient(to right, transparent, ${this.color});">
-  		<div class="zc-colorpicker-alpha-handle" data-zccp-drag="across"></div></div>` : '';
+  	let alphaHtml = `<div id="zccp-alpha-${id}" class="zc-colorpicker-alpha" style="background: linear-gradient(to right, transparent, ${this.color});${this.alpha ? '' : 'display: none'}">
+      <div class="zc-colorpicker-alpha-handle" data-zccp-drag="across"></div> </div>`;
   	
   	return `<div class="zc-colorpicker-main zc-inline-block" id="zccp-${id}">
   			<div class="zc-colorpicker-wrapper">
@@ -681,6 +868,19 @@
   	set format(value) {
   		this.config.format = value;
   	}
+    
+    /**
+     * 通过色相值获取颜色
+     */
+    get huecolor() {
+      let ctx = this.cache.ctx,
+        hue = this.hsb.h,
+        height = this.cache.colorbar.height - 2,
+        y = hue / 360 * height + 1;
+        
+      let [r, g, b] = ctx.getImageData(0, y, 1, 1).data;
+      return `rgb(${r}, ${g}, ${b})`;
+    }
   	
     // 创建面板
   	render() {
@@ -688,8 +888,7 @@
   			throw new Error('已初始化，不可重复操作');
   		}
       
-      // 根据颜色默认值设置 RGBA 缓存数据
-      SetRGBA.call(this, this.color);
+      RefreshRgbaAndHsb.call(this, this.color);
       
   		// 颜色选择器缓存
   		this.cache = CreateCacheProxy();
@@ -727,7 +926,7 @@
   		
   		// 渲染canvas
   		colorbarGradient(cache.ctx, cache.colorbar.height);
-      let color = GetColorByHue(cache.ctx, this.hsb.h, cache.colorbar.height);
+      let color = this.huecolor;
   		colorGradient(cache.ptx, color, cache.color.width, cache.color.height);
   		
   		// 事件绑定
@@ -738,11 +937,46 @@
      * 定位滑块。设置默认值和选择自定义颜色时使用
      */
     orientation() {
-      let {h, s, b} = this.hsb;
       let {colorBar: cbar, color, alpha} = this.cache.dragElement;
-      cbar.style.top = `0px`;
-      color.setAttribute('style', `top: 0px; left: 0px;`);
-      alpha.style.left = `0px`;
+      
+      // 定位彩色条选框位置
+      cbar.style.top = `${this.colorbarLocation}px`;
+      
+      // 定位颜色选框位置
+      let location = this.colorLocation;
+      color.setAttribute('style', `top: ${location.top}px; left: ${location.left}px;`);
+      
+      // 定位透明度选框位置
+      alpha.style.left = `${this.alphaLocation}px`;
+    }
+    
+    /**
+     * 计算彩色条选框的位置（定位）（不带单位）
+     */
+    get colorbarLocation() {
+      return this.hsb.h / 360 * (this.cache.colorbar.height - 2) + 1
+    }
+    
+    /**
+     * 计算颜色选框的位置（定位）（不带单位）
+     */
+    get colorLocation() {
+      let {h, s, b} = this.hsb,
+        cel = this.cache.color,
+        cw = cel.width - 2,
+        ch = cel.height - 2;
+      return {
+        "top": (10000 - 100*b) / 10000 * ch + 1,
+        "left": s / 100 * cw + 1
+      }
+    }
+    
+    /**
+     * 计算透明度选框的位置（定位）（不带单位）
+     */
+    get alphaLocation() {
+      let width = this.cache.alpha.getBoundingClientRect().width;
+      return this.rgba.a * width
     }
   }
 
