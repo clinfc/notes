@@ -522,11 +522,11 @@
   	elem.addEventListener(name, event => {
   		// 如果当前的面板状态为：打开（显示）
   		if (self.status) {
-  			document.body.removeChild(main);
+  			elem.removeChild(main);
   			// 更改当前面板状态为：关闭（隐藏）
   			self.status = false;
   		} else {
-  			document.body.appendChild(main);
+  			elem.appendChild(main);
         // 设置 main 的定位
         let x = event.clientX,
           y = event.clientY,
