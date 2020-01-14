@@ -12,7 +12,7 @@
 后续功能：
 
 	输入框与面板和滑块进行双向绑定
-		1、输入颜色
+		1、输入颜色（废弃）
 		2、预定义颜色
 		
 		
@@ -29,15 +29,7 @@
 ✔ 5、单向绑定：只能通过选择颜色获取颜色的值
 ✔ 6、双向绑定：通过颜色值设置当前滑块的位置（功能：设置默认颜色、预定义颜色列表）
 
-拖拽：data-zccp-drag => 横：across、竖：vertical、横竖：both
+拖拽：data-zccp-drag => across（横）、vertical（竖）、both（横竖）
 颜色：data-zccp-color => hex、rgb、rgba
-按钮：data-zccp-btn => 取消：cancel、确认：affirm
+按钮：data-zccp-btn => cancel（取消）、affirm（确认）
 显示框：data-zccp-input
-
-255		0			0
-255		255		0
-0			255		0
-0			255		255
-0			0			255
-255		0			255
-255		0			0

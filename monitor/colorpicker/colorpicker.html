@@ -3,39 +3,16 @@
 	<head>
 		<meta charset="utf-8">
 		<title></title>
-		<link rel="stylesheet" type="text/css" href="./colorpicker.css"/>
-		<style type="text/css">
-			#btn {
-				width: 20px;
-				height: 20px;
-				background-color: #5FB878;
-				border-radius: 2px;
-			}
-		</style>
 	</head>
 	<body>
-		<div style="width: 120%;height: 30px;border: 1px solid rgb(0, 255, 125);padding: 5px;">
-			<div id="btn"></div>
-		</div>
-    <script src="transverter.js" type="text/javascript" charset="utf-8"></script>
-		<script src="colorpicker.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript">
-			
-			let elem = document.querySelector('#btn');
-			let cp = new colorpicker({
-				elem: '#btn',
-				color: 'rgba(0, 255, 125, .5)',
-				alpha: true,
-				predefine: true,
-				colors: ['#5FB878', '#666666', '#C2C2C2', '#8A2BE2', '#7FFFD4', '#A52A2A'],
-			});
-			cp.done = function(color) {
-				console.log(color);
-			}
-			cp.change = function(color) {
-				elem.style.background = color;
-			}
-			cp.render();
-		</script>
+    <button type="button" id="btn">btn</button>
+    <script src="./colorpicker.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      let cp = new colorpicker({
+        elem: '#btn',
+        alpha: true,
+      });
+      cp.render();
+    </script>
 	</body>
 </html>

@@ -43,6 +43,7 @@
 	border: 1px solid #EEEEEE;
 	box-shadow: 0 2px 15px 1px #C2C2C2;
 	position: absolute;
+  background-color: #FFFFFF;
 }
 .zc-colorpicker-wrapper {
 	height: 267px;

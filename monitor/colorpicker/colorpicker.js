@@ -4,11 +4,35 @@
 	(global.colorpicker = factory());
 }(this, (function () { 'use strict';
 
-  // 检验是否浏览器环境
-  try {
-      document;
-  } catch (ex) {
-      throw new Error('请在浏览器环境下运行');
+  // 初始化配置
+  window.onload = function init() {
+    
+    // 检验是否浏览器环境
+    try {
+        document;
+    } catch (ex) {
+        throw new Error('请在浏览器环境下运行');
+    }
+    
+    // 加载 css
+    let head = document.head, bool = false;
+    if (head) {
+      Array.prototype.forEach.call(head.querySelectorAll('link'), item => {
+        if (item.dataset.zccp == 'colorpicker' && item.href.test(/colorpicker.css/)) {
+          bool = true;
+        }
+      });
+    } else {
+      head = document.createElement('head');
+      document.appendChild(head);
+    }
+    if (!bool) {
+      let link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = './colorpicker.css';
+      link.dataset.zccp = 'colorpicker';
+      head.appendChild(link);
+    }
   }
   
   /**
@@ -482,7 +506,7 @@
     
     
     // 预定义颜色集合
-    colors.addEventListener('click', event => {
+    colors && colors.addEventListener('click', event => {
       if (event.target.nodeName == 'SPAN') {
         let color = event.target.dataset.zccpColor;
         RefreshRgbaAndHsb.call(self, color);
@@ -522,28 +546,53 @@
   	elem.addEventListener(name, event => {
   		// 如果当前的面板状态为：打开（显示）
   		if (self.status) {
-  			elem.removeChild(main);
+  			document.body.removeChild(main);
   			// 更改当前面板状态为：关闭（隐藏）
   			self.status = false;
   		} else {
-  			elem.appendChild(main);
+  			document.body.appendChild(main);
         // 设置 main 的定位
-        let x = event.clientX,
-          y = event.clientY,
-          w = main.offsetWidth,
-          h = main.offsetHeight, top, left;
+        setMainLocation(event, main, elem);
         
   			// 更改当前面板状态为：打开（显示）
   			self.status = true;
-  			// 初次触发，绑定 选框拖拽事件、取消按钮事件、确认按钮事件
+  			// 初次触发
   			if (self.active !== true) {
+          // 绑定选择器滑块的拖拽事件
   				onBindDrag.call(self);
+          // 绑定 取消按钮事件、确认按钮事件、预定义颜色集事件
   				onBindBtns.call(self, main);
+          // 设置当前 colorpicker 实例已完成创建  
   				self.active = true;
+          // 根据自定义颜色，设置滑块的位置
           self.orientation();
   			}
   		}
   	}, false);
+  }
+  
+  // 通过计算，设置颜色选择器的位置
+  function setMainLocation(event, main, elem) {
+    let top, left,
+      x = event.pageX - event.offsetX,
+      y = event.pageY - event.offsetY,
+      mw = main.offsetWidth,
+      mh = main.offsetHeight,
+      ew = elem.offsetWidth,
+      eh = elem.offsetHeight,
+      ww = window.innerWidth,
+      wh = window.innerHeight;
+    top = y + eh + 10;
+    left = x + ew / 2 - mw / 2;
+    if (left > ww) {
+      left = ww - mw;
+    } else if (left < 10) {
+      left = 10;
+    }
+    // main.style.top = `${top}px`;
+    // main.style.left = `${left}px`;
+    main.style.top = `${top/wh*100}%`;
+    main.style.left = `${left/ww*100}%`;
   }
   
   // 生成预定义颜色列表的静态HTML
@@ -567,7 +616,7 @@
   	let alphaHtml = `<div id="zccp-alpha-${id}" class="zc-colorpicker-alpha" style="background: linear-gradient(to right, transparent, ${this.color});${this.alpha ? '' : 'display: none'}">
       <div class="zc-colorpicker-alpha-handle" data-zccp-drag="across"></div> </div>`;
   	
-  	return `<div class="zc-colorpicker-main zc-inline-block" id="zccp-${id}">
+  	return `<div class="zc-colorpicker-main zc-inline-block" id="zccp-${id}" style="z-index: ${this.zIndex}">
   			<div class="zc-colorpicker-wrapper">
   				<div class="zc-colorpicker-panel zc-inline-block">
   					<canvas id="zccp-panel-${id}" width="257" height="257"></canvas>
@@ -600,6 +649,7 @@
   	 * @param {Function} - done - 颜色选择后的回调  
   	 * @param {Function} - change - 颜色被改变的回调
   	 * @param {String} - format - 颜色显示/输入格式，可选项：HEX、RGB、RGBA。默认值：RGB，若开启透明度则自动转为RGBA  
+     * @param {Int} - zIndex - 选择器跟节点的 z-index 属性  
   	 */
   	let target = {
   		id: Math.random().toString(36).slice(-8),
@@ -610,7 +660,8 @@
   		predefine: false,
   		done: undefined,
   		change: undefined,
-  		format: 'hex'
+  		format: 'hex',
+      zIndex: 666,
   	};
   	
   	return new Proxy(target, {
@@ -659,6 +710,12 @@
   					}
   					target[key] = value;
   					break;
+          case "zIndex":
+            value = toInt(value, false);
+            if (value > 0) {
+              target[key] = value;
+            }
+            break;
   				default:
   					target[key] = value;
   					break;
@@ -712,7 +769,7 @@
       
   	  if (isObject(option)) {
   			let keys = Object.keys(option);
-  			let valid = ['elem', 'done', 'change', 'color', 'colors', 'predefine', 'alpha', 'format']; 
+  			let valid = ['elem', 'done', 'change', 'color', 'colors', 'predefine', 'alpha', 'format', 'zIndex']; 
   			keys.forEach(key => {
   				if (valid.indexOf(key) != -1) {
   					this[key] = option[key];
@@ -749,6 +806,49 @@
   		}
   	}
   	
+  	/**
+  	 * 通过色相值获取颜色
+  	 */
+  	get huecolor() {
+  	  let ctx = this.cache.ctx,
+  	    hue = this.hsb.h,
+  	    height = this.cache.colorbar.height - 2,
+  	    y = hue / 360 * height + 1;
+  	    
+  	  let [r, g, b] = ctx.getImageData(0, y, 1, 1).data;
+  	  return `rgb(${r}, ${g}, ${b})`;
+  	}
+  	
+  	/**
+  	 * 获取默认颜色配置
+  	 */
+  	get color() {
+  		return this.config.color;
+  	}
+  	
+  	/**
+  	 * 设置默认颜色
+  	 * @param {String} value
+  	 */
+  	set color(value) {
+  		this.config.color = value;
+  	}
+  	
+  	/**
+  	 * 获取自定义颜色集合
+  	 */
+  	get colors() {
+  		return this.config.colors;
+  	}
+  	
+  	/**
+  	 * 设置自定义颜色集合
+  	 * @param {String} value
+  	 */
+  	set colors(value) {
+  		this.config.colors = value;
+  	}
+    
   	/**
   	 * 获取指向容器选择器配置
   	 */
@@ -792,36 +892,6 @@
   	 */
   	set change(value) {
   		this.config.change = value;
-  	}
-  	
-  	/**
-  	 * 获取默认颜色配置
-  	 */
-  	get color() {
-  		return this.config.color;
-  	}
-  	
-  	/**
-  	 * 设置默认颜色
-  	 * @param {String} value
-  	 */
-  	set color(value) {
-  		this.config.color = value;
-  	}
-  	
-  	/**
-  	 * 获取自定义颜色集合
-  	 */
-  	get colors() {
-  		return this.config.colors;
-  	}
-  	
-  	/**
-  	 * 设置自定义颜色集合
-  	 * @param {String} value
-  	 */
-  	set colors(value) {
-  		this.config.colors = value;
   	}
   	
   	/**
@@ -870,16 +940,18 @@
   	}
     
     /**
-     * 通过色相值获取颜色
+     * 获取选择器跟节点的 z-index 属性值
      */
-    get huecolor() {
-      let ctx = this.cache.ctx,
-        hue = this.hsb.h,
-        height = this.cache.colorbar.height - 2,
-        y = hue / 360 * height + 1;
-        
-      let [r, g, b] = ctx.getImageData(0, y, 1, 1).data;
-      return `rgb(${r}, ${g}, ${b})`;
+    get zIndex() {
+      return this.config.zIndex;
+    }
+    
+    /**
+     * 设置选择器跟节点的 z-index 属性值
+     * @param {Int} value
+     */
+    set zIndex(value) {
+      this.config.zIndex = value;
     }
   	
     // 创建面板
