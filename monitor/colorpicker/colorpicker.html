@@ -6,13 +6,32 @@
 	</head>
 	<body>
     <button type="button" id="btn">btn</button>
+    
     <script src="./colorpicker.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
-      let cp = new colorpicker({
-        elem: '#btn',
-        alpha: true,
-      });
+      
+      let btn = document.querySelector('#btn');
+      let cp = new colorpicker();
+      // 设置指向容器选择器
+      cp.elem = '#btn';
+      // cp.elem = btn;
+      // 设置默认颜色
+      cp.color = '#FF0000';
+      // 开启透明度
+      cp.alpha = true;
+      // 开启预定义颜色
+      cp.predefine = true;
+      // 设置预定义颜色
+      cp.colors = ['#FF0000', '#DCDCDC'];
+      // 设置颜色改变回调
+      cp.change = color => console.log(color);
+      // 设置颜色选择回调
+      cp.done = color => console.log(color);
+      // 设置选择器根节点的 z-index 属性
+      cp.zIndex = 1024;
+      // 创建
       cp.render();
+      
     </script>
 	</body>
 </html>
