@@ -67,3 +67,19 @@ onUnload|监听页面卸载|
 tabBar|配置```pages.json```中的```tabBar.list```
 内置组件|```<navigator url="">跳转</navigator>```
 API接口|```uni.navigateTo```、```uni.redirectTo```、```uni.reLaunch```、```uni.switchTab```、```uni.navigateBack```
+
+
+## 样式布局
+
+#### 尺寸单位：px、rpx
+title|content
+:--:|:--
+转换公式|设计稿的```1px```/ 设计稿基准宽度 = 框架样式的```1rpx```/屏幕基准宽度```750rpx```
+备注|```rpx```不支持```横竖屏```切换
+
+#### 外部样式的导入
+
+title|content
+:--:|:--
+App.vue|定义全局样式
+@import|引入外部 css，例如：```@import './common/base.css'```。备注：如果在 ```App.vue``` 中引入，则为```全局样式```
