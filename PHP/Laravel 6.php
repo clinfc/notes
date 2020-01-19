@@ -209,3 +209,15 @@ function index(Request $request) {
 	session()->has('name');								// 存在 session 键，且值且不为空
 	session()->exists('name');							// 存在 session 键，值不限定
 }
+
+
+/**
+ * 自动生成用户认证前端页面
+ */
+php artisan make:auth									// version < 6.0
+
+composer require laravel/ui
+php artisan ui:auth										// version >= 6.0
+
+npm install
+npm run dev												// 修复页面异常
