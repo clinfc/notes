@@ -1,0 +1,8 @@
+
+laravel new vue
+
+cd vue
+
+npm install
+
+npm install vue-router --save
