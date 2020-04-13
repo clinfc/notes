@@ -7,12 +7,12 @@ npm init
 // -f：项目初始化时使用默认配置进行初始化
 npm init -f
 
-// i：install的简写
+// i：install 的简写
 npm i vue-cli
 
-// -D：--save --dev的简写，将安装包信息加入到 devDependencies （开发阶段的依赖）
+// -D：--save-dev 的简写，将安装包信息加入到 devDependencies （开发阶段的依赖）
 
-// -S：--save的简写，将安装包信息加入到 dependencies （生产阶段的依赖）
+// -S：--save 的简写，将安装包信息加入到 dependencies （生产阶段的依赖）
 
 // -g：全局安装
 npm install -g vue-cli
