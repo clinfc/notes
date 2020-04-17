@@ -21,7 +21,8 @@ npm install -g vue-cli
 npm root -g
 ```
 
-## 淘宝镜像
+
+## 淘宝镜像 [链接](https://developer.aliyun.com/mirror/NPM?from=tnpm)
 
 ```
 // 永久设置npm安装源为淘宝镜像
