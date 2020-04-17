@@ -306,7 +306,7 @@ not(5 > 3)
 ```
 
 
-## interpolation
+## 插值语句
 
 ```scss
 $version: "1.0.1"
