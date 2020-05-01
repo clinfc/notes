@@ -1,0 +1,89 @@
+
+	术语：
+		数据库：按照某种逻辑结构存储管理数据的仓库
+		数据库服务器：提供数据服务的计算机
+		数据库系统：提供数据服务的软件
+		数据表：存储数据的逻辑结构
+		记录：行 一行数据就叫一条记录
+		字段：列 表示数据某一项
+		
+	登录MySQL系统：
+		phpstudy右击 ==> 打开文件位置 ==> MySQL ==> bin ==> 地址栏“cmd” 
+		==> 然后输入：mysql -hlocalhost -u[username] -p[pwd]
+		
+	数据库操作（一定要以英文分号结尾）：
+		》查询数据库			show databases;
+		》创建数据库			create database data_name charset utf8;
+		》打开数据库			use data_name;
+		》删除数据库			drop database data_name;
+		》显示创建数据库的语句	show create database data_name;
+	
+	数据类型
+		》整形	
+			tinyint		占一个字节
+			smallint	占两个字节
+			mediumint	占三个字节
+			int 		占四个字节
+			bing int 	占八个字节
+		》小数
+			float		占四个字节
+			double		占八个字节
+		》字符型
+			char(num)	定长字符型
+			varchar(num)变长字符型
+			text 		变长文本型
+		》时间日期型
+			date		年 月 日
+			time 		时 分 秒
+			datetime	年 月 日 时 分 秒
+			timestamp	时间戳 年月日 时分秒 默认值：current_timestamp：表示当前时间戳
+		》mysql中没有布尔型，用“1”表示真，“0”表示假
+			
+	数据表的操作：
+		》核实当前数据库	
+			select database();
+			status;
+		》创建数据表
+			create table table_name (字段定义)charset utf8;
+				字段定义 = 字段名 + 数据类型 + 属性约束
+				字段名：student_name, student_no, student_sex
+				属性约束：
+					主键：		primary key
+					自动增长：	aoto_increment
+					完整主键：	name_id int primary key auto_increment
+					不为空：	not null
+					默认值：	default
+			eg：创建学生表（主键字段，姓名，学号，性别，年龄，电话）		
+				create table student(
+					student_id int primary key apto_increment,
+					student_name varchar(50),
+					student_no varchar(5),
+					student_sex varchar(2),
+					student_age int,
+					student_tel varchar(11)
+				)charset utf8;
+		》显示创建数据表的语句		show create table table_name;
+		》显示数据表结构：			desc table_name;
+		》修改表名：				rename table table_name(原名) to table_name(新名);
+		》查询数据库中的表：		show tables;
+		》删除数据表：				drop table table_name;
+			
+	字段操作：
+		增：
+		删：
+		改： 
+		查：
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		
+		
+		
+		
+		
