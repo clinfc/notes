@@ -3,7 +3,7 @@
 #### 第一步：安装 `babel-preset-env`
 
 ```
-npm install babel-preset-env
+npm install babel-preset-env -D
 ```
 
 ####　第二步：根目录下配置文件 `.babelrc`
@@ -23,6 +23,12 @@ npm install babel-preset-env
 	  "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server --exec babel-node",
 	}
 }
+```
+
+#### 错误：'babel-node' 不是内部或外部命令，也不是可运行的程序或批处理文件
+
+```
+npm install babel-cli -D
 ```
 
 ## `axios` 跨域代理
