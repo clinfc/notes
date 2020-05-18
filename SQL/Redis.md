@@ -74,3 +74,12 @@ Redis 中每个 hash 可以存储 232 - 1 键值对（40多亿）。
 `HMGET key field [field...]`|获取哈希表中，一个或多个给定字段（field）的值。如果field不存在，则该field返回一个 nil 值。
 `HAVLS key`|获取 key 中的所有 field 的值。 当 key 不存在时，返回一个空表。
 `HSCAN key cursor [MATCH pattern] [COUNT count]`|迭代哈希表中的键值对。
+
+>### 列表
+
+Redis列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素到列表的头部（左边）或者尾部（右边）
+
+一个列表最多可以包含 232 - 1 个元素 (4294967295, 每个列表超过40亿个元素)
+
+命令|说明
+:-|:-
