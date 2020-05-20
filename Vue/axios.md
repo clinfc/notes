@@ -83,7 +83,7 @@ axios({
 #### axios.delete
 
 ```javascript
-axios.post('/user/delete', {
+axios.delete('/user/delete', {
 	// 参数将拼接在URL上（query string）
 	params: {}
 }).then(response => {
@@ -95,7 +95,7 @@ axios.post('/user/delete', {
 })
 ```
 ```javascript
-axios.post('/user/delete', {
+axios.delete('/user/delete', {
 	// 参数将被放在请求体中（request payload）
 	data: {}
 }).then(response => {
