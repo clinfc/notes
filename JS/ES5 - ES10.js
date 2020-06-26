@@ -481,7 +481,9 @@
 					return key == 'age' ? target[key]++ : target[key]
 				},
 				set (target, key, value) {
-					return false;
+          target[key] = value
+          
+					return true;                必须返回true，非true返回值表示有错误
 				}
 			})
 
