@@ -161,4 +161,27 @@ class CustomFunction
 		}
 		return [ result, { y, M, m, w, d, H, i, s, u } ]
 	}
+  
+  /**
+   * 将缓存中的数据下载到本地
+   * @param {Object} option 配置项
+   *  data：变量名（数据）
+   *  name：下载到本地时的文件名
+   *  compress：是否压缩数据
+   */
+  download({ data, name, compress }) {
+    if (!data) {
+      throw new Error('请定义数据源')
+    }
+    if (typeof data === 'object') {
+      data = compress ? JSON.stringify(data) : JSON.stringify(data, undefined, 2)
+    }
+    let blob = new Blob([data], { type: 'application/json' })
+    
+    let a = document.createElement('a')
+    a.download = name || 'data.json'
+    a.href = URL.createObjectURL(blob)
+    
+    a.click()
+  }
 }
