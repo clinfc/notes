@@ -26,7 +26,9 @@
       // 设置颜色改变回调
       cp.change = color => console.log(color);
       // 设置颜色选择回调
-      cp.done = color => console.log(color);
+      cp.done = color => {
+        btn.style.backgroundColor = color
+      };
       // 设置选择器根节点的 z-index 属性
       cp.zIndex = 1024;
       // 创建
