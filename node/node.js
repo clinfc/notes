@@ -18,6 +18,9 @@ linux安装node：
 	
 创建vue项目：
 	vue create fremall
+  
+添加element组件库
+  vue add element
 
 启动UI
 	vue ui
