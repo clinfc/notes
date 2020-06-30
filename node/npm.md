@@ -85,6 +85,7 @@ npm init -y
   "description": "",
   "version": "1.0.0",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -108,6 +109,7 @@ npm init -y
 :-|:-|:-|:-
 `name`|项目名|必须小写、不能有空格、可以有下划线和破折号|必选
 `version`|版本号|必须是 `x.x.x` 格式、遵循 [server](https://docs.npmjs.com/getting-started/semantic-versioning) 规范|必选
+`private`|私有的，将不被发送到线上公共服务器|
 `description`|自述信息|（空）字符串|
 `main`||总是 `index.js`|
 `dependencies`|指定依赖项|这些包是生产应用程序所需要的|
