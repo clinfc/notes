@@ -7,7 +7,7 @@ var editor = monaco.editor.create(document.getElementById("container"), {
 	readOnly: false,							// 只读(默认 "false")
 	theme: "vs-dark",							// 主题样式: "vs|vs-dark|hc-black" (默认 "vs")
 	
-	wordWrap: 'wordWrapColumn',		// 自动换行
+	wordWrap: 'wordWrapColumn',		// 以列为单位进行自动换行
 	wordWrapColumn: 40,						// 自动换行的列数(40列后自动换行)
 	wordWrapMinified: true,				// 将此设置为false以不自动自动换行缩小文件
 	wrappingIndent: "indent"			// 包装缩进: "same|indent|none"
