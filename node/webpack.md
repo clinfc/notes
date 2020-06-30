@@ -38,7 +38,10 @@ npm i webpack webpack-cli -D
 `entry`|入口文件|`String`、`Array`、`Object`
 `output`|出口文件|`Object`
 
-多配置数组
+### 多配置数组
+
+* webpack.config.js
+
 ```javascript
 module.exports = [
 	{ mode: "production" },
@@ -46,7 +49,10 @@ module.exports = [
 ]
 ```
 
-文件入口：`entry`
+### 文件入口：`entry`
+
+* webpack.config.js
+
 ```javascript
 module.exports = {
 	// 单文件入口
@@ -63,8 +69,12 @@ module.exports = {
 }
 ```
 
-文件输出：`output`
+### 文件输出：`output`
+
+* webpack.config.js
+
 ```javascript
+const path = require('path')
 module.exports = {
 	entry: {
 		home: 'path/to/my/entry/home.js',
@@ -73,10 +83,84 @@ module.exports = {
 	// 多文件输出
 	output: {
 		filename: '[name].js',
-		path: __dirname + '/dist'
+    // 必须是绝对路径
+		path: path.resolve(__dirname, 'dist')
 	}
 }
 ```
 
+### loader（一个打包方案）
 
+* webpack.config.js
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(jpg|png|jpeg)$/,
+        use: {
+          loader: 'file-loader'
+        }
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      },
+      {
+        test: /\.scss$/,
+        // 执行顺序：从下到上，从右到左
+        use: [
+          'style-loader', 
+          'css-loader', 
+          'sass-loader'
+        ]
+      }
+    ]
+  }
+}
+```
+
+### css增加厂商前缀
+
+* postcss.config.js
+
+```js
+module.exports = {
+  plugins: [
+    require('autoprefixer')
+  ]
+}
+```
+
+* webpack.config.js
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.scss$/
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              // 如果在 .scss 文件中包含 @import '*.scss'，引入的 scss 文件，在引入之前也会去走前面两个 loader
+              importLoaders: 2,
+              // CSS 模块化打包。相当于开启 scoped
+              module: true
+            }
+          } 
+          'sass-loader',
+          'postcss-loader'
+        ]
+      }
+    ]
+  }
+}
+```
 
