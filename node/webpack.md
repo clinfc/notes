@@ -252,18 +252,39 @@ module.exoprts = {
 
 ```js
 const webpack = require('webpack')
+
 module.exports = {
-  // 开启 web 服务器
+  // 开启 web 服务器（在 webpack-dev-server 中才会生效，即在生产环境中才会生效）
   devServer: {
+    // 开启错误提示弹出层
+    overlay: true,
     // 服务器启动的根路径
     contentBase: './dev',
     // 端口号
     port: 3000,
     // 在第一次启动服务时，自动打开浏览器并进行访问
     open: true,
+    // 单页应用中使用 history 路由时，解决除 index 外其它路由无法加载的情况
+    historyApiFallback: true,
     // 跨域代理
     proxy: {
-      '/api': 'http://localhost:3000'
+      '/api': {
+        target: 'http://localhost:3000',
+        // 支持 HTTPS
+        secure: true,
+        // 路径重写
+        pathRewrite: {
+          '^/api': '',
+          /* /api/header.json => http://localhost:3000/demo.json */
+          'header.json': 'demo.json'
+        },
+        // 改变请求头中的 origin 选项
+        changeOrigin: true,
+        headers: {
+          cookie: '',
+          host: '',
+        }
+      }
     },
     // 热替换
     hot: true,
@@ -630,5 +651,112 @@ module.exports = {
       $: 'jquery'
     })
   ]
+}
+```
+
+# Shimming：this 指向变更
+
+> npm i imports-loader -D
+
+* webpack.config.js
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: [
+          {
+            loader: 'babel-loader'
+          },
+          {
+            loader: 'imports-loader?this=>window'
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+
+# library 打包
+
+* webpack.config.js
+
+```js
+module.exports = {
+  output: {
+    // 支持 script_src 引入，全局变量名为 custom
+    library: 'cumtom',
+    // 支持模块引入
+    libraryTarget: 'umd'
+  },
+  // 忽略该库，不将该库打包到最终的代码中（用户使用时，需要自己引入该库）
+  externals: [ 'lodash' ],
+  externals: {
+    lodash: {
+      commonjs: 'lodash'
+    }
+  }
+}
+```
+
+
+# PWA
+
+> npm i workbox-webpack-plugin -D
+
+* webpack.config.js
+
+```js
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin')
+module.exports = {
+  mode: 'production',
+  plugins: [
+    new WorkboxWebpackPlugin.GenerateSW({
+      clientsClaim: true,
+      SkipWaiting: true
+    })
+  ]
+}
+```
+
+
+# TypeScript
+
+> npm i ts-loader typescript -D
+
+* webpack.config.js
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      }
+    ]
+  }
+}
+```
+
+* ts.config.json
+
+```json
+{
+  "compilerOptions": {
+    // 非必写，webpack 中已配置 output.path
+    "outDir": "./dist",
+    // TS 中使用的是 ES Module 的模块引入方式
+    "module": "es6",
+    // 打包成 ES5 语法
+    "target": "es5",
+    // 允许引入 JS 文件库
+    "allowJs": true,
+  }
 }
 ```
