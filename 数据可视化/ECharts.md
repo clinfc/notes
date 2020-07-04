@@ -128,18 +128,25 @@ const dom = document.getElementById('div')
 const chart = echarts.init(dom)
 chart.setOption({
   title: {
-    text: 'ECharts 多系列案例'
+    text: 'legend（图例组件）'
+  },
+  grid: {
+    top: '30%',
+    right: '30%'
   },
   // x 轴
   xAxis: {
     data: ['一季度', '二季度', '三季度', '四季度']
   },
-  dataset: [
-    ['一季度', 30, 100, '分类1', 100],
-    ['二季度', 60, 30, '分类2', 200],
-    ['三季度', 40, 50, '分类3', 50],
-    ['四季度', 90, 99, '分类4', 25]
-  ],
+  yAxis: {},
+  dataset: {
+    source: [
+      ['一季度', 30, 100, '分类1', 100],
+      ['二季度', 60, 30, '分类2', 200],
+      ['三季度', 40, 50, '分类3', 50],
+      ['四季度', 90, 99, '分类4', 25]
+    ]
+  },
   // 图例声明
   legend: {
     data: ['饼图', '折线图', '柱状图']
@@ -149,8 +156,8 @@ chart.setOption({
       // 图例绑定
       name: '饼图',
       type: 'pie',
-      center: ['60%', 60],
-      radius: 35,
+      center: ['80%', '30%'],
+      radius: '10%',
       encode: {
         itemName: 3,
         value: 4
@@ -244,7 +251,6 @@ chart.setOption({
     text: '双轴案例',
     subtext: '双 Y 轴',
     left: 'center'
-    
   },
   xAxis: {
     type: 'category'
@@ -283,7 +289,7 @@ chart.setOption({
       yAxisIndex: 1
     }
   ]
-}
+})
 ```
 
 ### 多坐标系
