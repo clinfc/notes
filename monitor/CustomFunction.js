@@ -193,7 +193,7 @@ class CustomFunction
    * @param {Function} filter 最终返回数据的过滤函数
    * @return {Array}
    */
-  toTree (target, k, fk, filter) {
+  toTree(target, k, fk, filter) {
     const temp = []
     const data = this.copy(target)
     data.forEach((row) => {
@@ -208,5 +208,41 @@ class CustomFunction
       }
       return filter(row)
     })
+  }
+  
+  /**
+   * 生成 min <= num <= max 的区间数
+   * 
+   * @param {Number} min 区间最小值
+   * @param {Number} max 区间最大值
+   * @return {Number}
+   */
+  random(...arg) {
+    let min = Math.min(...arg)
+    let max = Math.max(...arg)
+    return min + Math.round(Math.random() * (max - min))
+  }
+  
+  /**
+   * 得到两个数的百分数
+   * 
+   * @param {Number} num1 数值1
+   * @param {Number} num2 数值2
+   * @param {Int} len 保留的小数位
+   * @return {String} 百分数
+   */
+  percent(num1, num2, len = 0) {
+    return `${Math.round((num1 / num2) * Math.pow(10, len+2)) / 100}%`
+  }
+  
+  /**
+   * 千分位（数字格式化）
+   * 
+   * @param {Number|String} target 需要被格式化的数字
+   * @param {String} char 用于分割的字符
+   * @return {String}
+   */
+  thousands(target, char = ',') {
+    return `${target}`.replace(/\d{1,3}(?=(\d{3})+$)/g, `$&${char}`)
   }
 }
