@@ -184,4 +184,29 @@ class CustomFunction
     
     a.click()
   }
+  
+  /**
+   * 将数据转换为树形结构，转换后的数据将与原数据不再有关联
+   * @param {Array} target 将数据行数组转换为 tree 解构
+   * @param {String} k 主键
+   * @param {String} fk 外键名。将依据此键进行数据 tree 化操作
+   * @param {Function} filter 最终返回数据的过滤函数
+   * @return {Array}
+   */
+  toTree (target, k, fk, filter) {
+    const temp = []
+    const data = this.copy(target)
+    data.forEach((row) => {
+      if (!temp[row[fk]]) {
+        temp[row[fk]] = []
+      }
+      temp[row[fk]].push(row)
+    })
+    return data.filter((row) => {
+      if (temp[row[k]]) {
+        row.children = temp[row[k]]
+      }
+      return filter(row)
+    })
+  }
 }
