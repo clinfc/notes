@@ -5,7 +5,7 @@ class CustomFunction
 	 * 获取当前的时间戳
 	 */
 	get timestamp() {
-		return Math.floor(new Date().getTime() / 1000)
+		return Math.floor(Date.now() / 1000)
 	}
 	
 	/**
