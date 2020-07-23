@@ -238,7 +238,7 @@ module.exoprts = {
 
 > npm i webpack-dev-server
 
-* package.config.json
+* package.json
 
 ```json
 {
