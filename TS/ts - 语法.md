@@ -360,13 +360,13 @@ function merge(first: object | Obj, second: object | Obj) {
 # 枚举类型（enum）
 
 ```ts
-emun status {       // 默认从“0”开始
+enum status {       // 默认从“0”开始
   ZERO,
   ONE,
   TWO
 }
 
-emun status {       // 从指定数“1”开始
+enum status {       // 从指定数“1”开始
   ONE = 1,
   TWO,
   THREE
