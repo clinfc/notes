@@ -135,6 +135,10 @@ module.exports = {
 
 # css增加厂商前缀
 
+```
+npm i postcss-loader autoprefixer -D
+```
+
 * postcss.config.js
 
 ```js
@@ -197,14 +201,12 @@ module.exports = {
 
 ```js
 // 打包之前对指定文件进行清理
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 // 在打包结束后，自动生成HTML文件，并把打包生成的JS文件自动引入HTML文件中
 const HtmpWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   plugins: [
-    new CleanWebpackPlugin([
-      'main'
-    ]),
+    new CleanWebpackPlugin(),
     new HtmpWebpackPlugin({
       template: 'src/index.html'
     })
@@ -254,7 +256,7 @@ module.exoprts = {
 const webpack = require('webpack')
 
 module.exports = {
-  // 开启 web 服务器（在 webpack-dev-server 中才会生效，即在生产环境中才会生效）
+  // 开启 web 服务器（在 webpack-dev-server 中才会生效，即在开发环境中才会生效）
   devServer: {
     // 开启错误提示弹出层
     overlay: true,
@@ -463,7 +465,7 @@ module.exports = {}
 * webpack.build.js | webpack.dev.js
 
 ```js
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const config = require('webpack.common.js')
 
 const build = {
