@@ -1,12 +1,6 @@
 
 class CustomFunction
 {
-	/**
-	 * 获取当前的时间戳
-	 */
-	get timestamp() {
-		return Math.floor(Date.now() / 1000)
-	}
 	
 	/**
 	 * 生成唯一标识
@@ -91,8 +85,8 @@ class CustomFunction
 			return temp
 		} else if (target instanceof Object) {
 			temp = {}
-			for(const k in target) {
-				temp[k] = this.copy(target[k])
+			for(let [k, v] of Object.entries(target)) {
+				temp[k] = this.copy(v)
 			}
 			return temp
 		} else {
@@ -102,7 +96,6 @@ class CustomFunction
 	
 	/**
 	 * 位数补齐
-	 * 
 	 */
 	polishing(target, length, char = 0) {
 		return `${Array(length).join(char)}${target}`.slice(-length)
@@ -117,6 +110,7 @@ class CustomFunction
 	 *  w：星期一 到 星期日 的英文缩写
 	 *  d：1 ~ 31 天
 	 *  H：24 小时
+   *  h：12 小时
 	 *  i：60 分钟
 	 *  s：60 秒
 	 *  u：0 ~ 999 毫秒
@@ -140,15 +134,17 @@ class CustomFunction
 				date = target
 				break
 		}
-		const [ w, M, d, y, His ] = date.toString().split(' ')
-		const [ H, i, s ] = His.split(':')
-		const m = `${date.getMonth() + 1}`
-		const u = this.polishing(date.getMilliseconds(), 3)
+		let [ w, M, d, y, His ] = date.toString().split(' ')
+		let [ H, i, s ] = His.split(':')
+		let m = `${date.getMonth() + 1}`
+		let u = this.polishing(date.getMilliseconds(), 3)
+    let h = this.polishing(H > 12 ? H - 12 : H, 2)
 		
-		const result = template
+		let result = template
 			.replace(/y+/, y)
 			.replace(/m+/, m)
 			.replace(/d+/, d)
+      .replace(/h+/, h)
 			.replace(/H+/, H)
 			.replace(/i+/, i)
 			.replace(/s+/, s)
@@ -159,15 +155,14 @@ class CustomFunction
 		if (!response) {
 			return result
 		}
-		return [ result, { y, M, m, w, d, H, i, s, u } ]
+		return [ result, { y, M, m, w, d, h, H, i, s, u } ]
 	}
   
   /**
    * 将缓存中的数据下载到本地
-   * @param {Object} option 配置项
-   *  data：变量名（数据）
-   *  name：下载到本地时的文件名
-   *  compress：是否压缩数据
+   * @param {Object|Array} data：变量名（数据）
+   * @param {String|null} name：下载到本地时的文件名
+   * @param {Boolean} compress：是否压缩数据
    */
   download({ data, name, compress }) {
     if (!data) {
@@ -193,7 +188,7 @@ class CustomFunction
    * @param {Function} filter 最终返回数据的过滤函数
    * @return {Array}
    */
-  toTree(target, k, fk, filter) {
+  static toTree(target, k, fk, filter) {
     const temp = []
     const data = this.copy(target)
     data.forEach((row) => {
@@ -217,7 +212,7 @@ class CustomFunction
    * @param {Number} max 区间最大值
    * @return {Number}
    */
-  random(...arg) {
+  static random(...arg) {
     let min = Math.min(...arg)
     let max = Math.max(...arg)
     return min + Math.round(Math.random() * (max - min))
@@ -231,7 +226,7 @@ class CustomFunction
    * @param {Int} len 保留的小数位
    * @return {String} 百分数
    */
-  percent(num1, num2, len = 0) {
+  static percent(num1, num2, len = 0) {
     return `${Math.round((num1 / num2) * Math.pow(10, len+2)) / 100}%`
   }
   
@@ -242,7 +237,67 @@ class CustomFunction
    * @param {String} char 用于分割的字符
    * @return {String}
    */
-  thousands(target, char = ',') {
+  static thousands(target, char = ',') {
     return `${target}`.replace(/\d{1,3}(?=(\d{3})+$)/g, `$&${char}`)
+  }
+  
+  /**
+   * 计算某一字符串的宽高（PX）
+   * @param {string} content - 需要计算宽高的字符串
+   * @param {Object} css - 自定义的css样式，用于配置该字符串容器的 font-size、font-family、text-overflow、white-space、overflow-wrap、word-break、width 等属性
+   */
+  stringWH(content, css = undefined) {
+    let span = document.createElement('span')
+    span.textContent = content
+    let options = {
+      opacity: 0,
+      zIndex: -100,
+      position: 'fixed',
+      display: 'inline-block'
+    }
+    if (typeof css === 'object') {
+      Object.assign(options, css)
+    }
+    for (let [k, v] of Object.entries(options)) {
+      span.style[k] = v
+    }
+    document.body.appendChild(span)
+    let { width, height } = span.getBoundingClientRect()
+    document.body.removeChild(span)
+    return { width, height }
+  }
+  
+  /**
+   * 柯里化通用函数
+   * 
+   * @param {Function} fn - 需要被柯里化的函数
+   * @param {Array} args - fn 函数的参数集合  
+   */
+  static currying(fn, ...args) {
+    if (fn.length <= args.length) {
+      return fn(...args)
+    } else {
+      return function(...others) {
+        return currying(fn, ...[...args, ...others])
+      }
+    }
+  }
+  
+  /**
+   * 多层函数嵌套调用扁平化
+   */
+  static compose(...fns) {
+    return function(...args) {
+      switch(fns.length) {
+        case 0:
+          return args
+        case 1:
+          return fns[0](...args)
+        default:
+          return fns.reduce(function(preVal, fn) {
+            return Array.isArray(preVal) ? fn(...preVal) : fn(preVal)
+          }, args)
+      }
+    }
   }
 }
