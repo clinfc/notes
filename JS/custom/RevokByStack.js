@@ -74,24 +74,36 @@ export class Revok {
   
   // 撤销
   revoke() {
-    this.#isRe = true
+    !this.#isRe && (this.#isRe = true)
     
     if (this.#cache.size) {
       let data = this.#cache.pop()
       this.#revoked.push(data)
-      return true
+      return {
+        value: data,
+        done: !this.#cache.size, // 是否还有数据支持此操作
+      }
     }
-    return false
+    return {
+      value: undefined,
+      done: true, // 已结束，不再支持撤销操作
+    }
   }
   
-  // 重做
-  redo() {
+  // 恢复
+  restore() {
     if (this.#revoked.size) {
       let data = this.#revoked.pop()
       this.#cache.push(data)
-      return true
+      return {
+        value: data,
+        done: !this.#revoked.size, // 是否还有数据支持此操作
+      }
     }
-    return false
+    return {
+      value: undefined,
+      done: true, // 已结束，不再支持恢复操作
+    }
   }
   
   // 清除缓存
