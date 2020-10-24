@@ -45,7 +45,7 @@ npm i webpack webpack-cli -D
 
 * webpack.config.js
 
-```javascript
+```js
 module.exports = [
 	{ mode: "production" },
 	{ mode: "development" }
@@ -57,7 +57,7 @@ module.exports = [
 
 * webpack.config.js
 
-```javascript
+```js
 module.exports = {
 	// 单文件入口
 	entry: "path/to/my/entry/file.js",
@@ -78,7 +78,7 @@ module.exports = {
 
 * webpack.config.js
 
-```javascript
+```js
 const path = require('path')
 module.exports = {
 	entry: {
@@ -93,6 +93,23 @@ module.exports = {
     // 
     publicPath: 'http://cdn.com.cn'
 	}
+}
+```
+
+
+# resolve（模块解析）
+
+* webpack.config.js
+
+```js
+module.exports = {
+  resolve: {
+    // 创建 import 或 require 的别名
+    alias: {
+      @: path.resolve(__dirname, '/src'),
+      ~: path.resolve(__dirname, '/'),
+    }
+  },
 }
 ```
 
@@ -206,10 +223,12 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmpWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   plugins: [
-    new CleanWebpackPlugin(),
     new HtmpWebpackPlugin({
       template: 'src/index.html'
-    })
+    }),
+    new CleanWebpackPlugin(['dist'], {
+      root: path.resolve(__dirname, './')
+    }),
   ]
 }
 ```
