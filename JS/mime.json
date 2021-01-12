@@ -1,0 +1,377 @@
+[
+  {
+    "name": ".aac",
+    "type": "audio/aac",
+    "describe": "AAC audio"
+  },
+  {
+    "name": ".abw",
+    "type": "application/x-abiword",
+    "describe": "AbiWord document"
+  },
+  {
+    "name": ".arc",
+    "type": "application/x-freearc",
+    "describe": "Archive document (multiple files embedded)"
+  },
+  {
+    "name": ".avi",
+    "type": "video/x-msvideo",
+    "describe": "AVI: Audio Video Interleave"
+  },
+  {
+    "name": ".azw",
+    "type": "application/vnd.amazon.ebook",
+    "describe": "Amazon Kindle eBook format"
+  },
+  {
+    "name": ".bin",
+    "type": "application/octet-stream",
+    "describe": "Any kind of binary data"
+  },
+  {
+    "name": ".bmp",
+    "type": "image/bmp",
+    "describe": "Windows OS/2 Bitmap Graphics"
+  },
+  {
+    "name": ".bz",
+    "type": "application/x-bzip",
+    "describe": "BZip archive"
+  },
+  {
+    "name": ".bz2",
+    "type": "application/x-bzip2",
+    "describe": "BZip2 archive"
+  },
+  {
+    "name": ".csh",
+    "type": "application/x-csh",
+    "describe": "C-Shell script"
+  },
+  {
+    "name": ".css",
+    "type": "text/css",
+    "describe": "Cascading Style Sheets (CSS)"
+  },
+  {
+    "name": ".csv",
+    "type": "text/csv",
+    "describe": "Comma-separated values (CSV)"
+  },
+  {
+    "name": ".doc",
+    "type": "application/msword",
+    "describe": "Microsoft Word"
+  },
+  {
+    "name": ".docx",
+    "type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "describe": "Microsoft Word (OpenXML)"
+  },
+  {
+    "name": ".eot",
+    "type": "application/vnd.ms-fontobject",
+    "describe": "MS Embedded OpenType fonts"
+  },
+  {
+    "name": ".epub",
+    "type": "application/epub+zip",
+    "describe": "Electronic publication (EPUB)"
+  },
+  {
+    "name": ".gif",
+    "type": "image/gif",
+    "describe": "Graphics Interchange Format (GIF)"
+  },
+  {
+    "name": ".htm",
+    "type": "text/html",
+    "describe": "HyperText Markup Language (HTML)"
+  },
+  {
+    "name": ".html",
+    "type": "text/html",
+    "describe": "HyperText Markup Language (HTML)"
+  },
+  {
+    "name": ".ico",
+    "type": "image/vnd.microsoft.icon",
+    "describe": "Icon format"
+  },
+  {
+    "name": ".ics",
+    "type": "text/calendar",
+    "describe": "iCalendar format"
+  },
+  {
+    "name": ".jar",
+    "type": "application/java-archive",
+    "describe": "Java Archive (JAR)"
+  },
+  {
+    "name": ".jpeg",
+    "type": "image/jpeg",
+    "describe": "JPEG images"
+  },
+  {
+    "name": ".jpg",
+    "type": "image/jpeg",
+    "describe": "JPEG images"
+  },
+  {
+    "name": ".js",
+    "type": "text/javascript",
+    "describe": "JavaScript"
+  },
+  {
+    "name": ".json",
+    "type": "application/json",
+    "describe": "JSON format"
+  },
+  {
+    "name": ".jsonld",
+    "type": "application/ld+json",
+    "describe": "JSON-LD format"
+  },
+  {
+    "name": ".mid",
+    "type": "audio/midi",
+    "describe": "Musical Instrument Digital Interface (MIDI)"
+  },
+  {
+    "name": ".mid",
+    "type": "audio/x-midi",
+    "describe": "Musical Instrument Digital Interface (MIDI)"
+  },
+  {
+    "name": ".midi",
+    "type": "audio/midi",
+    "describe": "Musical Instrument Digital Interface (MIDI)"
+  },
+  {
+    "name": ".midi",
+    "type": "audio/x-midi",
+    "describe": "Musical Instrument Digital Interface (MIDI)"
+  },
+  {
+    "name": ".mjs",
+    "type": "text/javascript",
+    "describe": "JavaScript module"
+  },
+  {
+    "name": ".mp3",
+    "type": "audio/mpeg",
+    "describe": "MP3 audio"
+  },
+  {
+    "name": ".mpeg",
+    "type": "video/mpeg",
+    "describe": "MPEG Video"
+  },
+  {
+    "name": ".mpkg",
+    "type": "application/vnd.apple.installer+xml",
+    "describe": "Apple Installer Package"
+  },
+  {
+    "name": ".odp",
+    "type": "application/vnd.oasis.opendocument.presentation",
+    "describe": "OpenDocument presentation document"
+  },
+  {
+    "name": ".ods",
+    "type": "application/vnd.oasis.opendocument.spreadsheet",
+    "describe": "OpenDocument spreadsheet document"
+  },
+  {
+    "name": ".odt",
+    "type": "application/vnd.oasis.opendocument.text",
+    "describe": "OpenDocument text document"
+  },
+  {
+    "name": ".oga",
+    "type": "audio/ogg",
+    "describe": "OGG audio"
+  },
+  {
+    "name": ".ogv",
+    "type": "video/ogg",
+    "describe": "OGG video"
+  },
+  {
+    "name": ".ogx",
+    "type": "application/ogg",
+    "describe": "OGG"
+  },
+  {
+    "name": ".otf",
+    "type": "font/otf",
+    "describe": "OpenType font"
+  },
+  {
+    "name": ".png",
+    "type": "image/png",
+    "describe": "Portable Network Graphics"
+  },
+  {
+    "name": ".pdf",
+    "type": "application/pdf",
+    "describe": "Adobe Portable Document Format (PDF)"
+  },
+  {
+    "name": ".ppt",
+    "type": "application/vnd.ms-powerpoint",
+    "describe": "Microsoft PowerPoint"
+  },
+  {
+    "name": ".pptx",
+    "type": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    "describe": "Microsoft PowerPoint (OpenXML)"
+  },
+  {
+    "name": ".rar",
+    "type": "application/x-rar-compressed",
+    "describe": "RAR archive"
+  },
+  {
+    "name": ".rtf",
+    "type": "application/rtf",
+    "describe": "Rich Text Format (RTF)"
+  },
+  {
+    "name": ".sh",
+    "type": "application/x-sh",
+    "describe": "Bourne shell script"
+  },
+  {
+    "name": ".svg",
+    "type": "image/svg+xml",
+    "describe": "Scalable Vector Graphics (SVG)"
+  },
+  {
+    "name": ".swf",
+    "type": "application/x-shockwave-flash",
+    "describe": "Small web format (SWF) or Adobe Flash document"
+  },
+  {
+    "name": ".tar",
+    "type": "application/x-tar",
+    "describe": "Tape Archive (TAR)"
+  },
+  {
+    "name": ".tif",
+    "type": "image/tiff",
+    "describe": "Tagged Image File Format (TIFF)"
+  },
+  {
+    "name": ".tiff",
+    "type": "image/tiff",
+    "describe": "Tagged Image File Format (TIFF)"
+  },
+  {
+    "name": ".ttf",
+    "type": "font/ttf",
+    "describe": "TrueType Font"
+  },
+  {
+    "name": ".txt",
+    "type": "text/plain",
+    "describe": "Text, (generally ASCII or ISO 8859-n)"
+  },
+  {
+    "name": ".vsd",
+    "type": "application/vnd.visio",
+    "describe": "Microsoft Visio"
+  },
+  {
+    "name": ".wav",
+    "type": "audio/wav",
+    "describe": "Waveform Audio Format"
+  },
+  {
+    "name": ".weba",
+    "type": "audio/webm",
+    "describe": "WEBM audio"
+  },
+  {
+    "name": ".webm",
+    "type": "video/webm",
+    "describe": "WEBM video"
+  },
+  {
+    "name": ".webp",
+    "type": "image/webp",
+    "describe": "WEBP image"
+  },
+  {
+    "name": ".woff",
+    "type": "font/woff",
+    "describe": "Web Open Font Format (WOFF)"
+  },
+  {
+    "name": ".woff2",
+    "type": "font/woff2",
+    "describe": "Web Open Font Format (WOFF)"
+  },
+  {
+    "name": ".xhtml",
+    "type": "application/xhtml+xml",
+    "describe": "XHTML"
+  },
+  {
+    "name": ".xls",
+    "type": "application/vnd.ms-excel",
+    "describe": "Microsoft Excel"
+  },
+  {
+    "name": ".xlsx",
+    "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "describe": "Microsoft Excel (OpenXML)"
+  },
+  {
+    "name": ".xml",
+    "type": "application/xml",
+    "describe": "XML-代码对普通用户来说不可读"
+  },
+  {
+    "name": ".xml",
+    "type": "text/xml",
+    "describe": "XML-代码对普通用户来说可读"
+  },
+  {
+    "name": ".xul",
+    "type": "application/vnd.mozilla.xul+xml",
+    "describe": "XUL"
+  },
+  {
+    "name": ".zip",
+    "type": "application/zip",
+    "describe": "ZIP archive"
+  },
+  {
+    "name": ".3gp",
+    "type": "video/3gpp",
+    "describe": "3GPP audio/video container"
+  },
+  {
+    "name": ".3gp",
+    "type": "audio/3gpp",
+    "describe": "3GPP audio/video container（若不含视频）"
+  },
+  {
+    "name": ".3g2",
+    "type": "video/3gpp2",
+    "describe": "3GPP2 audio/video container"
+  },
+  {
+    "name": ".3g2",
+    "type": "audio/3gpp2（若不含视频）",
+    "describe": "3GPP2 audio/video container"
+  },
+  {
+    "name": ".7z",
+    "type": "application/x-7z-compressed",
+    "describe": "7-zip archive"
+  }
+]
