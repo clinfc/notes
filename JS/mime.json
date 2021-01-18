@@ -366,12 +366,17 @@
   },
   {
     "name": ".3g2",
-    "type": "audio/3gpp2（若不含视频）",
-    "describe": "3GPP2 audio/video container"
+    "type": "audio/3gpp2",
+    "describe": "3GPP2 audio/video container（若不含视频）"
   },
   {
     "name": ".7z",
     "type": "application/x-7z-compressed",
     "describe": "7-zip archive"
+  },
+  {
+    "name": ".mp4",
+    "type": "video/mp4",
+    "describe": "mp4"
   }
 ]
