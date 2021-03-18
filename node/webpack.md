@@ -185,8 +185,8 @@ module.exports = {
               module: true
             }
           } 
-          'sass-loader',
           'postcss-loader'
+          'sass-loader',
         ]
       }
     ]
