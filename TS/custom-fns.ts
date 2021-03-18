@@ -166,7 +166,8 @@ export function copyTextToClipboard(text): void {
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function typeOf(object: any): string {
-  return Object.prototype.toString.call(object).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+  // return Object.prototype.toString.call(object).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+  return Object.prototype.toString.call(target).toLowerCase().replace(/(\[[a-z]+\s|\])/g, '');
 }
 
 /**
