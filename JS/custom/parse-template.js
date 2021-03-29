@@ -1,3 +1,7 @@
+/**
+ * 简单双向绑定
+ */
+
 `
 <div class="root">
     <p i18-title="p.title">i18{{p.text}}</p>
