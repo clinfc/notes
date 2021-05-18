@@ -195,6 +195,42 @@ module.exports = {
 ```
 
 
+# css 压缩并提取成独立文件
+
+```
+npm i optimizi-css-assets-webpack-plugin -D
+npm i mini-css-extract-plugin -D
+```
+
+* webpack.config.js
+
+```js
+const OptimiziCssAssetsWebpackPlugin = require('optimizi-css-assets-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.scss$/
+        use: [
+           // 替换 style-loader，将 js 中的 css 提取为 .css 文件
+           MiniCssExtractPlugin.loader,
+          'css-loader',
+        ]
+      }
+    ],
+    plugins: [
+        // 提取成独立文件
+        new MiniCssExtractPlugin(),
+        // css 压缩
+        new OptimiziCssAssetsWebpackPlugin()
+    ]
+  }
+}
+```
+
+
 # plugins
 
 > plugins：类似于生命周期函数。在webpack运行到某一时刻时，做一些自定义的事情
@@ -220,11 +256,17 @@ module.exports = {
 // 打包之前对指定文件进行清理
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 // 在打包结束后，自动生成HTML文件，并把打包生成的JS文件自动引入HTML文件中
-const HtmpWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   plugins: [
-    new HtmpWebpackPlugin({
-      template: 'src/index.html'
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+      monify: {
+	// 移除空格
+	collapseWhitespace: true,
+	// 移除注释
+	removeComments: true
+      }
     }),
     new CleanWebpackPlugin(['dist'], {
       root: path.resolve(__dirname, './')
